@@ -1,14 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
-import java.io.DataInputStream;
-import java.util.Scanner;
+import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
 public class Game {
 
-	public static void main(String[] args)  {
-		
-		System.out.println ("Main");
+	public static void main(String[] args) {
 		Player.createAll();
-		System.out.println ("Main");
 	}
 }

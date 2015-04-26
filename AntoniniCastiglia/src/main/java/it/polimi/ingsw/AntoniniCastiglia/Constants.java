@@ -1,6 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 public class Constants {
-	static int MINPLAYERS = 4;
-	static int MAXPLAYERS = 8;
+	public final static int MINPLAYERS = 4;
+	public final static int MAXPLAYERS = 8;
 }
