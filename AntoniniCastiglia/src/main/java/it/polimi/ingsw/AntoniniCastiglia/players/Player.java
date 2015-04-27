@@ -1,9 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
-//TODO visibility, createAll, why static??, movementRecord+currentPlace,
+//TODO visibility, createAll, why static??, movementRecord+currentPlace, CLIENT!
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player {
@@ -11,8 +12,7 @@ public class Player {
 	// Attributes
 	private String name;
 	private int id;
-
-	// static ArrayList<Player> players;
+	static ArrayList<Player> players;
 
 	// Constructor
 	protected Player(String name, int id) {
@@ -22,9 +22,10 @@ public class Player {
 
 	// Methods
 
-	/*
-	 * @Override public String toString() { return name + " " + id + "\n"; }
-	 */
+	@Override
+	public String toString() {
+		return name + " " + id + "\n";
+	}
 
 	// Gets from stdin, checks and returns the number of players.
 	private static int howManyPlayers() {
@@ -50,12 +51,13 @@ public class Player {
 		}
 	}
 
-	// Creates a proper array of Player, of length n, according to EFTAIOS rules.
+	// Creates a proper arrayList of Player, of length n, according to EFTAIOS
+	// rules.
 	public static void createAll() {
 		int n = howManyPlayers();
-		Player[] players = new Player[n];
+		// Player[] players = new Player[n];
 
-		// players = new ArrayList<Player>();
+		players = new ArrayList<Player>();
 
 		int alienNumber = n / 2 + (n % 2);
 		int humanNumber = n / 2;
@@ -65,10 +67,11 @@ public class Player {
 		System.out.println("Humans: " + humanNumber);
 
 		for (int i = 0; i < n; i++) {
-			
-			float j = (float) Math.random(); //Generates a double between 0 and 1.
+
+			float j = (float) Math.random(); // Generates a double between 0 and
+												// 1.
 			Player p;
-			
+
 			if (j < 0.5 && alienNumber > 0) {
 				p = new Alien("A" + alienNumber, i);
 				alienNumber--;
@@ -82,17 +85,18 @@ public class Player {
 				p = new Alien("A" + alienNumber, i);
 				alienNumber--;
 			}
-			
-			// players.add(p);
-			players[i] = p;
+
+			players.add(p);
+			// players[i] = p;
 
 		}
 
-		// System.out.println(players);
+		System.out.println(players);
 
-		for (int i = 0; i < players.length; i++) {
-			System.out.println(players[i].name + " " + players[i].id);
-		}
+		/*
+		 * for (int i = 0; i < players.length; i++) {
+		 * System.out.println(players[i].name + " " + players[i].id); }
+		 */
 
 	}
 
