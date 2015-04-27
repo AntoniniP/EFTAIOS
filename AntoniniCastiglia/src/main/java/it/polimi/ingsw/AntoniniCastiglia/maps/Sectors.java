@@ -1,6 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-public class Tiles {
+public class Sectors {
 	private int x; // Column
 	private int y; // Row
 	private String letter;
@@ -8,13 +8,13 @@ public class Tiles {
 	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
 			.toCharArray();
 
-	public Tiles(int x, int y) {
+	public Sectors(int x, int y) {
 		this.x = x;
 		this.y = y;
 		convert(); // converting as soon as I create
 	}
 
-	public Tiles(String name) {
+	public Sectors(String name) {
 		inverseConvertion(name);
 
 	}

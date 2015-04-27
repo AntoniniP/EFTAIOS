@@ -1,6 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-public class HumanBase extends Tiles {
+public class HumanBase extends Sectors {
 
 	public HumanBase(int x, int y) {
 		super(x, y);
