@@ -8,9 +8,10 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 public class Game {
 
 	public static void main(String[] args) throws IOException {
-		Player.createAll();
+		//Player.createAll();
 		Table t = new Table();
-		System.out.println(t);
+		System.out.println("Going to print table");
+		t.drawMap();
 		System.out.println("Main again.");
 	}
 }

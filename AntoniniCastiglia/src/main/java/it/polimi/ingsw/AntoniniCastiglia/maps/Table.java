@@ -6,51 +6,51 @@ import java.io.*;
 
 public class Table {
 	private Sectors[][] table = new Sectors[Constants.HEIGHT][Constants.WIDTH];
-	FileInputStream f = new FileInputStream("table.txt");// File still empty;
-															// I'll fill it
-															// tomorrow I swear!
-	boolean eof = false;
-	int c;
+	FileInputStream f = new FileInputStream("table.txt");
+	char c;
+	boolean eof=false;
 
-	// Trasposta of what I see in computation
-	public Table() throws IOException { // No errors signaled now, Probably the
-										// Try/catch thing is missing
-		// Exemple of filling
-		try {
-			for (int i = 0; i < Constants.HEIGHT && eof; i++)
-				for (int j = 0; j < Constants.WIDTH && eof; j++) {
-					c = f.read();
-					if (c == -1)
-						eof = true;
-					else {
-						if (c == 0)
-							table[j][i] = new EmptySectors(i, j);
-						if (c == 1)
-							table[j][i] = new DangerSectors(i, j);
-						if (c == 2)
-							table[j][i] = new HumanBase(i, j);
-						if (c == 3)
-							table[j][i] = new AlienBase(i, j);
-						if (c == 4)
-							table[j][i] = new SafeSectors(i, j);
-						if (c == 5)
-							table[j][i] = new EscapeHatches(i, j);
-					}
-				}
-			f.close();
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+	public Table() throws IOException { 
+		c = (char) f.read();
+		
+		for (int i = 0; i < Constants.HEIGHT && !eof; i++)
+			for (int j = 0; j < Constants.WIDTH && !eof; j++) {
+				if (c == '0')
+					table[i][j] = new EmptySectors(i + 1, j + 1);
+				else if (c == '1')
+					table[i][j] = new DangerSectors(i + 1, j + 1);
+				else if (c == '2')
+					table[i][j] = new HumanBase(i + 1, j + 1);
+				else if (c == '3')
+					table[i][j] = new AlienBase(i + 1, j + 1);
+				else if (c == '4')
+					table[i][j] = new SafeSectors(i + 1, j + 1);
+				else if (c == '5')
+					table[i][j] = new EscapeHatches(i + 1, j + 1);
+				else ;
+				c = (char) f.read();
+			}
+		f.close();
+
 	}
 
-	@Override
-	public String toString() {
-		String toReturn = "";
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++)
-				toReturn = toReturn + table[i][j] + " ";
-			toReturn = toReturn + "\n";
+	public void drawMap() {
+		for (int i = 0; i < Constants.HEIGHT; i++) {
+			for (int j = 0; j < Constants.WIDTH; j += 2) {
+				if (table[j][i] instanceof EmptySectors)
+					System.out.print("      ");
+				else
+					System.out.print("(" + table[j][i] + ")" + " ");
+			}
+			System.out.println();
+			System.out.print("   ");
+			for (int j = 1; j < Constants.WIDTH; j += 2) {
+				if (table[j][i] instanceof EmptySectors)
+					System.out.print("      ");
+				else
+					System.out.print("(" + table[j][i] + ")" + " ");
+			}
+			System.out.println();
 		}
-		return toReturn;
 	}
 }
