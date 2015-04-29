@@ -23,9 +23,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/main/java/it/polimi/ingsw/AntoniniCastiglia/maps/table.txt</name>
+			<name>src/main/java/table.txt</name>
 			<type>1</type>
-			<location>C:/Users/Lau&amp;Mary/git/antoninicastiglia/AntoniniCastiglia/table.txt</location>
+			<locationURI>PROJECT_LOC/table.txt</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>
