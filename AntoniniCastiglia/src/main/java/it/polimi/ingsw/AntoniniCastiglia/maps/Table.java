@@ -9,7 +9,7 @@ public class Table {
 	boolean eof = false;
 
 	public Table() throws IOException {
-		FileInputStream f = new FileInputStream("table.txt");
+		FileInputStream f = new FileInputStream("resources/table.txt");
 
 		for (int i = 0; i < Constants.HEIGHT && !eof; i++)
 			for (int j = 0; j < Constants.WIDTH && !eof; j++) {
