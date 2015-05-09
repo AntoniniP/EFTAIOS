@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 
 public class Human extends Player {
@@ -9,9 +8,9 @@ public class Human extends Player {
 
 	public Human(String name, int id) {
 		super(name, id);
-		moves = 1;
-	//	myBase = new Sector(Table.humanBase.getX(), Table.humanBase.getY());
-		mySector = myBase;
+		maxMoves = 1;
+		myBase = Table.getHumanBase();
+		currentSector = myBase;
 	}
 
 }

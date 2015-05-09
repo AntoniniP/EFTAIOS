@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Players {
-	static ArrayList<Player> players;
+	ArrayList<Player> players;
 
-	
-	
-	
 	// Gets from stdin, checks and returns the number of players.
-	private static int howManyPlayers() {
+	private int howManyPlayers() {
 		int n;
 
 		System.out.print("How many players? ");
@@ -29,7 +26,7 @@ public class Players {
 					throw new InvalidNumberException();
 				}
 			} catch (InvalidNumberException e) {
-				System.out.println(e);
+				System.out.println(e + "\n");
 			} catch (java.util.InputMismatchException e) {
 				// TODO type mismatch exception handling
 			}
@@ -37,7 +34,7 @@ public class Players {
 	}
 
 	// Creates an arrayList of Player, of length n, according to EFTAIOS rules.
-	public static void createAll() {
+	public Players() {
 		int n = howManyPlayers();
 
 		players = new ArrayList<Player>();
@@ -51,8 +48,7 @@ public class Players {
 
 		for (int i = 0; i < n; i++) {
 
-			float j = (float) Math.random(); // Generates a double between 0 and
-												// 1.
+			float j = (float) Math.random(); // Generates a double 0<j<1
 			Player p;
 
 			if (j < 0.5 && alienNumber > 0) {
@@ -74,8 +70,6 @@ public class Players {
 		}
 
 		System.out.println(players);
-
-
 
 	}
 }

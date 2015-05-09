@@ -1,7 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -9,16 +8,26 @@ public class Table {
 	private Sector[][] table = new Sector[Constants.HEIGHT][Constants.WIDTH];
 
 	// keeps a list of each type of sector, for convenience
-	// maybe as coordinates??
-	
-	// TODO SOLO PUNTATORI!!!!
-	
-	public static Sector alienBase;
-	public static Sector humanBase;
+	private static Sector alienBase;
+	private static Sector humanBase;
 	private ArrayList<Sector> dangerSectors = new ArrayList<Sector>();
 	private ArrayList<Sector> emptySectors = new ArrayList<Sector>();
 	private ArrayList<Sector> escapeHatches = new ArrayList<Sector>();
 	private ArrayList<Sector> safeSectors = new ArrayList<Sector>();
+
+	/**
+	 * @return the alienBase
+	 */
+	public static Sector getAlienBase() {
+		return alienBase;
+	}
+
+	/**
+	 * @return the humanBase
+	 */
+	public static Sector getHumanBase() {
+		return humanBase;
+	}
 
 	public Table() throws IOException {
 		char c;
@@ -36,27 +45,29 @@ public class Table {
 						&& c != '4' && c != '5');
 
 				if (c == '0') {
-					table[i][j] = new EmptySector(i, j);
+					table[i][j] = new EmptySector(j, i);
 					emptySectors.add(table[i][j]);
 
 				} else if (c == '1') {
-					table[i][j] = new DangerSector(i, j);
+					table[i][j] = new DangerSector(j, i);
 					dangerSectors.add(table[i][j]);
 
 				} else if (c == '2') {
-					table[i][j] = new HumanBase(i, j);
-					humanBase = new HumanBase(i, j);
+					table[i][j] = new HumanBase(j, i);
+					// humanBase = new HumanBase(j, i);
+					humanBase = table[i][j];
 
 				} else if (c == '3') {
-					table[i][j] = new AlienBase(i, j);
-					alienBase = new AlienBase(i, j);
+					table[i][j] = new AlienBase(j, i);
+					// alienBase = new AlienBase(j, i);
+					alienBase = table[i][j];
 
 				} else if (c == '4') {
-					table[i][j] = new SafeSector(i, j);
+					table[i][j] = new SafeSector(j, i);
 					safeSectors.add(table[i][j]);
 
 				} else if (c == '5') {
-					table[i][j] = new EscapeHatch(i, j);
+					table[i][j] = new EscapeHatch(j, i);
 					escapeHatches.add(table[i][j]);
 
 				} else {
@@ -74,14 +85,11 @@ public class Table {
 		// TODO improve in order to avoid repeated code
 		for (int i = 0; i < Constants.HEIGHT; i++) {
 			for (int j = 0; j < Constants.WIDTH; j++) {
-				if (table[i][j] instanceof EmptySector || (j % 2 == 1)
-
-				) {
+				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
 					System.out.print("     ");
 				} else {
 					System.out.print("[" + table[i][j] + "]" + "");
 				}
-
 			}
 			System.out.println();
 			for (int j = 0; j < Constants.WIDTH; j++) {
@@ -95,5 +103,28 @@ public class Table {
 			System.out.println();
 
 		}
+	}
+
+	public ArrayList<Sector> adjacent(Sector s) { // calling sector excluded!
+		ArrayList<Sector> sectorList = new ArrayList<Sector>();
+		int x = s.getX();
+		int y = s.getY();
+
+		for (int i = y - 1; i <= y + 1; i++) {
+			for (int j = x - 1; j <= x + 1; j++) {
+				if ((i >= 0 && i < Constants.HEIGHT) && (j >= 0 && j < Constants.WIDTH)) {
+					if (!(table[i][j] instanceof EmptySector) && !(j == x && i == y)) {
+						if ((x % 2 == 1) && (!(j == x - 1 && i == y - 1) && !(j == x + 1 && i == y - 1))) {
+							sectorList.add(table[i][j]);
+						} else if ((x % 2 == 0) && (!(j == x - 1 && i == y + 1) && !(j == x + 1 && i == y + 1))) {
+							sectorList.add(table[i][j]);
+						}
+					}
+				}
+			}
+		}
+
+		return sectorList;
+
 	}
 }

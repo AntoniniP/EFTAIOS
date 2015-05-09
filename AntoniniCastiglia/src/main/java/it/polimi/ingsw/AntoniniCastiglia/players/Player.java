@@ -2,16 +2,16 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
-//TODO (here+Players) visibility, createAll, why static??, movementRecord+currentPlace, CLIENT!
+//TODO (here+Players) visibility, why static??, moveRecord, CLIENT!
 
 public class Player {
 
 	// Attributes
 	private String name;
 	private int id;
-	int moves;
-	Sector mySector;
+	int maxMoves;
 	Sector myBase;
+	Sector currentSector;
 
 	// Constructor
 	protected Player(String name, int id) {
@@ -22,14 +22,14 @@ public class Player {
 	// Methods
 	@Override
 	public String toString() {
-		return name + " " + id + " " + moves + "\n";
+		return name + " " + id + " " + maxMoves + "\n";
 	}
 
 	/**
 	 * @return the moves
 	 */
 	public int getMoves() {
-		return moves;
+		return maxMoves;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Player {
 	 *            the moves to set
 	 */
 	public void setMoves(int moves) {
-		this.moves = moves;
+		this.maxMoves = moves;
 	}
 
 }

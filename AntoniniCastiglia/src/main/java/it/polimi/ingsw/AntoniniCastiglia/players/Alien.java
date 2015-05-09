@@ -9,9 +9,9 @@ public class Alien extends Player {
 
 	public Alien(String name, int id) {
 		super(name, id);
-		moves = 2;
-		myBase = new Sector(Table.alienBase.getX(), Table.alienBase.getY());
-		mySector=myBase;
+		maxMoves = 2;
+		myBase = Table.getAlienBase();
+		currentSector = myBase;
 	}
 
 }

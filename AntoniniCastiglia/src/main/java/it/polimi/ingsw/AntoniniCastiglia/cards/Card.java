@@ -5,3 +5,4 @@ public interface Card {
 	public void action();
 
 }
+// costruttore W//W/O oggetto

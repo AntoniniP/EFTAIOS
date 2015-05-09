@@ -5,8 +5,8 @@ public class Sector {
 	private int y; // Row
 	private String letter;
 	private String number;
-//	private String coordinates;
-	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW".toCharArray();
+	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
+			.toCharArray();
 
 	public Sector(int x, int y) {
 		this.x = x;
@@ -28,13 +28,13 @@ public class Sector {
 	}
 
 	private void convert() { // converting numeric coordinate into a letter
-		letter = ((Character) ALPHABET[y]).toString(); // Casting char to String
-		number = ((Integer) (x + 1)).toString();
-		if (x < 9)
+		letter = ((Character) ALPHABET[x]).toString(); // Casting char to String
+		number = ((Integer) (y + 1)).toString();
+		if (y < 9)
 			number = "0" + number;
 	}
 
-	private void inverseConvertion(String s) { //TODO check!
+	private void inverseConvertion(String s) {
 		letter = s.substring(0, 1);
 		number = s.substring(1, 3);
 		char c = letter.charAt(0);// Converting x to char
@@ -45,7 +45,6 @@ public class Sector {
 				break;
 			}
 		y = Integer.parseInt(number) - 1;
-
 	}
 
 	@Override
