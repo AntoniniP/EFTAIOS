@@ -1,8 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,14 +9,16 @@ public class Players {
 
 	// Gets from stdin, checks and returns the number of players.
 	private int howManyPlayers() {
-		int n;
+		Scanner scanner = new Scanner(System.in);
+		int n = 0;
 
 		System.out.print("How many players? ");
 
 		while (true) {
-			Scanner scanner = new Scanner(System.in);
-			n = scanner.nextInt();
+
 			try {
+				n = scanner.nextInt();
+
 				if (n >= Constants.MINPLAYERS && n <= Constants.MAXPLAYERS) {
 					scanner.close();
 					return n;
@@ -27,10 +27,12 @@ public class Players {
 				}
 			} catch (InvalidNumberException e) {
 				System.out.println(e + "\n");
-			} catch (java.util.InputMismatchException e) {
-				// TODO type mismatch exception handling
 			}
+
+			// catch (java.util.InputMismatchException e) {// TODO }
+
 		}
+
 	}
 
 	// Creates an arrayList of Player, of length n, according to EFTAIOS rules.

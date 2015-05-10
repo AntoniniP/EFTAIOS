@@ -40,4 +40,20 @@ public class Player {
 		this.maxMoves = moves;
 	}
 
+	/**
+	 * @return the myBase
+	 */
+	public Sector getMyBase() {
+		return myBase;
+	}
+
+	/**
+	 * @param currentSector the currentSector to set
+	 */
+	public void setCurrentSector(Sector currentSector) {
+		this.currentSector = currentSector;
+	}
+	
+	
+
 }

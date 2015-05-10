@@ -1,8 +1,9 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+
 public interface Card {
 
-	public void action();
+	public void action(Player p);
 
 }
-// costruttore W//W/O oggetto
