@@ -2,7 +2,7 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
-public class SedativesCard implements ObjectCard {
+public class SedativesCard implements ItemCard {
 
 	@Override
 	public void action(Player p) {
