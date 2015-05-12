@@ -1,4 +1,7 @@
  package it.polimi.ingsw.AntoniniCastiglia.cards;
+ 
+ //foo
+ 
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
