@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
@@ -15,7 +17,8 @@ public class Player {
 	//int objects=Constants.OBJECTNUMBER;
 	Sector myBase;
 	Sector currentSector;
-
+    ArrayList<Sector> path = new ArrayList<Sector>();
+    
 	// Constructor
 	protected Player(String name, int id) {
 		this.name = name;
@@ -56,7 +59,11 @@ public class Player {
 	 */
 	public void setCurrentSector(Sector currentSector) {
 		this.currentSector = currentSector;
+		path.add(currentSector);
 	}
+
+
+	
 	
 	
 

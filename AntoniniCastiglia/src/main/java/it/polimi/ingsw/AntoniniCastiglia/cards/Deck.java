@@ -1,4 +1,4 @@
-package it.polimi.ingsw.AntoniniCastiglia.cards;
+ package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 public interface Deck {
 	
