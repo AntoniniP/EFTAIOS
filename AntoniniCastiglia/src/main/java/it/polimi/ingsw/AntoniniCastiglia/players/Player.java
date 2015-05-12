@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 //TODO (here+Players) visibility, why static??, moveRecord, CLIENT!
@@ -10,6 +12,7 @@ public class Player {
 	private String name;
 	private int id;
 	int maxMoves;
+	//int objects=Constants.OBJECTNUMBER;
 	Sector myBase;
 	Sector currentSector;
 
@@ -17,6 +20,7 @@ public class Player {
 	protected Player(String name, int id) {
 		this.name = name;
 		this.id = id;
+		//Deck objects = new Deck(objects);
 	}
 
 	// Methods

@@ -3,7 +3,7 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
-public class AdrenalineCard implements Card {
+public class AdrenalineCard implements ObjectCard {
 
 	@Override
 	// TODO needs a reset after use!

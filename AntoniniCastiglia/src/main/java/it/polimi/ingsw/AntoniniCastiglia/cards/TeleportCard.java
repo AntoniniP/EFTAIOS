@@ -2,7 +2,7 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
-public class TeleportCard implements Card {
+public class TeleportCard implements ObjectCard {
 
 	@Override
 	public void action(Player p) {

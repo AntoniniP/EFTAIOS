@@ -5,4 +5,7 @@ public final class Constants {
 	public static final int MAXPLAYERS = 8;
 	public static final int HEIGHT = 14;
 	public static final int WIDTH = 23;
+
+	//public static final int OBJECTNUMBER = 3;
 }
+
