@@ -9,5 +9,7 @@ public class HumanBase extends Sector {  //TODO SINGLETON!!
 	public HumanBase(String name) {
 		super(name);
 	}
-
+	@Override
+	public String toString(){
+		return " H ";}
 }

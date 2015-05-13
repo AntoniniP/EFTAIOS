@@ -7,8 +7,7 @@ public final class Constants {
 	public static final int WIDTH = 23;
 	public static final int DANGERSECTCARDS = 25;
 	public static final int ITEMCARDS = 12;
-	
 
-	//public static final int OBJECTNUMBER = 3;
+	private Constants() {
+	}
 }
-

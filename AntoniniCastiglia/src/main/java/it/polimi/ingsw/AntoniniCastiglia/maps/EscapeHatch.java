@@ -9,5 +9,9 @@ public class EscapeHatch extends Sector {
 	public EscapeHatch(String name) {
 		super(name);
 	}
+	
+	@Override
+	public String toString(){
+		return " E ";}
 
 }
