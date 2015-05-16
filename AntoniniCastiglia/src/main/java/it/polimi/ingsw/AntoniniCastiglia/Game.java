@@ -5,20 +5,18 @@ import java.io.IOException;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-import it.polimi.ingsw.AntoniniCastiglia.players.Players;
+import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class Game {
 
 	private Game() throws IOException {
 		Table t = new Table();
-		//Players p = new Players();
-		//t.drawMap();
-		//System.out.println("Main again.");
+		//PlayerList p = new PlayerList();
+		// t.drawMap();
+		// System.out.println("Main again.");
 
-		Sector s1 = new Sector("W14");
-		Sector s2 = new Sector(5, 3);// f4
-	//	System.out.println(s1 + " adjacent to " + t.adjacent(s1,3));
-		System.out.println(s2 + " adjacent to " + t.adjacent(s2,2));
+		 Sector s = new Sector(5, 3);// f4
+		 System.out.println(s + " adjacent to " + t.adjacent(s, 2));
 
 	}
 
@@ -26,12 +24,5 @@ public class Game {
 		Game g = new Game();
 
 	}
-	
-	public void updateMap(Player p){
-		// TODO when a player moves
-	}
-	
-	
-	
 
 }

@@ -9,9 +9,9 @@ public class EmptySector extends Sector {
 	public EmptySector(String name) {
 		super(name);
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "";
 	}
 

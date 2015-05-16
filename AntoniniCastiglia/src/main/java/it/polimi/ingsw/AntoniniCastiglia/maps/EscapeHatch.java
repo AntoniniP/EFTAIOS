@@ -9,9 +9,12 @@ public class EscapeHatch extends Sector {
 	public EscapeHatch(String name) {
 		super(name);
 	}
-	
-	@Override
-	public String toString(){
-		return " E ";}
 
+	@Override
+	public String toString() {
+		return " E ";
+	}
+
+	//Only Human players can end their move on an Escape Hatch Sector.
+	
 }

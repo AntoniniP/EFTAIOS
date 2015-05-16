@@ -7,11 +7,12 @@ public class Alien extends Player {
 
 	boolean hasEaten = false;
 
-	public Alien(String name, int id) {
-		super(name, id);
+	public Alien(String name, String role, int id) {
+		super(name, role, id);
 		maxMoves = 2;
 		myBase = Table.getAlienBase();
 		currentSector = myBase;
+		path.add(myBase);
 	}
 
 }

@@ -11,7 +11,11 @@ public class AlienBase extends Sector { // TODO SINGLETON?
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return " A ";
 	}
+	
+	//After the game begins, no player can move through or end his move in this Sector.
+
+	
 }

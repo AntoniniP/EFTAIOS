@@ -6,11 +6,13 @@ public class Human extends Player {
 
 	boolean beenEaten = false;
 
-	public Human(String name, int id) {
-		super(name, id);
+	public Human(String name, String role, int id) {
+		super(name, role, id);
 		maxMoves = 1;
 		myBase = Table.getHumanBase();
 		currentSector = myBase;
+		path.add(myBase);
+
 	}
 
 }

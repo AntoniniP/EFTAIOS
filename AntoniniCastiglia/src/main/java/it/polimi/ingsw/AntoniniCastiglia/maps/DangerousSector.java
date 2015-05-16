@@ -9,4 +9,7 @@ public class DangerousSector extends Sector {
 	public DangerousSector(String name) {
 		super(name);
 	}
+	
+	// TODO if you end your move here, you have to draw a card!
+	
 }

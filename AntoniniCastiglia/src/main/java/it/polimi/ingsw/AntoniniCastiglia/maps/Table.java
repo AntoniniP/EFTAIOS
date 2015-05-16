@@ -4,8 +4,10 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Table {
+
 	private Sector[][] table = new Sector[Constants.HEIGHT][Constants.WIDTH];
 
 	private static final char EMPTYSECTOR = '0';
@@ -24,24 +26,6 @@ public class Table {
 	private ArrayList<Sector> safeSectors = new ArrayList<Sector>();
 
 	/**
-	 * Standard getter for Alien base sector.
-	 * 
-	 * @return alien base sector
-	 */
-	public static Sector getAlienBase() {
-		return alienBase;
-	}
-
-	/**
-	 * Standard getter for human base sector.
-	 * 
-	 * @return human base sector
-	 */
-	public static Sector getHumanBase() {
-		return humanBase;
-	}
-
-	/**
 	 * Constructor for Table class. Reads a text file containing a map (every
 	 * sector is denoted by a number, to denote its type), and the matrix of
 	 * Sector called table.
@@ -49,7 +33,6 @@ public class Table {
 	 * @throws IOException
 	 */
 	public Table() throws IOException {
-		char c;
 		FileInputStream f = new FileInputStream("resources/table.txt");
 
 		for (int i = 0; i < Constants.HEIGHT; i++)
@@ -57,7 +40,7 @@ public class Table {
 
 				// TODO assuming (for now) that "table.txt" is well-formed
 
-				switch (c = validChar(f)) {
+				switch (validChar(f)) {
 
 				case EMPTYSECTOR:
 					table[i][j] = new EmptySector(j, i);
@@ -88,7 +71,10 @@ public class Table {
 					table[i][j] = new EscapeHatch(j, i);
 					escapeHatches.add(table[i][j]);
 					break;
+
+				default:
 				}
+
 			}
 		f.close();
 	}
@@ -110,11 +96,12 @@ public class Table {
 		try {
 			do {
 				c = (char) f.read();
-			} while (c != ALIENBASE && c != DANGEROUSSECTOR && c != EMPTYSECTOR
-					&& c != ESCAPEHATCH && c != HUMANBASE && c != SAFESECTOR
-					&& !eof);
+			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR
+					&& c != EMPTYSECTOR && c != ESCAPEHATCH && c != HUMANBASE
+					&& c != SAFESECTOR);
 		} catch (EOFException e) {
 			eof = true;
+			System.out.println(e);
 		}
 		return c;
 	}
@@ -148,33 +135,61 @@ public class Table {
 		}
 	}
 
+	/**
+	 * Standard getter for Alien base sector.
+	 * 
+	 * @return alien base sector
+	 */
+	public static Sector getAlienBase() {
+		return alienBase;
+	}
+
+	/**
+	 * Standard getter for human base sector.
+	 * 
+	 * @return human base sector
+	 */
+	public static Sector getHumanBase() {
+		return humanBase;
+	}
+
+	/**
+	 * The method, after receiving a sector and the maximum distance, produces
+	 * an ArrayList containing all reachable sectors within the given distance.
+	 * The calling sector is EXCLUDED.
+	 * 
+	 * @param s
+	 * @param hops
+	 * @return ArrayList of sectors
+	 */
 	public ArrayList<Sector> adjacent(Sector s, int hops) {
 		ArrayList<Sector> sectorList = new ArrayList<Sector>();
 		sectorList.add(s);
 
 		int x = s.getX();
 		int y = s.getY();
-		int hop = 0;
 
-		while (hop < hops) {
-			hop++;
+		while (hops > 0) {
+			List<Sector> tmp = new ArrayList<Sector>();
 
-			ArrayList<Sector> tmp = new ArrayList<Sector>();
-
-			System.out.println("hop: "+hop);
-			System.out.println("sectorList: "+sectorList);
 			
+
 			for (Sector s1 : sectorList) {
+
 				int x1 = s1.getX();
 				int y1 = s1.getY();
 
 				for (int i = y1 - 1; i <= y1 + 1; i++) {
 					for (int j = x1 - 1; j <= x1 + 1; j++) {
-						if ((i >= 0 && i < Constants.HEIGHT) && (j >= 0 && j < Constants.WIDTH)) {
-							if (!(table[i][j] instanceof EmptySector) && !(j == x1 && i == y1)) {
-								if ((x1 % 2 == 1) && (!(j == x1 - 1 && i == y1 - 1) && !(j == x1 + 1 && i == y1 - 1))) {
+						if ((i >= 0 && i < Constants.HEIGHT)
+								&& (j >= 0 && j < Constants.WIDTH)) {
+							if (!(table[i][j] instanceof EmptySector)
+									&& !(j == x1 && i == y1)) {
+								if ((x1 % 2 == 1)
+										&& (!(j == x1 - 1 && i == y1 - 1) && !(j == x1 + 1 && i == y1 - 1))) {
 									tmp.add(table[i][j]);
-								} else if ((x1 % 2 == 0) && (!(j == x1 - 1 && i == y1 + 1) && !(j == x1 + 1 && i == y1 + 1))) {
+								} else if ((x1 % 2 == 0)
+										&& (!(j == x1 - 1 && i == y1 + 1) && !(j == x1 + 1 && i == y1 + 1))) {
 									tmp.add(table[i][j]);
 								}
 							}
@@ -183,18 +198,25 @@ public class Table {
 				}
 
 			}
-			
-			System.out.println("tmp2: "+tmp+"\n");
 
 
 			for (Sector s1 : tmp) {
-				if (!sectorList.contains(s1) && !(s1.getX() == x && s1.getY() == y)) {
+				
+				
+				if (!sectorList.contains(s1) && !s.equals(s1)
+						) {
 					sectorList.add(s1);
 				}
 			}
+				
+			sectorList.remove(s);
 
+			hops--;
 
 		}
+		
+		
+		
 
 		return sectorList;
 

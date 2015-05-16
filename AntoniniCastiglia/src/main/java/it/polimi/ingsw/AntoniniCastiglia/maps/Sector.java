@@ -1,8 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-import java.util.ArrayList;
-
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
 public class Sector {
 	private int x; // column (literal part of coordinates, counter j)
@@ -11,7 +8,7 @@ public class Sector {
 	private String number;
 	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
 			.toCharArray();
-	private ArrayList<Player> players;
+	
 
 	/**
 	 * Standard constructor: receives the coordinates in numeric (integer)
@@ -98,5 +95,9 @@ public class Sector {
 	@Override
 	public String toString() {
 		return letter + number;
+	}
+	
+	public boolean equals(Sector s1){
+		return ((this.x==s1.x )&& (this.y==s1.y));
 	}
 }

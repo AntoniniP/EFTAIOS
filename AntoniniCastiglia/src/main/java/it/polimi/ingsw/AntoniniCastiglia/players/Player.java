@@ -1,27 +1,23 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
-
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
-
-//TODO (here+Players) visibility, why static??, moveRecord, CLIENT!
 
 public class Player {
 
 	// Attributes
 	private String name;
+	private String role;
 	private int id;
 	int maxMoves;
-	//int objects=Constants.OBJECTNUMBER;
 	Sector myBase;
 	Sector currentSector;
     ArrayList<Sector> path = new ArrayList<Sector>();
     
 	// Constructor
-	protected Player(String name, int id) {
+	protected Player(String name, String role, int id) {
 		this.name = name;
+		this.role = role;
 		this.id = id;
 		//Deck objects = new Deck(objects);
 	}
@@ -29,7 +25,7 @@ public class Player {
 	// Methods
 	@Override
 	public String toString() {
-		return name + " " + id + " " + maxMoves + "\n";
+		return name + " " +role +" "+ id + " " + maxMoves + "\n";
 	}
 
 	/**
