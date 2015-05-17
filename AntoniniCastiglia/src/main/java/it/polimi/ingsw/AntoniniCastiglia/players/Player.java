@@ -3,47 +3,56 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 import java.util.ArrayList;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
+/**
+ * Every instance of this class is a Player. The class is extended by Alien and
+ * Human, which concretely set all parameters. Here we have basic getters and
+ * setters for some variables, and a toString method (@Override).
+ * 
+ * @author Paolo Antonini
+ *
+ */
 public class Player {
 
-	// Attributes
 	private String name;
 	private String role;
 	private int id;
-	int maxMoves;
-	Sector myBase;
-	Sector currentSector;
-    ArrayList<Sector> path = new ArrayList<Sector>();
-    
-	// Constructor
+	protected int maxMoves;
+	protected Sector myBase;
+	protected Sector currentSector;
+	protected ArrayList<Sector> path = new ArrayList<Sector>();
+
 	protected Player(String name, String role, int id) {
 		this.name = name;
 		this.role = role;
 		this.id = id;
-		//Deck objects = new Deck(objects);
 	}
 
-	// Methods
 	@Override
 	public String toString() {
-		return name + " " +role +" "+ id + " " + maxMoves + "\n";
+		return name + ", " + role + ", " + id + ", " + maxMoves;
 	}
 
 	/**
-	 * @return the moves
+	 * Standard getter for maxMoves.
+	 * 
+	 * @return maxMoves
 	 */
 	public int getMoves() {
 		return maxMoves;
 	}
 
 	/**
+	 * Standard setter for maxMoves.
+	 * 
 	 * @param moves
-	 *            the moves to set
 	 */
 	public void setMoves(int moves) {
 		this.maxMoves = moves;
 	}
 
 	/**
+	 * Standard getter for myBase.
+	 * 
 	 * @return the myBase
 	 */
 	public Sector getMyBase() {
@@ -51,16 +60,13 @@ public class Player {
 	}
 
 	/**
-	 * @param currentSector the currentSector to set
+	 * Setter for currentSector.
+	 * 
+	 * @param currentSector
 	 */
 	public void setCurrentSector(Sector currentSector) {
 		this.currentSector = currentSector;
 		path.add(currentSector);
 	}
-
-
-	
-	
-	
 
 }

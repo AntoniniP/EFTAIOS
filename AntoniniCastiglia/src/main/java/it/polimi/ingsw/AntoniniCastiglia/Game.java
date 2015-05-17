@@ -1,9 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 import java.io.IOException;
+import java.util.List;
 
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
+import it.polimi.ingsw.AntoniniCastiglia.pController.PlayerActions;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
@@ -11,12 +13,14 @@ public class Game {
 
 	private Game() throws IOException {
 		Table t = new Table();
-		//PlayerList p = new PlayerList();
-		// t.drawMap();
-		// System.out.println("Main again.");
+		PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
+		System.out.println(p.getPlayers());
 
-		 Sector s = new Sector(5, 3);// f4
-		 System.out.println(s + " adjacent to " + t.adjacent(s, 2));
+		
+		t.drawMap();
+
+		Sector s = new Sector(5, 3);// f4
+		System.out.println(s + " adjacent to " + t.adjacent(s, 2));
 
 	}
 

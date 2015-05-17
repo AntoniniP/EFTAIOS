@@ -1,71 +1,49 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import java.util.ArrayList;
-import java.util.Scanner;
 
+/**
+ * This class provides a well formed ArrayList of players.
+ * 
+ * @author Paolo Antonini
+ *
+ */
 public class PlayerList {
+
+	private static PlayerList instance;
+
 	ArrayList<Player> players;
 
-	// Gets from stdin, checks and returns the number of players.
-	private int howManyPlayers() {
-		Scanner scanner = new Scanner(System.in);
-		int n = 0;
-
-		while (true) {
-			System.out.print("How many players? ");
-
-			try {
-
-				n = scanner.nextInt();
-
-				if (n >= Constants.MINPLAYERS && n <= Constants.MAXPLAYERS) {
-					scanner.close();
-					return n;
-				} else {
-					throw new InvalidNumberException();
-				}
-			} catch (InvalidNumberException e) {
-				System.out.println(e + "\n");
-			}
-			// catch (java.util.InputMismatchException e) { n=0;}
-
-		}
-
-	}
-
-	// Constructor.
-	// Creates an arrayList of Player, of length n, according to EFTAIOS rules.
-	public PlayerList() {
-
-		int n = howManyPlayers();
-
-		players = new ArrayList<Player>(n);
-		boolean[] used = new boolean[8];
-
-		for (boolean i : used) {
-			i = false;
-		}
+	/**
+	 * Private constructor for the class (SINGLETON pattern implementation). it
+	 * provides an ArrayList of length n, without repetitions, and with a proper
+	 * number of Aliens and Humans, to comply with EFTAIOS rules.
+	 */
+	private PlayerList(int n) {
 
 		int alienNumber = n / 2 + (n % 2);
 		int humanNumber = n / 2;
 
-		System.out.println("Your game will have " + n + " players.");
-		System.out.println("- Aliens: " + alienNumber);
-		System.out.println("- Humans: " + humanNumber);
+		players = new ArrayList<Player>(n);
+
+		boolean[] used = new boolean[8];
+		for (boolean i : used) {
+			i = false;
+		}
 
 		for (int i = 0; i < n; i++) {
 
 			Player p;
 			int j;
 
-			// Generate a non-used integer 0<j<7 (cast op. truncates it)
+			// Generate a random, not used yet, integer 0<=j<=7.
 			do {
-				j = (int) (Math.random() * 8);
+				j = (int) (Math.random() * 8); // Cast to int truncates it
 			} while (used[j]);
 
 			used[j] = true;
-			Character c = Character.values()[j];
+
+			Character c = Character.values()[j]; // Gets from Character enum
 
 			if (c.nature == 'H') {
 				if (humanNumber > 0) {
@@ -75,7 +53,6 @@ public class PlayerList {
 					p = new Alien(c.name, c.role, i);
 					alienNumber--;
 				}
-
 			} else {
 				if (alienNumber > 0) {
 					p = new Alien(c.name, c.role, i);
@@ -88,11 +65,34 @@ public class PlayerList {
 
 			players.add(p);
 
+
 		}
 		
-		// TODO write test: aliens 0, humans 0
-		
-		System.out.println(players);
 
+		// TODO write test: aliens 0, humans 0
 	}
+
+	/**
+	 * Standard getter for players.
+	 * 
+	 * @return the players
+	 */
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	/**
+	 * Implementation of SINGLETON pattern. Receives the number of players (n),
+	 * returns a single instance of PlayerList.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static PlayerList getPlayerList(int n) {
+		if (instance == null) {
+			instance = new PlayerList(n);
+		}
+		return instance;
+	}
+
 }

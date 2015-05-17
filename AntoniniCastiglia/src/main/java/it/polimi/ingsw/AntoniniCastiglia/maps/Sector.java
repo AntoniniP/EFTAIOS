@@ -1,6 +1,13 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-
+/**
+ * This class provides sector instances, and methods to convert coordinates
+ * formats (number/number for table's sake, single string as probable input by
+ * users, letter/number like in the map).
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class Sector {
 	private int x; // column (literal part of coordinates, counter j)
 	private int y; // row (numeric part of coordinates, counter i)
@@ -8,7 +15,6 @@ public class Sector {
 	private String number;
 	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
 			.toCharArray();
-	
 
 	/**
 	 * Standard constructor: receives the coordinates in numeric (integer)
@@ -96,8 +102,17 @@ public class Sector {
 	public String toString() {
 		return letter + number;
 	}
-	
-	public boolean equals(Sector s1){
-		return ((this.x==s1.x )&& (this.y==s1.y));
+
+	/**
+	 * This method checks whether two sectors (the calling one and the one
+	 * passed as parameter) are equal (that is, whether they have the same
+	 * coordinates). I'm not using equals(Object o) to avoid problems with
+	 * casts.
+	 * 
+	 * @param s1
+	 * @return true/false
+	 */
+	public boolean isEqual(Sector s1) {
+		return ((this.x == s1.x) && (this.y == s1.y));
 	}
 }

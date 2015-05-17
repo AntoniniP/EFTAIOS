@@ -1,11 +1,26 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+// TODO SINGLETON? An updateTable() method is needed.
+// TODO adjacent() is horrible!
+// TODO validChar() is bad too (maybe enumeration for sector types?)
+// TODO assuming (for now) that "table.txt" is well-formed
+// TODO drawMap is VIEW
+// TODO improve drawMap in order to avoid repeated code
+
+
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides the map for the game (it's called Table in order to avoid
+ * override problems with Java predefined classes).
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class Table {
 
 	private Sector[][] table = new Sector[Constants.HEIGHT][Constants.WIDTH];
@@ -37,8 +52,6 @@ public class Table {
 
 		for (int i = 0; i < Constants.HEIGHT; i++)
 			for (int j = 0; j < Constants.WIDTH; j++) {
-
-				// TODO assuming (for now) that "table.txt" is well-formed
 
 				switch (validChar(f)) {
 
@@ -111,8 +124,6 @@ public class Table {
 	 */
 	public void drawMap() {
 
-		// TODO improve in order to avoid repeated code
-
 		for (int i = 0; i < Constants.HEIGHT; i++) {
 			for (int j = 0; j < Constants.WIDTH; j++) {
 				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
@@ -172,8 +183,6 @@ public class Table {
 		while (hops > 0) {
 			List<Sector> tmp = new ArrayList<Sector>();
 
-			
-
 			for (Sector s1 : sectorList) {
 
 				int x1 = s1.getX();
@@ -199,24 +208,18 @@ public class Table {
 
 			}
 
-
 			for (Sector s1 : tmp) {
-				
-				
-				if (!sectorList.contains(s1) && !s.equals(s1)
-						) {
+
+				if (!sectorList.contains(s1) && !s.isEqual(s1)) {
 					sectorList.add(s1);
 				}
 			}
-				
+
 			sectorList.remove(s);
 
 			hops--;
 
 		}
-		
-		
-		
 
 		return sectorList;
 
