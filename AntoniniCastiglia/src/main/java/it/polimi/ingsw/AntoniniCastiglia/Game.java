@@ -1,22 +1,26 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 import java.io.IOException;
+import java.util.List;
+
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
-import it.polimi.ingsw.AntoniniCastiglia.players.Players;
+import it.polimi.ingsw.AntoniniCastiglia.pController.PlayerActions;
+import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class Game {
 
 	private Game() throws IOException {
 		Table t = new Table();
-		Players p = new Players();
-		t.drawMap();
-		System.out.println("Main again.");
+		PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
+		System.out.println(p.getPlayers());
 
-		Sector s1 = new Sector("W12");
-		Sector s2 = new Sector(5, 3);// f4
-		System.out.println(s1 + " adjacent to " + t.adjacent(s1));
-		System.out.println(s2 + " adjacent to " + t.adjacent(s2));
+		
+		t.drawMap();
+
+		Sector s = new Sector(5, 3);// f4
+		System.out.println(s + " adjacent to " + t.adjacent(s, 2));
 
 	}
 

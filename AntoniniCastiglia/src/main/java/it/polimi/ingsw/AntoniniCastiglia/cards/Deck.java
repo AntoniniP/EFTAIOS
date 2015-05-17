@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Deck {
 	
-	ArrayList<DangerousSectorCard> dangerDeck = new ArrayList <DangerousSectorCard> ();
+//	ArrayList<DangerousSectorCard> dangerDeck = new ArrayList <DangerousSectorCard> ();
 	ArrayList<ItemCard> itemDeck = new ArrayList <ItemCard> ();
 	
 	public void createSectorDeck (){ //creating the decks
