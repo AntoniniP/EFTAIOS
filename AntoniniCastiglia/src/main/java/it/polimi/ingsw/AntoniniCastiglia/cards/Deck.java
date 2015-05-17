@@ -1,40 +1,42 @@
- package it.polimi.ingsw.AntoniniCastiglia.cards;
+package it.polimi.ingsw.AntoniniCastiglia.cards;
  
- //foo
- 
-
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 import java.util.ArrayList;
+import java.util.List;
 
-public class Deck {
+public abstract class Deck {
 	
-	ArrayList<DangerousSectorCard> dangerDeck = new ArrayList <DangerousSectorCard> ();
-	ArrayList<ItemCard> itemDeck = new ArrayList <ItemCard> ();
+	protected List<Card> deck = new ArrayList <Card> ();
+	protected List<Card> discardedDeck = new ArrayList <Card>(); 
 	
-	public void createSectorDeck (){ //creating the decks
-		for(int i=0; i<Constants.DANGERSECTCARDS;i++){
-			
-			
+	public void shuffleDeck(){ //shuffles cards when all of them have already been picked
+		int m, n;
+		Card temp;
+		for(int i=0;i<50;i++){ //50--> statistically high enough to have a great shuffle
+			m= (int)(Math.random()*(deck.size()-2));
+			n= (int)(Math.random()*(deck.size()-2));
+			temp=deck.get(m);
+			deck.set(m, deck.get(n));
+			deck.set(n, temp);
 		}
 	}
 	
-	public void createItemDeck (){
-		for(int i=0; i<Constants.ITEMCARDS;i++){
-		}
-		
+	private void reshuffleDeck() {
+		deck.addAll(discardedDeck);
+		shuffleDeck();
+		discardedDeck = new ArrayList<Card>();//"azzero" the discarded's deck
 	}
 	
-	/*
-	SINGLETON
-	 8 Character Cards (IN PLAYER(S)?)
-	 6 Escape Hatch Cards 
-	25 Dangerous Sector Cards 
-	12 Item Cards
+	public Card drawCard(){ //Not a remote method!!!!!!
+		if(deck.size()==0) 
+			reshuffleDeck();
+		if(deck.size()==0)
+			//Client will need to deal with "null"
+			return null;//The Deck may be empty after reshuffle; notify the end of the deck
+		return deck.get(deck.size()-1);
+	}
 	
-	NON SINGLETON
-	oggettiassegnati
-	*/
-	
+	public void discardCard(Card c){
+		discardedDeck.add(c);
+	}
 	
 }
