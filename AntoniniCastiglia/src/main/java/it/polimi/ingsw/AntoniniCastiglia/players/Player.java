@@ -1,6 +1,9 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
+
+import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
+import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 /**
@@ -20,6 +23,7 @@ public class Player {
 	protected Sector myBase;
 	protected Sector currentSector;
 	protected ArrayList<Sector> path = new ArrayList<Sector>();
+	private Card[] items = new ItemCard[3];
 
 	protected Player(String name, String role, int id) {
 		this.name = name;

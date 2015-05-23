@@ -10,6 +10,7 @@ public class DangerousSector extends Sector {
 		super(name);
 	}
 	
-	// TODO if you end your move here, you have to draw a card!
+	// TODO if you end your move here, you have to draw a card! 
+	// TODO I automatically draw a card with move action?
 	
 }

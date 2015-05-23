@@ -72,21 +72,14 @@ public class PlayerList {
 		// TODO write test: aliens 0, humans 0
 	}
 
-	/**
-	 * Standard getter for players.
-	 * 
-	 * @return the players
-	 */
-	public ArrayList<Player> getPlayers() {
-		return players;
-	}
+
 
 	/**
-	 * Implementation of SINGLETON pattern. Receives the number of players (n),
-	 * returns a single instance of PlayerList.
+	 * Implementation of SINGLETON pattern. Receives the number of players (<code>n</code>),
+	 * returns a single instance of <code>PlayerList</code>.
 	 * 
-	 * @param n
-	 * @return
+	 * @param n number of players
+	 * @return a <code>PlayerList</code> instance
 	 */
 	public static PlayerList getPlayerList(int n) {
 		if (instance == null) {

@@ -14,7 +14,8 @@ public class Game {
 	private Game() throws IOException {
 		Table t = new Table();
 		PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
-		System.out.println(p.getPlayers());
+		
+		System.out.println(p); //TODO toString method!
 
 		
 		t.drawMap();

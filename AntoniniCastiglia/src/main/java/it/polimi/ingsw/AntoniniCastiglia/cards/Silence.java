@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
+
 public class Silence implements DangerousSectorCard {
 	
 	public Silence() { //Constructor
@@ -10,7 +12,7 @@ public class Silence implements DangerousSectorCard {
 		return "Silence!";
 	}
 	@Override
-	public void action() {
+	public void action(Sector s) {
 		//TODO Notify Silence to all players
 		//Save records on a list, for instance
 	}

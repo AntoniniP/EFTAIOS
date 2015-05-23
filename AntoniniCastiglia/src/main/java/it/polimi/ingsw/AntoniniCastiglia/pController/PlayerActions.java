@@ -3,6 +3,7 @@ package it.polimi.ingsw.AntoniniCastiglia.pController;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.players.InvalidNumberException;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PlayerActions {
@@ -16,16 +17,18 @@ public class PlayerActions {
 	public static int howManyPlayers() {
 
 		System.out.print("How many players? ");
+		Scanner scanner = new Scanner(System.in);
+
 
 		while (true) {
 
-			Scanner scanner = new Scanner(System.in);
 
-			int n = 0;
+			
+			int n = scanner.nextInt();
+
 
 			try {
 
-				n = scanner.nextInt();
 
 				if (n >= Constants.MINPLAYERS && n <= Constants.MAXPLAYERS) {
 					scanner.close();
@@ -35,7 +38,6 @@ public class PlayerActions {
 				}
 			} catch (InvalidNumberException e) {
 				System.out.println(e);
-				n = 0;
 			} catch (java.util.InputMismatchException e2) {
 				System.out.println(e2);
 				n = 0;

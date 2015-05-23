@@ -6,13 +6,13 @@ public class DangerousSectorDeck extends Deck{
 	
 	public DangerousSectorDeck (){ //Constructor; creating the decks
 		for(int i=0;i<Constants.WITHOBJECT;i++)
-			deck.add(new Noise(true, true)); //yourSector + Object
+			deck.add(new NoiseCard(true, true)); //yourSector + Object
 		for(int i=0;i<Constants.WITHOBJECT;i++)
-			deck.add(new Noise(false, true)); //anySector + Object
-		for(int i=0;i<Constants.RUMORNOOBJECT;i++)
-			deck.add(new Noise(true, false)); //yourSector
-		for(int i=0;i<Constants.RUMORNOOBJECT;i++)
-			deck.add(new Noise(false, false)); //anySector
+			deck.add(new NoiseCard(false, true)); //anySector + Object
+		for(int i=0;i<Constants.NOISEnoOBJECT;i++)
+			deck.add(new NoiseCard(true, false)); //yourSector
+		for(int i=0;i<Constants.NOISEnoOBJECT;i++)
+			deck.add(new NoiseCard(false, false)); //anySector
 		for(int i=0;i<Constants.SILENCE;i++)
 			deck.add(new Silence());
 	}
