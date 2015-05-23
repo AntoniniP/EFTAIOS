@@ -10,16 +10,16 @@ import java.util.ArrayList;
  */
 public class PlayerList {
 
-	private static PlayerList instance;
+	// private static PlayerList instance;
 
 	ArrayList<Player> players;
 
 	/**
-	 * Private constructor for the class (SINGLETON pattern implementation). it
-	 * provides an ArrayList of length n, without repetitions, and with a proper
-	 * number of Aliens and Humans, to comply with EFTAIOS rules.
+	 * Constructor for the class. It provides an ArrayList of length n, without
+	 * repetitions, and with a proper number of Aliens and Humans, to comply
+	 * with EFTAIOS rules.
 	 */
-	private PlayerList(int n) {
+	public PlayerList(int n) {
 
 		int alienNumber = n / 2 + (n % 2);
 		int humanNumber = n / 2;
@@ -65,27 +65,38 @@ public class PlayerList {
 
 			players.add(p);
 
-
 		}
-		
 
 		// TODO write test: aliens 0, humans 0
 	}
 
-
-
-	/**
-	 * Implementation of SINGLETON pattern. Receives the number of players (<code>n</code>),
-	 * returns a single instance of <code>PlayerList</code>.
-	 * 
-	 * @param n number of players
-	 * @return a <code>PlayerList</code> instance
-	 */
-	public static PlayerList getPlayerList(int n) {
-		if (instance == null) {
-			instance = new PlayerList(n);
+	@Override
+	public String toString() {
+		String playerList = "";
+		for (int i = 0; i < players.size(); i++) {
+			playerList = playerList + players.get(i) + "\n";
 		}
-		return instance;
+		return playerList;
 	}
 
+	public int size() {
+		return players.size();
+	}
+
+	public Player get(int i) {
+		return players.get(i);
+	}
+
+	/**
+	 * Implementation of SINGLETON pattern. Receives the number of players (
+	 * <code>n</code>), returns a single instance of <code>PlayerList</code>.
+	 * 
+	 * @param n
+	 *            number of players
+	 * @return a <code>PlayerList</code> instance
+	 */
+	/*
+	 * public static PlayerList getPlayerList(int n) { if (instance == null) {
+	 * instance = new PlayerList(n); } return instance; }
+	 */
 }

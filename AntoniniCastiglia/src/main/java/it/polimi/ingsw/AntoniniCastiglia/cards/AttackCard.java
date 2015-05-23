@@ -6,8 +6,7 @@ public class AttackCard implements ItemCard {
 
 	@Override
 	public void action(Player p) {
-		// TODO Auto-generated method stub
-
+		// TODO call attack() on sector s (to be passed)
 	}
 
 }

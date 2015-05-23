@@ -9,8 +9,9 @@ public class Silence implements DangerousSectorCard {
 
 	@Override
 	public String toString() {
-		return "Silence!";
+		return "Silence in all sectors.";
 	}
+	
 	@Override
 	public void action(Sector s) {
 		//TODO Notify Silence to all players

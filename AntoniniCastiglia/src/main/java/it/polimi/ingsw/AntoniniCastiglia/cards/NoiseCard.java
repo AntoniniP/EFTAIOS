@@ -28,11 +28,11 @@ public class NoiseCard implements DangerousSectorCard {
 	@Override
 	public String toString() {
 		String message;
-		if (yourSector == true)
+		if (yourSector)
 			message = "Noise in your sector!";
 		else
 			message = "Noise in any sector, please choose!";
-		if (withObject == true)
+		if (withObject)
 			message = message + " Pick an Item Card!";
 		return message;
 	}

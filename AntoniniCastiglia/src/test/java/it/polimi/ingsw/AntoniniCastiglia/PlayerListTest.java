@@ -24,7 +24,7 @@ public class PlayerListTest {
 
 	@Before
 	public void setUp() {
-		PlayerList p = PlayerList.getPlayerList(8);
+		PlayerList p = new PlayerList(8);
 	}
 
 	@Test

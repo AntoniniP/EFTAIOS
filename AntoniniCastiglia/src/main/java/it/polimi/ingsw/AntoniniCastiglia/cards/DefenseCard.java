@@ -6,8 +6,7 @@ public class DefenseCard implements ItemCard {
 
 	@Override
 	public void action(Player p) {
-		// TODO Auto-generated method stub
-
+		// TODO maybe a boolean in player?
 	}
 
 }

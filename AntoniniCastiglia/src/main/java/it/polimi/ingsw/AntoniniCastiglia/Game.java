@@ -13,12 +13,11 @@ public class Game {
 
 	private Game() throws IOException {
 		Table t = new Table();
-		PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
+		//PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
+		PlayerList p = new PlayerList(PlayerActions.howManyPlayers());
+		System.out.println(p);
 		
-		System.out.println(p); //TODO toString method!
-
-		
-		t.drawMap();
+		// t.drawMap();
 
 		Sector s = new Sector(5, 3);// f4
 		System.out.println(s + " adjacent to " + t.adjacent(s, 2));

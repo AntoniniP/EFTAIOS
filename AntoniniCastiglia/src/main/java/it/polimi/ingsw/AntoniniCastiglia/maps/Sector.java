@@ -112,6 +112,7 @@ public class Sector {
 	 * @param s1
 	 * @return true/false
 	 */
+	//TODO see Baresi's slides for proper implementation (with overriding)!
 	public boolean isEqual(Sector s1) {
 		return ((this.x == s1.x) && (this.y == s1.y));
 	}
