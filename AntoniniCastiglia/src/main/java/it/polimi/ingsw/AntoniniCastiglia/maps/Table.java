@@ -2,11 +2,8 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
 
 // TODO SINGLETON? An updateTable() method is needed.
 // TODO adjacent() is horrible!
-// TODO validChar() is bad too (maybe enumeration for sector types?)
 // TODO assuming (for now) that "table.txt" is well-formed
-// TODO drawMap is VIEW
-// TODO improve drawMap in order to avoid repeated code
-
+// TODO drawMap is VIEW (maybe improve it, to avoid repeated code
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
@@ -29,16 +26,12 @@ public class Table {
 	private static final char DANGEROUSSECTOR = '1';
 	private static final char HUMANBASE = '2';
 	private static final char ALIENBASE = '3';
-	private static final char SAFESECTOR = '4';
+	private static final char SECURESECTOR = '4';
 	private static final char ESCAPEHATCH = '5';
 
 	// keeps a list of each type of sector, for convenience
 	private static Sector alienBase;
 	private static Sector humanBase;
-	private ArrayList<Sector> dangerSectors = new ArrayList<Sector>();
-	private ArrayList<Sector> emptySectors = new ArrayList<Sector>();
-	private ArrayList<Sector> escapeHatches = new ArrayList<Sector>();
-	private ArrayList<Sector> safeSectors = new ArrayList<Sector>();
 
 	/**
 	 * Constructor for Table class. Reads a text file containing a map (every
@@ -57,12 +50,10 @@ public class Table {
 
 				case EMPTYSECTOR:
 					table[i][j] = new EmptySector(j, i);
-					emptySectors.add(table[i][j]);
 					break;
 
 				case DANGEROUSSECTOR:
 					table[i][j] = new DangerousSector(j, i);
-					dangerSectors.add(table[i][j]);
 					break;
 
 				case HUMANBASE:
@@ -75,14 +66,12 @@ public class Table {
 					alienBase = table[i][j];
 					break;
 
-				case SAFESECTOR:
-					table[i][j] = new SafeSector(j, i);
-					safeSectors.add(table[i][j]);
+				case SECURESECTOR:
+					table[i][j] = new SecureSector(j, i);
 					break;
 
 				case ESCAPEHATCH:
 					table[i][j] = new EscapeHatch(j, i);
-					escapeHatches.add(table[i][j]);
 					break;
 
 				default:
@@ -111,7 +100,7 @@ public class Table {
 				c = (char) f.read();
 			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR
 					&& c != EMPTYSECTOR && c != ESCAPEHATCH && c != HUMANBASE
-					&& c != SAFESECTOR);
+					&& c != SECURESECTOR);
 		} catch (EOFException e) {
 			eof = true;
 			System.out.println(e);
@@ -192,7 +181,7 @@ public class Table {
 					for (int j = x1 - 1; j <= x1 + 1; j++) {
 						if ((i >= 0 && i < Constants.HEIGHT)
 								&& (j >= 0 && j < Constants.WIDTH)) {
-							if (!(table[i][j] instanceof EmptySector)
+							if (table[i][j].isReachable()
 									&& !(j == x1 && i == y1)) {
 								if ((x1 % 2 == 1)
 										&& (!(j == x1 - 1 && i == y1 - 1) && !(j == x1 + 1 && i == y1 - 1))) {
@@ -210,7 +199,7 @@ public class Table {
 
 			for (Sector s1 : tmp) {
 
-				if (!sectorList.contains(s1) && !s.isEqual(s1)) {
+				if (!sectorList.contains(s1) && !s.equals(s1)) {
 					sectorList.add(s1);
 				}
 			}

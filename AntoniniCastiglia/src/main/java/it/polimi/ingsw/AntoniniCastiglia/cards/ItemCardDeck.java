@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+import java.util.ArrayList;
+
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 public class ItemCardDeck extends Deck {
@@ -8,6 +10,7 @@ public class ItemCardDeck extends Deck {
 	 * Constructor for the deck of item cards. The deck is created and shuffled.
 	 */
 	public ItemCardDeck() {
+		
 		for (int i = 0; i < Constants.ADRENALINECARD; i++) {
 			deck.add(new AdrenalineCard());
 		}

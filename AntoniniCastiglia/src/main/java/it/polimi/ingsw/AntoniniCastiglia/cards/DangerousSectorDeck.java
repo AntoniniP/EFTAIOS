@@ -1,7 +1,16 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
+/**
+ * Deck for Dangerous Sector cards.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class DangerousSectorDeck extends Deck {
 
 	/**
@@ -9,6 +18,7 @@ public class DangerousSectorDeck extends Deck {
 	 * and shuffled.
 	 */
 	public DangerousSectorDeck() {
+
 		// noise in your sector, with object
 		for (int i = 0; i < Constants.NOISE_YOURSECTOR_WITHOBJECT; i++) {
 			deck.add(new NoiseCard(true, true));
@@ -36,15 +46,13 @@ public class DangerousSectorDeck extends Deck {
 
 		shuffleDeck();
 	}
-/*
-	public static void main(String[] args) {
-		Deck d = new DangerousSectorDeck();
-		for (int i = 0; i < (Constants.NOISE_ANYSECTOR_WITHOBJECT
-				+ Constants.NOISE_ANYSECTOR_WITHOUTOBJECT
-				+ Constants.NOISE_YOURSECTOR_WITHOBJECT
-				+ Constants.NOISE_YOURSECTOR_WITHOUTOBJECT + Constants.SILENCE); i++) {
-			System.out.println(i + 1 + " " + d.drawCard());
-		}
-	}
-*/
+	/*
+	 * public static void main(String[] args) { Deck d = new
+	 * DangerousSectorDeck(); for (int i = 0; i <
+	 * (Constants.NOISE_ANYSECTOR_WITHOBJECT +
+	 * Constants.NOISE_ANYSECTOR_WITHOUTOBJECT +
+	 * Constants.NOISE_YOURSECTOR_WITHOBJECT +
+	 * Constants.NOISE_YOURSECTOR_WITHOUTOBJECT + Constants.SILENCE); i++) {
+	 * System.out.println(i + 1 + " " + d.drawCard()); } }
+	 */
 }

@@ -1,5 +1,12 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
+/**
+ * Public class to contain useful constants.
+ * 
+ * @author Paolo Antonini
+ * @author Laura Castiglia
+ *
+ */
 public final class Constants {
 
 	// Players

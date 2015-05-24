@@ -1,26 +1,33 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 import java.io.IOException;
-import java.util.List;
-
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
-import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
+import it.polimi.ingsw.AntoniniCastiglia.cards.*;
+import it.polimi.ingsw.AntoniniCastiglia.maps.*;
 import it.polimi.ingsw.AntoniniCastiglia.pController.PlayerActions;
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class Game {
 
 	private Game() throws IOException {
 		Table t = new Table();
-		//PlayerList p = PlayerList.getPlayerList(PlayerActions.howManyPlayers());
 		PlayerList p = new PlayerList(PlayerActions.howManyPlayers());
 		System.out.println(p);
 		
-		// t.drawMap();
+		 t.drawMap();
 
-		Sector s = new Sector(5, 3);// f4
-		System.out.println(s + " adjacent to " + t.adjacent(s, 2));
+		Sector s = new DangerousSector("L09");
+		System.out.println(s.equals(new SecureSector(11,9))); // TODO test (also s.equals(s))
+		System.out.println(s + " adjacent to " + t.adjacent(s, 2)); // TODO test
+		
+		Deck dangerous = new DangerousSectorDeck();
+		Deck items = new ItemCardDeck();
+	//	Deck hatches = new EscapeHatchDeck();
+		
+		System.out.println("Dangerous:\n" + dangerous );
+		System.out.println("ItemCards:\n" + items );
+	//	System.out.println("EscapeHat:\n" + hatches );
+
+
 
 	}
 

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 /**
  * This class provides sector instances, and methods to convert coordinates
  * formats (number/number for table's sake, single string as probable input by
@@ -8,13 +10,14 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
  * @author Laura Castiglia
  *
  */
-public class Sector {
+public abstract class Sector {
 	private int x; // column (literal part of coordinates, counter j)
 	private int y; // row (numeric part of coordinates, counter i)
 	private String letter;
 	private String number;
 	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
 			.toCharArray();
+	private boolean reachable;
 
 	/**
 	 * Standard constructor: receives the coordinates in numeric (integer)
@@ -66,6 +69,21 @@ public class Sector {
 	}
 
 	/**
+	 * @return the reachable
+	 */
+	public boolean isReachable() {
+		return reachable;
+	}
+
+	/**
+	 * @param reachable
+	 *            the reachable to set
+	 */
+	public void setReachable(boolean reachable) {
+		this.reachable = reachable;
+	}
+
+	/**
 	 * The method gives a proper value to letter and number strings, given the
 	 * numeric coordinates values (stored in x and y integers).
 	 */
@@ -103,17 +121,30 @@ public class Sector {
 		return letter + number;
 	}
 
-	/**
-	 * This method checks whether two sectors (the calling one and the one
-	 * passed as parameter) are equal (that is, whether they have the same
-	 * coordinates). I'm not using equals(Object o) to avoid problems with
-	 * casts.
-	 * 
-	 * @param s1
-	 * @return true/false
-	 */
-	//TODO see Baresi's slides for proper implementation (with overriding)!
-	public boolean isEqual(Sector s1) {
-		return ((this.x == s1.x) && (this.y == s1.y));
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Sector)) {
+			return false;
+		}
+		if (obj == this)
+			return true;
+		Sector s = (Sector) obj;
+		return ((this.x == s.x) && (this.y == s.y));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Override to comply with the contract between equals(Object) and
+	 * hashCode().
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return ((this.y * Constants.WIDTH) + (this.x * Constants.HEIGHT));
+	}
+
+	public abstract void action();
+
 }

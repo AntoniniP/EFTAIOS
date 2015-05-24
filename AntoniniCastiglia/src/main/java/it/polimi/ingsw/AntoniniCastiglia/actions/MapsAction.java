@@ -9,8 +9,8 @@ public class MapsAction {
 	}
 
 	public void nextMove(Player p, String name) {
-		Sector newCurrentS = new Sector(name);
-		p.setCurrentSector(newCurrentS);
+//		Sector newCurrentS = new Sector(name);
+//		p.setCurrentSector(newCurrentS);
 	}
 
 }

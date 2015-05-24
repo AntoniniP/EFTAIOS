@@ -3,9 +3,9 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Deck {
+public class Deck {
 
-	protected List<Card> deck = new ArrayList<Card>();
+	protected List<Card> deck= new ArrayList<Card>();
 	protected List<Card> discardedDeck = new ArrayList<Card>();
 
 	/**
@@ -31,11 +31,10 @@ public abstract class Deck {
 	}
 
 	// TODO check!
-	// TODO Javadoc
 	public Card drawCard() { // Not a remote method!!!!!!
-		if (deck.size() == 0)
+		if (deck.isEmpty())
 			reshuffleDeck();
-		if (deck.size() == 0)
+		if (deck.isEmpty())
 			// Client will need to deal with "null"
 			return null;// The Deck may be empty after reshuffle; notify the end
 						// of the deck
@@ -45,7 +44,16 @@ public abstract class Deck {
 	}
 
 	public void discardCard(Card c) {
-		discardedDeck.add(c);  // TODO not sure it is sufficient
+		deck.remove(c);
+		discardedDeck.add(c); 
 	}
 
+	@Override
+	public String toString() {
+		String toReturn = new String("");
+		for (int i = 0; i < deck.size(); i++) {
+			toReturn = toReturn + deck.get(i) + "\n";
+		}
+		return toReturn;
+	}
 }

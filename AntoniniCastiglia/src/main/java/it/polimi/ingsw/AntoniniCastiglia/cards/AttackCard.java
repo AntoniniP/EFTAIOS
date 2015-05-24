@@ -2,11 +2,18 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 
+/**
+ * ATTACK: This card allows you to attack, using the same rules as the Aliens.
+ * Note: the Human character can still move only one Sector.
+ * 
+ * @author Paolo Antonini
+ *
+ */
 public class AttackCard implements ItemCard {
 
 	@Override
 	public void action(Player p) {
-		// TODO call attack() on sector s (to be passed)
+		// TODO set boolean canAttack in player p to true
 	}
 
 }

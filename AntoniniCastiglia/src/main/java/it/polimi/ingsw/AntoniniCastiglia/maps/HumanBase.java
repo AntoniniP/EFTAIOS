@@ -4,18 +4,22 @@ public class HumanBase extends Sector { // TODO SINGLETON!!
 
 	public HumanBase(int x, int y) {
 		super(x, y);
+		this.setReachable(false);
 	}
 
 	public HumanBase(String name) {
 		super(name);
+		this.setReachable(false);
 	}
 
 	@Override
 	public String toString() {
 		return " H ";
 	}
-	
-	//After the game begins, no player can move through or end his move in this Sector.
 
+	@Override
+	public void action() {
+		// TODO nextTurn();		
+	}
 	
 }
