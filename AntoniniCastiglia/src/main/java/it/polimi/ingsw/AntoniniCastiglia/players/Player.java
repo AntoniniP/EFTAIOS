@@ -73,4 +73,14 @@ public class Player {
 		path.add(currentSector);
 	}
 
+	public Sector getCurrenSector() {
+		// TODO Auto-generated method stub
+		return currentSector;
+	}
+
+	public int getHops() {
+		// TODO Auto-generated method stub
+		return maxMoves;
+	}
+
 }
