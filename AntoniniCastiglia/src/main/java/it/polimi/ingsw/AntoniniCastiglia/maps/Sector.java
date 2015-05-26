@@ -33,7 +33,6 @@ public abstract class Sector {
 		this.x = x;
 		this.y = y;
 		convert();
-		// players = new ArrayList<Player>();
 	}
 
 	/**

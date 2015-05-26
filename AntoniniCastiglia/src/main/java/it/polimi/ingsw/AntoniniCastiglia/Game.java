@@ -1,9 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 import java.io.IOException;
+
 import it.polimi.ingsw.AntoniniCastiglia.cards.*;
 import it.polimi.ingsw.AntoniniCastiglia.maps.*;
-import it.polimi.ingsw.AntoniniCastiglia.pController.PlayerActions;
+import it.polimi.ingsw.AntoniniCastiglia.misc.PlayerActions;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class Game {

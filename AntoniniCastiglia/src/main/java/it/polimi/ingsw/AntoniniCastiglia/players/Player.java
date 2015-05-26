@@ -24,6 +24,9 @@ public class Player {
 	protected Sector currentSector;
 	protected ArrayList<Sector> path = new ArrayList<Sector>();
 	private Card[] items = new ItemCard[3];
+	
+	boolean shield = false;
+	boolean attack = false;
 
 	protected Player(String name, String role, int id) {
 		this.name = name;

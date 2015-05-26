@@ -3,9 +3,16 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides all necessary variables and methods to handle a generic
+ * deck.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class Deck {
 
-	protected List<Card> deck= new ArrayList<Card>();
+	protected List<Card> deck = new ArrayList<Card>();
 	protected List<Card> discardedDeck = new ArrayList<Card>();
 
 	/**
@@ -31,13 +38,15 @@ public class Deck {
 	}
 
 	// TODO check!
-	public Card drawCard() { // Not a remote method!!!!!!
-		if (deck.isEmpty())
+	// Not a remote method!!!!!!
+	public Card drawCard() {
+
+		if (deck.isEmpty() && discardedDeck.isEmpty())
+			return null; // Client will need to deal with "null"
+
+		if (deck.isEmpty() && !discardedDeck.isEmpty())
 			reshuffleDeck();
-		if (deck.isEmpty())
-			// Client will need to deal with "null"
-			return null;// The Deck may be empty after reshuffle; notify the end
-						// of the deck
+
 		Card drawnCard = deck.get(deck.size() - 1);
 		deck.remove(deck.size() - 1);
 		return drawnCard;
@@ -45,7 +54,7 @@ public class Deck {
 
 	public void discardCard(Card c) {
 		deck.remove(c);
-		discardedDeck.add(c); 
+		discardedDeck.add(c);
 	}
 
 	@Override

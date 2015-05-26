@@ -6,7 +6,7 @@ import java.util.List;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**
- * Deck for Dangerous Sector cards.
+ * Deck for Dangerous Sector cards. 
  * 
  * @author Laura Castiglia
  *

@@ -3,6 +3,10 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 /**
+ * Every instance of this class is a Noise card (type of Dangerous Sector card).
+ * It can be either in your sector or in any sector, and it can also either
+ * request that you draw a card or not.
+ * 
  * @author Laura Castiglia
  *
  */
@@ -43,6 +47,5 @@ public class NoiseCard implements DangerousSectorCard {
 		// TODO Notify noise to all players
 		// Save records on a list, for instance (one list for each player)
 	}
-
 
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.AntoniniCastiglia.pController;
+package it.polimi.ingsw.AntoniniCastiglia.misc;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.players.InvalidNumberException;

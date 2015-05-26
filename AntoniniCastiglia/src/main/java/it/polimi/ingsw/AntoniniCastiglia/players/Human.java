@@ -11,10 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 public class Human extends Player {
 
 	boolean beenEaten = false;
-	boolean shield = false;
-	boolean attack = false;
-	boolean sedated = false;
-
+	
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are
 	 * given to the constructor of the superclass, some are set here.
