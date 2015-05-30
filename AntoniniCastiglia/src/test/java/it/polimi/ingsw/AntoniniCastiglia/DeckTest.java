@@ -12,12 +12,22 @@ public class DeckTest {
 
 	@Before
 	public void setUp() throws Exception {
-		d= new EscapeHatchDeck();
+		d = new EscapeHatchDeck();
 	}
 
 	@Test
-	public void test() {
+	public void testDrawCard() {
 		assertTrue(true);
 	}
-
+	
+	@Test
+	public void testReshuffleDeck() {
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testDiscardCard() {
+		assertTrue(true);
+	}
+	
 }

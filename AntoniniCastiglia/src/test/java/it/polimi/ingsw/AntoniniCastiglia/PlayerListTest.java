@@ -17,19 +17,20 @@ public class PlayerListTest {
 
 	PlayerList p;
 
-	@Test
-	public void testApp() {
-		assertTrue(true);
-	}
-
 	@Before
 	public void setUp() {
-		PlayerList p = new PlayerList(8);
+		p = new PlayerList(8);
 	}
 
 	@Test
 	public void testPlayerList() { //null since singleton
-		assertNull(p);
+		assertNotNull(p);
 	}
+	
+	@Test
+	public void testSize() { //null since singleton
+		assertEquals(p.size(),8);
+	}
+	
 
 }
