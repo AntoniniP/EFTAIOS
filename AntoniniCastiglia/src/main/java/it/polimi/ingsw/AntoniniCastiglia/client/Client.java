@@ -4,7 +4,6 @@ import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterfaceFactory;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,14 +11,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Every instance of this class is the client for a player.
+ * 
+ * @author Paolo Antonini
+ *
+ */
 public class Client {
 
+	/**
+	 * This is the <code>main</code> method for the class.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
-			// TODO delle due, l'una! @SEE AuctionClient!
-			NetworkInterface ni = NetworkInterfaceFactory
-					.getInterface(chooseNetwork());
-
+			NetworkInterface ni = NetworkInterfaceFactory.getInterface(chooseNetwork());
+			@SuppressWarnings("unused")
 			Client application = new Client(ni);
 		} catch (Exception e) {
 			System.out.println();
@@ -28,6 +36,12 @@ public class Client {
 		}
 	}
 
+	/**
+	 * Private contructor for the class. Receives the network interface as parameter.
+	 * 
+	 * @param ni network interface
+	 * @throws IOException
+	 */
 	private Client(NetworkInterface ni) throws IOException {
 
 		UserInterface ui = UserInterfaceFactory.getInterface(chooseUI());
@@ -51,10 +65,9 @@ public class Client {
 
 				String[] cards = ni.getCards().split(";");
 				boolean canUseCards = (cards.length != 0);
-				
 
-				List<Character> possibleActions = new ArrayList<Character>(
-						Arrays.asList(MyConstants.MOVE, MyConstants.QUIT));
+				List<Character> possibleActions = new ArrayList<Character>(Arrays.asList(
+						MyConstants.MOVE, MyConstants.QUIT));
 				if (canUseCards) {
 					possibleActions.add(MyConstants.USE_CARD);
 				}
@@ -63,27 +76,28 @@ public class Client {
 				char choice = readLine().charAt(0);
 				Character.toUpperCase(choice);
 				switch (choice) {
-				case MyConstants.QUIT: {
-					endGame = true;
-					break;
-				}
-				case MyConstants.USE_CARD: {
-					ni.useCards(cards, ui);
-					break;
-				}
-				case MyConstants.MOVE: {
-					// String read = readLine(Messages.ASK_MOVE);
-					// TODO move
-					// toPrint =
-					// ni.move(Integer.parseInt(result[0]),Integer.parseInt(result[1]),player);
-					System.out.println("Nice! You moved! Cheers!");
-					break;
-				}
-				default: {
-					// TODO handle!
-					System.out.println("Error!");
-					break;
-				}
+					case MyConstants.QUIT: {
+						endGame = true;
+						break;
+					}
+					case MyConstants.USE_CARD: {
+						// TODO unsafe: I may type U anyway!
+						ni.useCards(cards, ui);
+						break;
+					}
+					case MyConstants.MOVE: {
+						// String read = readLine(Messages.ASK_MOVE);
+						// TODO move
+						// toPrint =
+						// ni.move(Integer.parseInt(result[0]),Integer.parseInt(result[1]),player);
+						System.out.println("Nice! You moved! Cheers!");
+						break;
+					}
+					default: {
+						// TODO handle!
+						System.out.println("Error!");
+						break;
+					}
 				}
 
 				// Analyse if win/lose/draw/nothing
@@ -113,6 +127,11 @@ public class Client {
 		return finish;
 	}
 
+	/**
+	 * Asks the player to choose his preferred connection method.
+	 * 
+	 * @return an integer parameter
+	 */
 	private static int chooseNetwork() {
 		String choice;
 		do {
@@ -127,6 +146,11 @@ public class Client {
 		return Integer.parseInt(choice);
 	}
 
+	/**
+	 * Asks the player to choose his preferred graphical interface.
+	 * 
+	 * @return an integer parameter
+	 */
 	private static int chooseUI() {
 		String choice;
 		do {
@@ -162,14 +186,18 @@ public class Client {
 		return read;
 	}
 
-	public static String readLine()  {
+	/**
+	 * Simplifies the acquisition of a string.
+	 * 
+	 * @return the acquired string
+	 */
+	public static String readLine() {
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		String read = null;
 		try {
 			read = br.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return read;
