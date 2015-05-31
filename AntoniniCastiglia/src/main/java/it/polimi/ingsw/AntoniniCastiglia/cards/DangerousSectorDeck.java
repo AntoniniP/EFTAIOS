@@ -1,8 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**

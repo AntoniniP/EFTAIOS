@@ -1,7 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 /**
- * Public interface for cards. Completely empty for now.
+ * Public interface for cards. Completely empty now.
  * 
  * @author Paolo Antonini
  *

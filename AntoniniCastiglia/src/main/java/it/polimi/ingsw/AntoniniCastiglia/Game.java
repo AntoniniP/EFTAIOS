@@ -8,7 +8,7 @@ import it.polimi.ingsw.AntoniniCastiglia.misc.PlayerActions;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class Game {
-
+/*
 	private Game() throws IOException {
 		Table t = new Table();
 		PlayerList p = new PlayerList(PlayerActions.howManyPlayers());
@@ -17,16 +17,16 @@ public class Game {
 		 t.drawMap();
 
 		Sector s = new DangerousSector("L09");
-		System.out.println(s.equals(new SecureSector(11,9))); // TODO test (also s.equals(s))
-		System.out.println(s + " adjacent to " + t.adjacent(s, 2)); // TODO test
+		System.out.println(s.equals(new SecureSector(11,9))); 
+		System.out.println(s + " adjacent to " + t.adjacent(s, 2)); 
 		
 		Deck dangerous = new DangerousSectorDeck();
 		Deck items = new ItemCardDeck();
-	//	Deck hatches = new EscapeHatchDeck();
+		Deck hatches = new EscapeHatchDeck();
 		
 		System.out.println("Dangerous:\n" + dangerous );
 		System.out.println("ItemCards:\n" + items );
-	//	System.out.println("EscapeHat:\n" + hatches );
+		System.out.println("EscapeHat:\n" + hatches );
 
 
 
@@ -36,5 +36,5 @@ public class Game {
 		Game g = new Game();
 
 	}
-
+*/
 }

@@ -19,10 +19,16 @@ public interface NetworkInterface {
 	 * @return the name of the player
 	 * @throws IOException
 	 */
-	String connect() ; 
+	String connect();
 
 	boolean close() throws IOException;
 
+	/**
+	 * Gets the map from the server.
+	 * 
+	 * @return the map, in form of a string, separated by <code>;</code>
+	 * @throws RemoteException
+	 */
 	String getMap() throws RemoteException;
 
 	/**
@@ -30,9 +36,9 @@ public interface NetworkInterface {
 	 * 
 	 * @param sector
 	 * @return
-	 * @throws RemoteException 
+	 * @throws RemoteException
 	 */
-	String move(String sector, String player) throws RemoteException ;
+	String move(String sector, String player) throws RemoteException;
 
 	boolean isEnded() throws RemoteException;
 
@@ -47,7 +53,7 @@ public interface NetworkInterface {
 	 * @param ui user interface (to communicate with the player
 	 * @param player TODO
 	 */
-	void useCards(String[] cards, UserInterface ui, String player); 
+	void useCards(String[] cards, UserInterface ui, String player);
 
 	/**
 	 * Asks the server for the adjacent sectors list.

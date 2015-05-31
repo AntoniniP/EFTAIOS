@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client;
 
+//TODO to test??
+
 public class CommonMethods {
 
 	private CommonMethods() {

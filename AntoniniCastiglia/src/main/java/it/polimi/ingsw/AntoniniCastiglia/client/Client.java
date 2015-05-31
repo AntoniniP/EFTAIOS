@@ -30,10 +30,10 @@ public class Client {
 			NetworkInterface ni = NetworkInterfaceFactory.getInterface(chooseNetwork());
 			Client application = new Client(ni);
 		} catch (Exception e) {
-			System.out.println();
-			System.out.println("Exception");
-			System.out.println(e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Client {
 
 		ui.connecting();
 
-		String player = ni.connect();
+		String player = new String(ni.connect());
 		ui.youAre(player);
 
 		// System.out.println("Waiting for at least another player to begin.");
@@ -60,11 +60,14 @@ public class Client {
 		while (!endGame) {
 
 			if (!ni.isEnded()) {
+				
 				// print map
 				ui.printMap(ni.getMap().replace(";", "\n"));
+				
 				// print cards
 				String[] cards = ni.getCards(player).split(";");
-				boolean canUseCards = (cards.length != 0);
+				boolean canUseCards = (cards.length != 0); // TODO null?
+				
 				// print possible actions
 				List<Character> possibleActions = new ArrayList<Character>(Arrays.asList(
 						MyConstants.MOVE, MyConstants.QUIT));
@@ -109,12 +112,12 @@ public class Client {
 				// endGame = analyze(toPrint);
 			} else {
 				// if ended check who won.
-				endGame = false;
-				System.out.println("THE WINNER IS " + ni.getWinner());
+				// endGame = false;
+				// System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
 	}
-
+/*
 	private static boolean analyze(String toPrint) {
 		boolean finish = false;
 		if (toPrint.equals("YOULOSE")) {
@@ -131,7 +134,7 @@ public class Client {
 		}
 		return finish;
 	}
-
+*/
 	/**
 	 * Asks the player to choose his preferred connection method.
 	 * 
@@ -143,7 +146,7 @@ public class Client {
 			System.out.println("Choose your network interface:");
 			System.out.println("1 - Socket (not implemented yet)");
 			System.out.println("2 - RMI");
-			choice = readWriteLine("\n");
+			choice = readLine();
 			if (!"1".equals(choice) && !"2".equals(choice)) {
 				System.out.println("You typed the wrong command!");
 			}
@@ -161,15 +164,15 @@ public class Client {
 		do {
 			System.out.println("Choose your user interface:");
 			System.out.println("1 - CLI");
-			System.out.println("2 - GUI (not implemented yet)");
-			choice = readWriteLine("\n");
+			System.out.println("2 - GUI (not implemented yet)\n");
+			choice = readLine();
 			if (!"1".equals(choice) && !"2".equals(choice)) {
 				System.out.println("You typed the wrong command!");
 			}
 		} while (!"1".equals(choice) && !"2".equals(choice));
 		return Integer.parseInt(choice);
 	}
-
+/*
 	private static String readWriteLine(String format, Object... args) {
 		if (System.console() != null) {
 			return System.console().readLine(format, args);
@@ -190,7 +193,7 @@ public class Client {
 
 		return read;
 	}
-
+*/
 	/**
 	 * Simplifies the acquisition of a string.
 	 * 

@@ -90,5 +90,6 @@ public class SectorTest {
 	@Test(expected = ArrayIndexOutOfBoundsException.class)
 	public void testSector(){
 	Sector s5 = new SecureSector(26,5);
+	// TODO assert something?!
 	}
 }
