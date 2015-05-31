@@ -40,47 +40,51 @@ public class Table {
 	 * 
 	 * @throws IOException
 	 */
-	public Table() throws IOException {
-		FileInputStream f = new FileInputStream("resources/table.txt");
-
-		for (int i = 0; i < Constants.HEIGHT; i++)
-			for (int j = 0; j < Constants.WIDTH; j++) {
-
-				switch (validChar(f)) {
-
-				case EMPTYSECTOR:
-					table[i][j] = new EmptySector(j, i);
-					break;
-
-				case DANGEROUSSECTOR:
-					table[i][j] = new DangerousSector(j, i);
-					break;
-
-				case HUMANBASE:
-					table[i][j] = new HumanBase(j, i);
-					humanBase = table[i][j];
-					break;
-
-				case ALIENBASE:
-					table[i][j] = new AlienBase(j, i);
-					alienBase = table[i][j];
-					break;
-
-				case SECURESECTOR:
-					table[i][j] = new SecureSector(j, i);
-					break;
-
-				case ESCAPEHATCH:
-					table[i][j] = new EscapeHatch(j, i);
-					break;
-
-				default:
-				}
-
-			}
-		f.close();
-	}
-
+	public Table(){
+		   FileInputStream f;
+	        try {
+	            f = new FileInputStream("resources/table.txt");
+	 
+	            for (int i = 0; i < Constants.HEIGHT; i++)
+	                for (int j = 0; j < Constants.WIDTH; j++) {
+	     
+	                    switch (validChar(f)) {
+	     
+	                    case EMPTYSECTOR:
+	                        table[i][j] = new EmptySector(j, i);
+	                        break;
+	     
+	                    case DANGEROUSSECTOR:
+	                        table[i][j] = new DangerousSector(j, i);
+	                        break;
+	     
+	                    case HUMANBASE:
+	                        table[i][j] = new HumanBase(j, i);
+	                        humanBase = table[i][j];
+	                        break;
+	     
+	                    case ALIENBASE:
+	                        table[i][j] = new AlienBase(j, i);
+	                        alienBase = table[i][j];
+	                        break;
+	     
+	                    case SECURESECTOR:
+	                        table[i][j] = new SecureSector(j, i);
+	                        break;
+	     
+	                    case ESCAPEHATCH:
+	                        table[i][j] = new EscapeHatch(j, i);
+	                        break;
+	     
+	                    default:
+	                    }
+	     
+	                }
+	            f.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	/**
 	 * The method receives the reference to the map file, and returns only valid
 	 * characters (that is, the chars corresponding to the various types of
@@ -111,28 +115,29 @@ public class Table {
 	/**
 	 * The method draws the map on the console.
 	 */
-	public void drawMap() {
-
-		for (int i = 0; i < Constants.HEIGHT; i++) {
-			for (int j = 0; j < Constants.WIDTH; j++) {
-				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
-					System.out.print("     ");
-				} else {
-					System.out.print("[" + table[i][j] + "]");
-				}
-			}
-			System.out.println();
-			for (int j = 0; j < Constants.WIDTH; j++) {
-				if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
-					System.out.print("     ");
-				} else {
-					System.out.print("[" + table[i][j] + "]");
-				}
-
-			}
-			System.out.println();
-
-		}
+	public String drawMap() {
+		String string = "";
+        
+        for (int i = 0; i < Constants.HEIGHT; i++) {
+            for (int j = 0; j < Constants.WIDTH; j++) {
+                if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
+                    string= string + "     ";
+                } else {
+                    string= string + "[" + table[i][j] + "]";
+                }
+            }
+            string= string + "\n";
+            for (int j = 0; j < Constants.WIDTH; j++) {
+                if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
+                    string= string + "     ";
+                } else {
+                    string= string +"[" + table[i][j] + "]";
+                }
+ 
+            }
+            string= string + "\n";
+        }
+        return string;
 	}
 
 	/**

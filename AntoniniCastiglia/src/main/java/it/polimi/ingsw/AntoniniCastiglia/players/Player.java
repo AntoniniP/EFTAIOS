@@ -25,7 +25,6 @@ public class Player {
 	protected ArrayList<Sector> path = new ArrayList<Sector>();
 	private Card[] items = new ItemCard[3];
 	
-	boolean shield = false;
 	boolean attack = false;
 
 	protected Player(String name, String role, int id) {
@@ -76,7 +75,7 @@ public class Player {
 		path.add(currentSector);
 	}
 
-	public Sector getCurrenSector() {
+	public Sector getCurrentSector() {
 		// TODO Auto-generated method stub
 		return currentSector;
 	}
@@ -84,6 +83,12 @@ public class Player {
 	public int getHops() {
 		// TODO Auto-generated method stub
 		return maxMoves;
+	}
+
+	public void setAttack(boolean b) {
+		this.attack=attack;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

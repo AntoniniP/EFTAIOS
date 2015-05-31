@@ -1,27 +1,99 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.server.*;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import it.polimi.ingsw.AntoniniCastiglia.players.*;
+ 
 import java.rmi.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.rmi.registry.*;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
-
 public class Server {
-	public static void main (String[] args) throws RemoteException, AlreadyBoundException {
-		/*int port=1099;
-		GameEngineImpl server = new GameEngineImpl(null);
-		InputStreamReader input=new InputStreamReader(System.in);
-		BufferedReader buffer = new BufferedReader(input);
-		
-		Registry registry = LocateRegistry.getRegistry();
-		registry.bind("Server", server);
-		System.out.println("Waiting for clients");*/
-		
-	}
+	 private static final int port=1099;
+     
+	    private Registry registry;
+	    private Table table;
+	    private PlayerList playerList;
+	    private GameEngine game;
+	    private RMIInterface rmiInterface;
+	    private Timer timer;
+	     
+	    private boolean outOfTime;
+	    private boolean firstConn;
+	    private int numPlayer;
+	    
+	    public static void main (String[] args) {
+	        Server server= new Server();
+	        server.start();
+	    }
+	 
+	    private void start() {
+	        table=new Table();
+	        playerList=new PlayerList(0);//cancel the 0
+	        game=new GameEngineImpl(table);
+	        rmiInterface=new RMIInterfaceImpl(this);
+	        try {
+	            registry = LocateRegistry.createRegistry(port);
+	            GameEngine gameStub = (GameEngine) UnicastRemoteObject.exportObject(game, 0); //creating stubs
+	            RMIInterface rmiStub =(RMIInterface) UnicastRemoteObject.exportObject(rmiInterface, 0);
+	            registry.bind("GameEngine", gameStub);
+	            registry.bind("RMIinterface", rmiStub);
+	        } catch (RemoteException | AlreadyBoundException e) {
+	            e.printStackTrace();
+	        }
+	        System.out.println("Registry bound");
+	         
+	        waitFirstConn();
+	        startTimer();
+	        waitConn();
+	    }
+	 
+	    private void waitConn() {
+	        while(!outOfTime && numPlayer<8)
+	            ;
+	        timer.cancel(); //in case the timer is out AND the number of players is right
+	        if(outOfTime && numPlayer<2)
+	            ;   //TODO method to suspend the game
+	        else
+	            startGame();
+	             
+	    }
+	 
+	    private void startGame() {
+	        // TODO Auto-generated method stub
+	         
+	    }
+	 
+	    private void startTimer() {
+	        timer=new Timer();
+	        timer.schedule(new MyTimer(this), 5*60*1000);
+	    }
+	 
+	    private void waitFirstConn() {
+	        System.out.println("Waiting first connection");
+	        while(!firstConn)
+	            ;
+	    }
+	 
+	    public void firstConn() {
+	        firstConn=true;
+	    }
+	 
+	    public boolean getFirstConn() {
+	        return firstConn;
+	    }
+	     
+	    public synchronized void timeout() {
+	        outOfTime = true;
+	    }
+	 
+	    public void incrementNumPlayer() {
+	        numPlayer++;
+	         
+	    }
+	 
+	    public void addPlayer(Player player) {
+	        playerList.add(player);
+	    }
+	    
 }
