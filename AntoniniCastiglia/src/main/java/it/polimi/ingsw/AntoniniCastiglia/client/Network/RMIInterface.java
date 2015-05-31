@@ -5,8 +5,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
 import it.polimi.ingsw.AntoniniCastiglia.client.Client;
+import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.misc.RemoteEFTAIOS;
 
@@ -26,8 +26,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String move(int i, int j, String player) throws RemoteException {
-		return eftaios.move(i, j, player);
+	public String move(String sector, String player) throws RemoteException  {
+		return eftaios.move(sector, player);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String getCards() throws RemoteException {
+	public String getCards(String player) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,27 +52,17 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public void useCards(String[] cards, UserInterface ui) {
+	public void useCards(String[] cards, UserInterface ui, String player) {
 		String choice;
+		int[] validChoices = new int[3];
 
 		ui.chooseCards();
 		ui.printAllCards(cards);
 
 		choice = Client.readLine();
-
-		for (int i = 0; i < choice.length(); i++) {
-			String ch = choice.substring(i, i + 1);
-
-			int flag = ch.compareTo("1") + ch.compareTo("2")
-					+ ch.compareTo("3");
-
-			if (flag != 0) {
-				int n = Integer.parseInt(ch);
-				if (n >= 1 && n <= cards.length) {
-					eftaios.useCard(cards[n]);
-				}
-			}
-
+		validChoices = CommonMethods.validCard(choice, cards.length);
+		for (int i = 0; i < validChoices.length; i++) {
+			eftaios.useCard(cards[i]);
 		}
 	}
 
@@ -109,5 +99,12 @@ public class RMIInterface implements NetworkInterface {
 
 		return null;
 	}
+
+	@Override
+	public String getAdjacents() {
+		return eftaios.getAdjacents();
+	}
+	
+	
 
 }

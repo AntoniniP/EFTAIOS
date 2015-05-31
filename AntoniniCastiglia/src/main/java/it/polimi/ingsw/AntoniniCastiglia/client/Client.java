@@ -24,10 +24,10 @@ public class Client {
 	 * 
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		try {
 			NetworkInterface ni = NetworkInterfaceFactory.getInterface(chooseNetwork());
-			@SuppressWarnings("unused")
 			Client application = new Client(ni);
 		} catch (Exception e) {
 			System.out.println();
@@ -37,7 +37,7 @@ public class Client {
 	}
 
 	/**
-	 * Private contructor for the class. Receives the network interface as parameter.
+	 * Private constructor for the class. Receives the network interface as parameter.
 	 * 
 	 * @param ni network interface
 	 * @throws IOException
@@ -55,17 +55,17 @@ public class Client {
 
 		boolean endGame = false;
 
-		String toPrint = "Maybe I'm useful! Probably I contain the report of the move.";
+		// String toPrint = "Maybe I'm useful! Probably I contain the report of the move.";
 
 		while (!endGame) {
 
 			if (!ni.isEnded()) {
-
+				// print map
 				ui.printMap(ni.getMap().replace(";", "\n"));
-
-				String[] cards = ni.getCards().split(";");
+				// print cards
+				String[] cards = ni.getCards(player).split(";");
 				boolean canUseCards = (cards.length != 0);
-
+				// print possible actions
 				List<Character> possibleActions = new ArrayList<Character>(Arrays.asList(
 						MyConstants.MOVE, MyConstants.QUIT));
 				if (canUseCards) {
@@ -82,15 +82,20 @@ public class Client {
 					}
 					case MyConstants.USE_CARD: {
 						// TODO unsafe: I may type U anyway!
-						ni.useCards(cards, ui);
+						ni.useCards(cards, ui, player);
 						break;
 					}
 					case MyConstants.MOVE: {
-						// String read = readLine(Messages.ASK_MOVE);
-						// TODO move
-						// toPrint =
-						// ni.move(Integer.parseInt(result[0]),Integer.parseInt(result[1]),player);
-						System.out.println("Nice! You moved! Cheers!");
+						String adjacents = new String(ni.getAdjacents());
+						String chosenSector = null;
+						do {
+							ui.askMove(adjacents, player);
+							chosenSector = readLine();
+						} while (!CommonMethods.validSector(adjacents, chosenSector));
+
+						// TODO ni.move() returns a string...
+						ni.move(chosenSector, player);
+
 						break;
 					}
 					default: {
@@ -101,10 +106,10 @@ public class Client {
 				}
 
 				// Analyse if win/lose/draw/nothing
-				endGame = analyze(toPrint);
+				// endGame = analyze(toPrint);
 			} else {
 				// if ended check who won.
-				endGame = true;
+				endGame = false;
 				System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
@@ -139,7 +144,7 @@ public class Client {
 			System.out.println("1 - Socket (not implemented yet)");
 			System.out.println("2 - RMI");
 			choice = readWriteLine("\n");
-			if (!choice.equals("1") && !choice.equals("2")) {
+			if (!"1".equals(choice) && !"2".equals(choice)) {
 				System.out.println("You typed the wrong command!");
 			}
 		} while (!choice.equals("1") && !choice.equals("2"));
@@ -158,10 +163,10 @@ public class Client {
 			System.out.println("1 - CLI");
 			System.out.println("2 - GUI (not implemented yet)");
 			choice = readWriteLine("\n");
-			if (!choice.equals("1") && !choice.equals("2")) {
+			if (!"1".equals(choice) && !"2".equals(choice)) {
 				System.out.println("You typed the wrong command!");
 			}
-		} while (!choice.equals("1") && !choice.equals("2"));
+		} while (!"1".equals(choice) && !"2".equals(choice));
 		return Integer.parseInt(choice);
 	}
 
