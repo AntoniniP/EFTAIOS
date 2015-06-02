@@ -124,6 +124,15 @@ public class RMIInterface implements NetworkInterface {
 		return null;
 	}
 	
-	
+	@Override
+	public boolean isStarted() {
+		try {
+			return eftaios.isStarted();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 }

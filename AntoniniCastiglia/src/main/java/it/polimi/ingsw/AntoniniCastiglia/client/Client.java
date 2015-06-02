@@ -56,6 +56,8 @@ public class Client {
 		boolean endGame = false;
 
 		// String toPrint = "Maybe I'm useful! Probably I contain the report of the move.";
+		
+		while (!ni.isStarted()){}
 
 		while (!endGame) {
 

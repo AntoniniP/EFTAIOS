@@ -61,4 +61,5 @@ public interface NetworkInterface {
 	 */
 	String getAdjacents();
 
+	boolean isStarted();
 }

@@ -15,4 +15,5 @@ public interface GameEngine extends Remote {
 	  public String attack(Player p) throws RemoteException;
 	  public String getCards() throws RemoteException;
 	  public String useCard() throws RemoteException;
+	  public boolean isStarted() throws RemoteException;
 }
