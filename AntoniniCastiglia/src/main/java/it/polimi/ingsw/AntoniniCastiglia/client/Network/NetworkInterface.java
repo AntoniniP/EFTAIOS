@@ -17,7 +17,6 @@ public interface NetworkInterface {
 	 * Connects to the server, and returns the name of the player who invoked the method.
 	 * 
 	 * @return the name of the player
-	 * @throws IOException
 	 */
 	String connect();
 

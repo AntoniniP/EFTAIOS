@@ -3,7 +3,6 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -25,9 +24,10 @@ public class GameEngineImpl implements GameEngine {
 	    }
 	 
 	    @Override
-	    public String move(Player p, Sector s) throws RemoteException {
-	        p.setCurrentSector(s);
-	        return "You are now in Sector"+ p.getCurrentSector();
+	    public String move(String player, String sector) throws RemoteException {
+	       // p.setCurrentSector(s);
+	        //return "You are now in Sector"+ p.getCurrentSector();
+	    	return "ABC";
 	    }
 	 
 	    @Override
