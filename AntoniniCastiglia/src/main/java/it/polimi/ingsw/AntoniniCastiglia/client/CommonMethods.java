@@ -14,7 +14,7 @@ public class CommonMethods {
 		for (int i = 0; i < choice.length(); i++) {
 			String ch = choice.substring(i, i + 1);
 
-			int flag = ch.compareTo("1") + ch.compareTo("2") + ch.compareTo("3");
+			int flag = "1".compareTo(ch) + "2".compareTo(ch) + "3".compareTo(ch);
 
 			if (flag != 0) {
 				int n = Integer.parseInt(ch);
@@ -28,7 +28,7 @@ public class CommonMethods {
 	}
 
 	public static boolean validSector(String adjacents, String sector) {
-		return true;
+		return adjacents.contains(sector);
 
 	}
 }
