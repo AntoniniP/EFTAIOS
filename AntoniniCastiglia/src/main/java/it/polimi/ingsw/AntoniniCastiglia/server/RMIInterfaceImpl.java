@@ -18,7 +18,7 @@ public class RMIInterfaceImpl implements RMIInterface {
 		System.out.println("Now in server");
 
 		String playerStr;
-		Player player = new Human("abc", "abc", 0); // cancel the NULL
+		Player player = new Human("abc", "abc", 0);
 		synchronized (server) {
 			// TODO Create players; discuss about method in PlayerList class
 			server.addPlayer(player);

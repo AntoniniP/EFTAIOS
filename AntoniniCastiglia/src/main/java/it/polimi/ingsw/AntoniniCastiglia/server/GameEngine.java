@@ -5,7 +5,6 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import java.rmi.*;
 import java.util.ArrayList;
 
-//Starting to think about RMI stuff
 
 public interface GameEngine extends Remote {
 	
