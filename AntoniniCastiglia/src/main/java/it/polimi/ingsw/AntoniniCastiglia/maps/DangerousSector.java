@@ -32,5 +32,8 @@ public class DangerousSector extends Sector {
 		// TODO DangerousSectorDeck.drawCard();
 		// TODO nextTurn();
 	}
+	
+	
+	
 
 }

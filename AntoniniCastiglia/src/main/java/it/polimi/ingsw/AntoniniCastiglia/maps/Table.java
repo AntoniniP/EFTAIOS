@@ -162,7 +162,6 @@ public class Table {
 	 * @param hops
 	 * @return ArrayList of sectors
 	 */
-
 	public ArrayList<Sector> adjacent(Sector s, int hops) {
 
 		ArrayList<Sector> sectorList = new ArrayList<Sector>();
@@ -179,62 +178,49 @@ public class Table {
 				int y1 = s1.getY();
 
 				for (int i = y1 - 1; i <= y1 + 1; i++) {
-					try {
-						tmp.add(table[i][x1]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
+					addSector(i, x1, tmp);
 				}
 
 				for (int j = x1 - 1; j <= x1 + 1; j++) {
-					try {
-						tmp.add(table[y1][j]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
+					addSector(y1, j, tmp);
 				}
 
 				if (x1 % 2 == 1) { // Pari
-
-					try {
-						tmp.add(table[y1 + 1][x1 - 1]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
-					try {
-						tmp.add(table[y1 + 1][x1 + 1]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
+					addSector(y1 + 1, x1 - 1, tmp);
+					addSector(y1 + 1, x1 + 1, tmp);
 
 				} else { // Dispari
-					try {
-						tmp.add(table[y1 - 1][x1 - 1]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
-					try {
-						tmp.add(table[y1 - 1][x1 + 1]);
-					} catch (ArrayIndexOutOfBoundsException e) {
-					}
-
+					addSector(y1 - 1, x1 - 1, tmp);
+					addSector(y1 - 1, x1 + 1, tmp);
 				}
 			}
 
 			for (Sector s1 : tmp) {
-
 				if (!sectorList.contains(s1) && s1.isReachable()) {
 					sectorList.add(s1);
 				}
 			}
-
+			
 			sectorList.remove(s);
-
 			hops--;
-
 		}
-
+		
+		sectorList.trimToSize();
 		return sectorList;
-
 	}
 
-	/*
-	 * // Main to test public static void main(String[] args) { Table t = new Table(); Sector s =
-	 * new DangerousSector("N02"); System.out.println(t.adjacent(s, 1)); }
-	 */
+	private void addSector(int y, int x, List<Sector> tmp) {
+		try {
+			tmp.add(table[y][x]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
+	}
+
+	// Main to test
+	public static void main(String[] args) {
+		Table t = new Table();
+		Sector s = new DangerousSector(11, 8);
+		System.out.println(s + " " + t.adjacent(s, 2));
+	}
+
 }
