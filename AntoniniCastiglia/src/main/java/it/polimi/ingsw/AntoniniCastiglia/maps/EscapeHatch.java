@@ -44,4 +44,13 @@ public class EscapeHatch extends Sector {
 
 	//Only Human players can end their move on an Escape Hatch Sector.
 	
+	/*
+	public static void main(String[] args) {
+		Sector s = new EscapeHatch("E03");
+		System.out.println((Sector)s);
+		System.out.println(s);
+	}
+	
+	*/
+	
 }
