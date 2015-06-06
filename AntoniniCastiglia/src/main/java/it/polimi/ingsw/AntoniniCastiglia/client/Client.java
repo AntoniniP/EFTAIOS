@@ -78,12 +78,83 @@ public class Client {
 				if (canUseCards()) {
 
 				}
+				phase1(ni);
+				phase2();
+				phase3(ni);
+				
 				endGame=true;
 			} else {
 				endGame = true;
 				System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
+	}
+
+	// Use card, then move
+	private void phase1(NetworkInterface ni) throws RemoteException {
+		boolean canUseCards = canUseCards();
+
+		if (canUseCards) {
+			ui.chooseCards();
+			// TODO usecards;
+		}
+
+		String adjacents = new String(ni.getAdjacents());
+		String chosenSector = null;
+		do {
+			ui.askMove(adjacents, player[0]);
+			chosenSector = readLine();
+		} while (!CommonMethods.validSector(adjacents, chosenSector));
+		ni.move(chosenSector, player[0]);
+
+	}
+
+	// Use card (attack) if HUMAN, then attack
+	private void phase2() {
+		if (canAttack()) {
+			/*
+			 * prompt human: You can attack! TODO attack boolean hasattacked
+			 */
+
+		}
+	}
+
+	// Use card, then end turn
+	private void phase3( NetworkInterface ni) {
+		// if(!hasAttacked)
+		{
+			// ni.drawDangerousSectorCard();
+		}
+		boolean canUseCards = canUseCards();
+
+		if (canUseCards) {
+			ui.chooseCards();
+			// TODO usecards;
+		}
+	}
+
+	private boolean canUseCards() {
+		for (String card : cards) {
+			if (card != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean canAttack() {
+		// if player is alien
+		if (player[2].contains("_A_")) {
+			return true;
+		}
+		// if player if human but has Attack card
+		for (String card : cards) {
+			if (card != null) {
+				return true;
+			}
+		}
+		// if player if human but has Attack card
+		return false;
 	}
 
 	/**
@@ -139,73 +210,6 @@ public class Client {
 			e.printStackTrace();
 		}
 		return read;
-	}
-
-	// Use card, then move
-	private void phase1(NetworkInterface ni) throws RemoteException {
-		boolean canUseCards = canUseCards();
-
-		if (canUseCards) {
-			ui.chooseCards();
-			// TODO usecards;
-		}
-
-		String adjacents = new String(ni.getAdjacents());
-		String chosenSector = null;
-		do {
-			ui.askMove(adjacents, player[0]);
-			chosenSector = readLine();
-		} while (!CommonMethods.validSector(adjacents, chosenSector));
-		ni.move(chosenSector, player[0]);
-
-	}
-
-	// Use card (attack) if HUMAN, then attack
-	private void phase2() {
-		if (canAttack()) {
-			/*
-			 * prompt human: You can attack! TODO attack boolean hasattacked
-			 */
-
-		}
-	}
-
-	// Use card, then end turn
-	private void phase3(UserInterface ui, NetworkInterface ni, String... cards) {
-		// if(!hasAttacked)
-		{
-			// ni.drawDangerousSectorCard();
-		}
-		boolean canUseCards = canUseCards();
-
-		if (canUseCards) {
-			ui.chooseCards();
-			// TODO usecards;
-		}
-	}
-
-	private boolean canUseCards() {
-		for (String card : cards) {
-			if (card != null) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean canAttack() {
-		// if player is alien
-		if (player[2].contains("_A_")) {
-			return true;
-		}
-		// if player if human but has Attack card
-		for (String card : cards) {
-			if (card != null) {
-				return true;
-			}
-		}
-		// if player if human but has Attack card
-		return false;
 	}
 
 }
