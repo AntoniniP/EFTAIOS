@@ -14,7 +14,6 @@ public class GameEngineImpl implements GameEngine {
 	private Table table;
 	private Deck deck;
 	private PlayerList playerList;
-	private boolean wait=true;
 
 	public GameEngineImpl() { // Constructor
 	}
@@ -26,12 +25,10 @@ public class GameEngineImpl implements GameEngine {
 	
 	public void createPlayers(int numPlayers){
 		playerList= new PlayerList(numPlayers);
-		wait=false;
 	}
 	
 	@Override
 	public String getPlayer(int playerID){
-		while (wait){}
 		return (playerList.get(playerID-1)).toString();
 	}
 	

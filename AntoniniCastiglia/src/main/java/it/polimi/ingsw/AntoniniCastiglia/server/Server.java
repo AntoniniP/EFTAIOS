@@ -53,30 +53,32 @@ public class Server {
 	}
 
 	private void waitConn() {
-		
+
 		System.out.println("Waiting for connections...");
 		while (!outOfTime && getNumPlayer() < Constants.MAXPLAYERS) {
 			// Waiting for others to connect
-			if (getNumPlayer()==9) System.out.println(getNumPlayer());
-			}
-		
-		System.out.println("Out of the loop"); startGame(); return;
-		//timer.cancel(); // in case the timer is out AND the number of players is right
-	/*	if (outOfTime && numPlayer < Constants.MINPLAYERS) {
-			System.out.println("Sorry.The game won't start.");
-		} else {
-			startGame();
+			if (getNumPlayer() == 9)
+				System.out.println(getNumPlayer());
+
 		}
-		
-	*/	
+
+		System.out.println("Out of the loop");
+		startGame();
+		return;
+		// timer.cancel(); // in case the timer is out AND the number of players is right
+		/*
+		 * if (outOfTime && numPlayer < Constants.MINPLAYERS) {
+		 * System.out.println("Sorry.The game won't start."); } else { startGame(); }
+		 */
 	}
 
 	private void startGame() {
 		// Game game = new Game ---->Creation of the class Game, extending thread, maybe?
-		started = true;
 		
 		((GameEngineImpl)game).createMap();
 		((GameEngineImpl)game).createPlayers(numPlayer);
+		started = true;
+
 	}
 
 	private void startTimer() {
