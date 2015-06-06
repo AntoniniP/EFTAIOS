@@ -32,10 +32,10 @@ public interface UserInterface {
 
 	/**
 	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array.
-	 * 
+	 * @param canUseCards TODO
 	 * @param card
 	 */
-	public void printCards(String... card);
+	public void printCards(boolean canUseCards, String... card);
 
 	/**
 	 * Shows all possible actions to the player.
@@ -65,5 +65,10 @@ public interface UserInterface {
 	 * Asks the player to wait for a game to begin.
 	 */
 	public void pleaseWait();
+	
+	/**
+	 * Prints a simple message, informing the player that it's his turn.
+	 */
+	public void yourTurn();
 
 }

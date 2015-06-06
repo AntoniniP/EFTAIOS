@@ -20,18 +20,18 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void whoYouAreComplete(String[] player) {
-		String name= player[0];
-		String role = player [1];
-		String id = player [3];
+		String name = player[0];
+		String role = player[1];
+		String id = player[3];
 		String nature;
-		if ("A".equals(player[2])){
-			nature= new String("n alien");
+		if ("A".equals(player[2])) {
+			nature = new String("n alien");
 		} else {
-			nature= new String(" human");
+			nature = new String(" human");
 		}
-		System.out.println("You are player number " + id);
-		System.out.println("You are a" + nature + ", and your name is " + name);
-		System.out.println("On this unfortunate ship you are " + role);
+		System.out.println("You are player number " + id + ".");
+		System.out.println("You are a" + nature + ", and your name is " + name + ".");
+		System.out.println("On this unfortunate ship you are " + role + ".");
 	}
 
 	@Override
@@ -40,13 +40,15 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void printCards(String... cards) {
-		if (cards.length == 0) {
-			System.out.println("You don't have any card!");
-		} else {
+	public void printCards(boolean canUseCards, String... cards) {
+		if (canUseCards) {
 			for (int i = 0; i < cards.length; i++) {
-				System.out.println((i + 1) + ". " + cards[i]);
+				if (cards[i] != null) {
+					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
+				}
 			}
+		} else {
+			System.out.println("You don't have any Item card right now.");
 		}
 	}
 
@@ -98,16 +100,24 @@ public class CLI implements UserInterface {
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
 
+	
+	@Override
+	public void yourTurn() {
+		System.out.println("Now it's your turn!");
+		}
+	
 	// Main to test
-	public static void main(String[] args) {
-		CLI ui = new CLI();
-		String[] s = new String[3];
-		ui.printCards(s);
-		s[0] = null;
-		ui.printCards(s);
-		s[0] = "1.abc";
-		s[1] = "2.def";
-		s[2] = "3.ghi";
-		ui.printCards(s);
-	}
+		public static void main(String[] args) {
+			CLI ui = new CLI();
+			String[] s = new String[3];
+			ui.printCards(true, s);
+			s[0] = null;
+			ui.printCards(true, s);
+			s[0] = "1.a_bc";
+			s[2] = "3.g_hi";
+			ui.printCards(true, s);
+			s[1] = "2.d_ef";
+			ui.printCards(true, s);
+		}
+
 }

@@ -5,10 +5,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import it.polimi.ingsw.AntoniniCastiglia.client.Client;
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
 import it.polimi.ingsw.AntoniniCastiglia.server.GameEngine;
-import it.polimi.ingsw.AntoniniCastiglia.server.GameEngineImpl;
 
 /**
  * RMI implementation of <code>NetworkInterface</code>.
@@ -45,8 +43,9 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String getCards(int playerID) throws RemoteException {
-		remoteEFTAIOS.getCards(null);//I have modified the getCards method in Game Engine Impl; put null to avoid error
-		//It needs to be fixed!
+		remoteEFTAIOS.getCards(null);// I have modified the getCards method in Game Engine Impl; put
+										// null to avoid error
+		// It needs to be fixed!
 		return "abc"; // TODO!!
 	}
 
@@ -56,15 +55,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public void useCards(String[] cards, String player) throws RemoteException {
-		String choice;
-		int[] validChoices = new int[3];
-
-		choice = Client.readLine();
-		validChoices = CommonMethods.validCard(choice, cards.length);
-		for (int i = 0; i < validChoices.length; i++) {
-			// remoteEFTAIOS.useCard(cards[i]);
-		}
+	public void useCard(String card, int playerID) throws RemoteException {
+		remoteEFTAIOS.useCard(card);
 	}
 
 	@Override
@@ -117,5 +109,4 @@ public class RMIInterface implements NetworkInterface {
 		return remoteEFTAIOS.isStarted();
 	}
 
-	
 }

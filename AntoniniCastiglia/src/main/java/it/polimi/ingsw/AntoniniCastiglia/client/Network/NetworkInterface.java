@@ -51,7 +51,7 @@ public interface NetworkInterface {
 	 * @param cards item cards of the players
 	 * @param player TODO
 	 */
-	void useCards(String[] cards, String player) throws RemoteException;
+	void useCard(String card, int playerID) throws RemoteException;
 
 	/**
 	 * Asks the server for the adjacent sectors list.

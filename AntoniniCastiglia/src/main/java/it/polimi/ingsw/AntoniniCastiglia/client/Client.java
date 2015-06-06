@@ -4,9 +4,7 @@ import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterfaceFactory;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 
 /**
@@ -19,6 +17,7 @@ public class Client {
 
 	private String[] player;
 	private int playerID;
+	private String nature;
 	private String[] cards;
 	private UserInterface ui;
 
@@ -36,7 +35,7 @@ public class Client {
 			System.out.println();
 			Client application = new Client(ni);
 		} catch (Exception e) {
-			//System.out.println(e);
+			// System.out.println(e);
 			e.printStackTrace();
 		}
 
@@ -56,6 +55,7 @@ public class Client {
 		// assegnazione giocatore quando inizia la partita
 		player = (new String(ni.connect())).split("_");
 		playerID = Integer.parseInt(player[3]);
+		nature = player[2];
 		ui.whoYouAreComplete(player);
 		// System.out.println("Waiting for at least another player to begin.");
 		/***********************************************************************************/
@@ -68,21 +68,26 @@ public class Client {
 		boolean endGame = false;
 		while (!endGame) {
 			if (!ni.isEnded()) {
-
+				boolean hasAttacked = false;
 				// print map
 				ui.printMap(ni.getMap(playerID).replace(";", "\n"));
 
 				// get cards
 				cards = ni.getCards(playerID).split(";");
-				
-				if (canUseCards()) {
+				ui.printCards(canUseCards(), cards);
 
-				}
-				phase1(ni);
-				phase2();
-				phase3(ni);
+				ui.yourTurn();
 				
-				endGame=true;
+				phase1(ni);
+				
+				if (canAttack()) {
+					phase2();
+					hasAttacked = true;
+				}
+				
+				phase3(ni, hasAttacked);
+
+				endGame = true;
 			} else {
 				endGame = true;
 				System.out.println("THE WINNER IS " + ni.getWinner());
@@ -92,18 +97,18 @@ public class Client {
 
 	// Use card, then move
 	private void phase1(NetworkInterface ni) throws RemoteException {
-		boolean canUseCards = canUseCards();
 
-		if (canUseCards) {
+		if (canUseCards()) {
 			ui.chooseCards();
-			// TODO usecards;
+			useCards(ni);
+			ni.getCards(playerID);
 		}
 
 		String adjacents = new String(ni.getAdjacents());
 		String chosenSector = null;
 		do {
 			ui.askMove(adjacents, player[0]);
-			chosenSector = readLine();
+			chosenSector = CommonMethods.readLine();
 		} while (!CommonMethods.validSector(adjacents, chosenSector));
 		ni.move(chosenSector, player[0]);
 
@@ -120,9 +125,8 @@ public class Client {
 	}
 
 	// Use card, then end turn
-	private void phase3( NetworkInterface ni) {
-		// if(!hasAttacked)
-		{
+	private void phase3(NetworkInterface ni, boolean hasAttacked) {
+		if (!hasAttacked) {
 			// ni.drawDangerousSectorCard();
 		}
 		boolean canUseCards = canUseCards();
@@ -130,6 +134,17 @@ public class Client {
 		if (canUseCards) {
 			ui.chooseCards();
 			// TODO usecards;
+		}
+	}
+
+	private void useCards(NetworkInterface ni) throws RemoteException{
+		String choice = CommonMethods.readLine();
+	
+		int[] validChoices = new int[3];
+	
+		validChoices = CommonMethods.validCard(choice, cards.length);
+		for (int i = 0; i < validChoices.length; i++) {
+			ni.useCard(cards[i], playerID);
 		}
 	}
 
@@ -144,10 +159,10 @@ public class Client {
 
 	private boolean canAttack() {
 		// if player is alien
-		if (player[2].contains("_A_")) {
+		if ("A".equals(nature)) {
 			return true;
 		}
-		// if player if human but has Attack card
+		// if player is human but has Attack card
 		for (String card : cards) {
 			if (card != null) {
 				return true;
@@ -168,12 +183,12 @@ public class Client {
 			System.out.println("Choose your preferred network interface:");
 			System.out.println("1 - RMI");
 			System.out.println("2 - Socket (not implemented yet)");
-			choice = readLine();
+			choice = CommonMethods.readLine();
 			if ("1".equals(choice) || "2".equals(choice)) {
 				return Integer.parseInt(choice);
 			}
 			System.out.println("Please, choose between 1 or 2.");
-		} 
+		}
 	}
 
 	/**
@@ -187,29 +202,12 @@ public class Client {
 			System.out.println("\n" + "Now choose your preferred user interface:");
 			System.out.println("1 - CLI");
 			System.out.println("2 - GUI (not implemented yet)");
-			choice = readLine();
+			choice = CommonMethods.readLine();
 			if ("1".equals(choice) || "2".equals(choice)) {
 				return Integer.parseInt(choice);
 			}
 			System.out.println("Please, choose between 1 or 2.");
-		} 
-	}
-
-	/**
-	 * Simplifies the acquisition of a string.
-	 * 
-	 * @return the acquired string
-	 */
-	public static String readLine() {
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(isr);
-		String read = null;
-		try {
-			read = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		return read;
 	}
 
 }

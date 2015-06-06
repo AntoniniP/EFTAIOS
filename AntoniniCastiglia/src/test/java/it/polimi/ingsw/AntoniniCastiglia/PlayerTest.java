@@ -15,11 +15,6 @@ public class PlayerTest {
 		p = new Human("John", "Captain", 0);
 	}
 
-	@Test
-	public void testToString() {
-		String expected = new String ("John, Captain, 0, 1");
-		assertEquals(expected, p.toString());
-	}
 
 	@Test
 	public void testSetCurrentSector() {
