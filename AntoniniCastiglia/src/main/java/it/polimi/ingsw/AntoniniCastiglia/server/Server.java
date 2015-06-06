@@ -21,7 +21,10 @@ public class Server {
 	private boolean outOfTime;
 	private boolean firstConn;
 	private int numPlayer;
-
+	//private boolean isStarted;
+	/*public boolean getIsStarted() 
+	 * return isStarted;*/
+	
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.start();
@@ -53,15 +56,18 @@ public class Server {
 		}
 
 		timer.cancel(); // in case the timer is out AND the number of players is right
-		if (outOfTime && numPlayer < 2)
-			; // TODO method to suspend the game
+		if (outOfTime && numPlayer < 2){
+			System.out.println("Sorry.The game won't start.");
+		}
+			
 		else
 			startGame();
 
 	}
 
 	private void startGame() {
-		// TODO Auto-generated method stub
+		/*Game game = new Game ---->Creation of the class Game, extending thread, maybe?
+		 * isStarted=true;*/
 
 	}
 
@@ -93,6 +99,8 @@ public class Server {
 		numPlayer++;
 
 	}
+	/*public int getNumPlayer()
+	 * return numPlayer*/
 
 	public void addPlayer(Player player) {
 		playerList.add(player);

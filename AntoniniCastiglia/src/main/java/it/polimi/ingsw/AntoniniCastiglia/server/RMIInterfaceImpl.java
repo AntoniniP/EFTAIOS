@@ -2,6 +2,7 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+
 import java.rmi.RemoteException;
 
 public class RMIInterfaceImpl implements RMIInterface {
@@ -30,4 +31,10 @@ public class RMIInterfaceImpl implements RMIInterface {
 		return playerStr;
 
 	}
+	
+	/* public String playerList(n){
+	 * 		int n=getNumPlayer()
+	 * 		re-write the method in playerList class using server.addPlayer(player)
+	 * 		return playerList (created in PlayerList constructor).toString*/
 }
+
