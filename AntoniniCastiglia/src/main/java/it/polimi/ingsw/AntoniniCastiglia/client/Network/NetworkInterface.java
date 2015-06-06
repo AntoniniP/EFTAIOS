@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.Network;
 
-import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -18,17 +17,18 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	String connect();
+	String connect()throws RemoteException;
 
-	boolean close() throws IOException;
+	boolean close() throws RemoteException;
 
 	/**
 	 * Gets the map from the server.
+	 * @param playerID TODO
 	 * 
 	 * @return the map, in form of a string, separated by <code>;</code>
 	 * @throws RemoteException
 	 */
-	String getMap() throws RemoteException;
+	String getMap(int playerID) throws RemoteException;
 
 	/**
 	 * Moves the player to the selected sector.
@@ -43,23 +43,23 @@ public interface NetworkInterface {
 
 	String getWinner() throws RemoteException;
 
-	String getCards(String player) throws RemoteException;
+	String getCards(int playerID) throws RemoteException;
 
 	/**
 	 * When invoked, presents to the player his cards and lets him use them.
 	 * 
 	 * @param cards item cards of the players
-	 * @param ui user interface (to communicate with the player
 	 * @param player TODO
 	 */
-	void useCards(String[] cards, UserInterface ui, String player);
+	void useCards(String[] cards, String player) throws RemoteException;
 
 	/**
 	 * Asks the server for the adjacent sectors list.
 	 * 
 	 * @return the list of adjacent sectors, in form of a string
+	 * @throws RemoteException 
 	 */
-	String getAdjacents();
+	String getAdjacents() throws RemoteException;
 
-	boolean isStarted();
+	boolean isStarted() throws RemoteException;
 }

@@ -29,4 +29,26 @@ public class CommonMethods {
 		return adjacents.contains(sector);
 
 	}
+
+	/*
+	private static String readWriteLine(String format, Object... args) {
+		if (System.console() != null) {
+			return System.console().readLine(format, args);
+		}
+
+		System.out.print(String.format(format, args));
+
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
+		String read = null;
+
+		try {
+			read = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return read;
+	}
+	*/
 }

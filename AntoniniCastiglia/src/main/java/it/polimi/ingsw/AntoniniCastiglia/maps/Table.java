@@ -219,8 +219,9 @@ public class Table {
 	// Main to test
 	public static void main(String[] args) {
 		Table t = new Table();
-		Sector s = new DangerousSector(11, 8);
-		System.out.println(s + " " + t.adjacent(s, 2));
+		//Sector s = new DangerousSector(11, 8);
+		//System.out.println(s + " " + t.adjacent(s, 2));
+		System.out.println(t.drawMap().replace(';', '\n'));
 	}
 
 }

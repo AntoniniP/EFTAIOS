@@ -22,9 +22,14 @@ public class UserInterfaceFactory {
 	 * @return the requested graphical interface
 	 */
 	public static UserInterface getInterface(int param) {
-		if (param == 1)
+		if (param == 1) {
 			return new CLI();
-		else
-			return null;
+		} else {
+			System.out
+					.println("Funnily enough, I'm sure I told you that the Graphical User Interface (GUI)"
+							+ " has NOT been implemented yet."
+							+ " Since I love you, I'll let you play with CLI interface, instead.");
+			return new CLI();
+		}
 	}
 }

@@ -12,13 +12,26 @@ import it.polimi.ingsw.AntoniniCastiglia.client.MyConstants;
 public class CLI implements UserInterface {
 
 	@Override
-	public void connecting() {
-		System.out.println("Now connecting...");
+	public void connected() {
+		System.out.println("You are now connected to the game. "
+				+ "Please wait for the game to begin. "
+				+ "Soon you will know what character you are going to play with.");
 	}
 
 	@Override
-	public void youAre(String name) {
-		System.out.println("You are " + name);
+	public void whoYouAreComplete(String[] player) {
+		String name= player[0];
+		String role = player [1];
+		String id = player [3];
+		String nature;
+		if ("A".equals(player[2])){
+			nature= new String("n alien");
+		} else {
+			nature= new String(" human");
+		}
+		System.out.println("You are player number " + id);
+		System.out.println("You are a" + nature + ", and your name is " + name);
+		System.out.println("On this unfortunate ship you are " + role);
 	}
 
 	@Override
@@ -27,7 +40,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void printAllCards(String... cards) {
+	public void printCards(String... cards) {
 		if (cards.length == 0) {
 			System.out.println("You don't have any card!");
 		} else {
@@ -70,7 +83,31 @@ public class CLI implements UserInterface {
 	@Override
 	public void askMove(String adjacents, String player) {
 		System.out.println("You can move in the following sectors: ");
-		System.out.println(adjacents.replace(';', ' ')+"\n");
+		System.out.println(adjacents.replace(';', ' ') + "\n");
 		System.out.print("Please, choose where you want to go: ");
+	}
+
+	@Override
+	public void genericError() {
+		System.out.println("There has been an error while trying to connect the client.");
+	}
+
+	@Override
+	public void pleaseWait() {
+		System.out.println("Please, wait for a game to begin."
+				+ "Soon you will be provided with a character, and you will see the map.");
+	}
+
+	// Main to test
+	public static void main(String[] args) {
+		CLI ui = new CLI();
+		String[] s = new String[3];
+		ui.printCards(s);
+		s[0] = null;
+		ui.printCards(s);
+		s[0] = "1.abc";
+		s[1] = "2.def";
+		s[2] = "3.ghi";
+		ui.printCards(s);
 	}
 }
