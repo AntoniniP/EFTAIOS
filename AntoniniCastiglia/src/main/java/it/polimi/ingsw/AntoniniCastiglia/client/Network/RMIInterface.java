@@ -60,7 +60,7 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String connect() throws RemoteException {
+	public int connect() throws RemoteException {
 		String gameInt = "GameEngine";
 		String rmiInt = "RMIinterface";
 		Registry registry;
@@ -69,7 +69,7 @@ public class RMIInterface implements NetworkInterface {
 			registry = LocateRegistry.getRegistry(1099);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			return null;
+			return -1;
 		}
 
 		try {
@@ -79,23 +79,21 @@ public class RMIInterface implements NetworkInterface {
 					.lookup(rmiInt));
 		} catch (AccessException e) {
 			e.printStackTrace();
-			return null;
+			return -1;
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			return null;
+			return -1;
 		} catch (NotBoundException e) {
 			e.printStackTrace();
-			return null;
+			return -1;
 		}
 
 		try {
 			return remoteRMI.connect();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return null;
+		} 
+		return -1;
 	}
 
 	@Override
@@ -106,7 +104,11 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public boolean isStarted() throws RemoteException {
-		return remoteEFTAIOS.isStarted();
+		return remoteRMI.isStarted();
 	}
-
+	
+	@Override
+	public String getPlayer(int playerID) throws RemoteException{
+		return remoteEFTAIOS.getPlayer(playerID);
+	}
 }

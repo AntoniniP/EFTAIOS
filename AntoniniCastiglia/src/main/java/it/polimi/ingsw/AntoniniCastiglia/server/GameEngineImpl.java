@@ -5,7 +5,7 @@ import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-
+import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -13,11 +13,28 @@ public class GameEngineImpl implements GameEngine {
 
 	private Table table;
 	private Deck deck;
+	private PlayerList playerList;
+	private boolean wait=true;
 
-	public GameEngineImpl(Table table) { // Constructor; I have a map to work with
-		this.table = table; // to put in another class GAME together with cards & stuff
+	public GameEngineImpl() { // Constructor
 	}
 
+	public void createMap(){
+		 // to put in another class GAME together with cards & stuff
+		table = new Table();
+	}
+	
+	public void createPlayers(int numPlayers){
+		playerList= new PlayerList(numPlayers);
+		wait=false;
+	}
+	
+	@Override
+	public String getPlayer(int playerID){
+		while (wait){}
+		return (playerList.get(playerID-1)).toString();
+	}
+	
 	@Override
 	public ArrayList<Sector> adjacentSectors(Player p) throws RemoteException {
 		return table.adjacent(p.getCurrentSector(), p.getHops());
@@ -63,9 +80,7 @@ public class GameEngineImpl implements GameEngine {
 		return string;
 	}
 
-	@Override
-	public boolean isStarted() throws RemoteException {
-		// return server.startGame
-		return false;
-	}
+	
+	
+	
 }

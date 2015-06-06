@@ -11,7 +11,7 @@ public final class Constants {
 
 	// Players
 	public static final int MINPLAYERS = 2;
-	public static final int MAXPLAYERS = 8;
+	public static final int MAXPLAYERS = 4;
 
 	// Map
 	public static final int HEIGHT = 14;

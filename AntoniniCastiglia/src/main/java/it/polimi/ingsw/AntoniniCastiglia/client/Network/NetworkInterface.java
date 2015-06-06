@@ -17,7 +17,7 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	String connect()throws RemoteException;
+	int connect()throws RemoteException;
 
 	boolean close() throws RemoteException;
 
@@ -62,4 +62,6 @@ public interface NetworkInterface {
 	String getAdjacents() throws RemoteException;
 
 	boolean isStarted() throws RemoteException;
+
+	String getPlayer(int playerID) throws RemoteException;
 }

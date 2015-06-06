@@ -51,19 +51,23 @@ public class Client {
 		ui = UserInterfaceFactory.getInterface(chooseUI());
 
 		/***********************************************************************************/
-		ui.connected(); // no!!! dopo ni.connect()!!!
-		// assegnazione giocatore quando inizia la partita
-		player = (new String(ni.connect())).split("_");
-		playerID = Integer.parseInt(player[3]);
-		nature = player[2];
-		ui.whoYouAreComplete(player);
-		// System.out.println("Waiting for at least another player to begin.");
+		playerID = ni.connect();
+		//ui.connected(); 
+		System.out.println("playerID: " + playerID);
 		/***********************************************************************************/
 
 		ui.pleaseWait();
 		while (!ni.isStarted()) {
 			// Waiting for a game to begin
 		}
+		player = (new String(ni.getPlayer(playerID))).split("_");
+		nature = player[2];
+		ui.whoYouAreComplete(player);
+		
+		if (playerID-1 != Integer.parseInt(player[3])) {
+			System.out.println("Ops! Something went wrong.");
+		}
+
 
 		boolean endGame = false;
 		while (!endGame) {
