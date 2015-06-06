@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
+
 import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
@@ -90,6 +91,14 @@ public class Player {
 		this.attack = attack;
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getPlayerCards() {
+		String string="";
+		for(int i=0;i<3;i++){
+			string=string + items[i];
+		}
+		return string;
 	}
 
 }

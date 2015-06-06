@@ -1,5 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
+import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 public class GameEngineImpl implements GameEngine {
 
 	private Table table;
-	private CommonMethods commonM;
 	private Deck deck;
 
 	public GameEngineImpl(Table table) { // Constructor; I have a map to work with
@@ -30,7 +30,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public String move(String player, String sector) throws RemoteException {
-		/*Player p= commonM.getPlayer(name);
+		/*Player p= CommonMethods.getPlayer(name);
 	    p.setCurrentSector(s);
 		return "You are now in Sector"+ p.getCurrentSector();*/
 		return "ABC";
@@ -49,29 +49,23 @@ public class GameEngineImpl implements GameEngine {
 
 		return "Attack in " + p.getCurrentSector();
 	}
-
-
-
-	@Override
-	public String useCard() throws RemoteException {//TODO toString method for cards OR item array in players
-		//If I have to receive a string and convert it into a card, why do I have to return a string?
-		//TODO the player has to choose which card he wants to use; is this the Client's business?
-		return null;
-
-	}
 	
+	@Override
+	public Card useCard(String s) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override 
+	public String getCards(Player p) throws RemoteException {//better to be called drawCard
+		String string;
+		string=p.getPlayerCards();
+		return string;
+	}
+
 	@Override
 	public boolean isStarted() throws RemoteException {
-		/*return server.startGame*/
-		return true;
+		// return server.startGame
+		return false;
 	}
-
-	@Override //method that should return the deck
-	public String getCards() throws RemoteException {//better to be called drawCard
-		String deckString;
-		deckString=deck.toString();
-		return deckString;
-	}
-	
-	
 }

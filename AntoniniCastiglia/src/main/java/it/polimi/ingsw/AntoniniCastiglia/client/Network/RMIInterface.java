@@ -45,7 +45,8 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String getCards(int playerID) throws RemoteException {
-		remoteEFTAIOS.getCards();
+		remoteEFTAIOS.getCards(null);//I have modified the getCards method in Game Engine Impl; put null to avoid error
+		//It needs to be fixed!
 		return "abc"; // TODO!!
 	}
 
