@@ -7,7 +7,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import it.polimi.ingsw.AntoniniCastiglia.client.Client;
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.server.GameEngine;
 import it.polimi.ingsw.AntoniniCastiglia.server.GameEngineImpl;
 
@@ -23,7 +22,7 @@ public class RMIInterface implements NetworkInterface {
 	private it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface remoteRMI;
 
 	@Override
-	public String getMap() throws RemoteException {
+	public String getMap(int playerID) throws RemoteException {
 		return remoteEFTAIOS.getMap();
 	}
 
@@ -45,9 +44,9 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String getCards(String player) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCards(int playerID) throws RemoteException {
+		remoteEFTAIOS.getCards();
+		return "abc"; // TODO!!
 	}
 
 	@Override
@@ -56,12 +55,9 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public void useCards(String[] cards, UserInterface ui, String player) throws RemoteException {
+	public void useCards(String[] cards, String player) throws RemoteException {
 		String choice;
 		int[] validChoices = new int[3];
-
-		ui.chooseCards();
-		ui.printCards(cards);
 
 		choice = Client.readLine();
 		validChoices = CommonMethods.validCard(choice, cards.length);
@@ -120,4 +116,5 @@ public class RMIInterface implements NetworkInterface {
 		return remoteEFTAIOS.isStarted();
 	}
 
+	
 }

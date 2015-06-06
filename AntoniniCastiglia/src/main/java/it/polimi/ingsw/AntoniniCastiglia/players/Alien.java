@@ -21,7 +21,7 @@ public class Alien extends Player {
 	 * @param id
 	 */
 	public Alien(String name, String role, int id) {
-		super(name, role, id);
+		super(name, role, "A", id);
 		maxMoves = 2;
 		myBase = Table.getAlienBase();
 		currentSector = myBase; path.add(myBase); // TODO use a move action!

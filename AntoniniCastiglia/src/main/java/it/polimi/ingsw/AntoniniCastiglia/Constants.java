@@ -37,9 +37,9 @@ public final class Constants {
 	// ANSI escapes for colors
 	public static final String ANSI_RESET = "\u001b[0m";
 	public static final String ANSI_CLS = "\u001b[2J";
-	public static final String ANSI_BOLD = "\u001b[1m";
+	public static final String ANSI_BOLD = "\u001b[1m"; 
 	public static final String ANSI_BLACK = "\u001b[30m";
-	public static final String ANSI_RED = "\u001b[31m";
+	public static final String ANSI_RED = "\u001b[91m";
 	public static final String ANSI_GREEN = "\u001b[32m";
 	public static final String ANSI_YELLOW = "\u001b[33m";
 	public static final String ANSI_BLUE = "\u001b[34m";

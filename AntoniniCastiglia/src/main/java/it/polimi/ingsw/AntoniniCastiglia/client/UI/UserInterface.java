@@ -21,7 +21,7 @@ public interface UserInterface {
 	 * 
 	 * @param name
 	 */
-	public void youAre(String name);
+	public void whoYouAreComplete(String[] player);
 
 	/**
 	 * Shows the map, received as a string.
@@ -60,5 +60,10 @@ public interface UserInterface {
 	 * Prints a simple message, to let the player know that an error occurred.
 	 */
 	void genericError();
+
+	/**
+	 * Asks the player to wait for a game to begin.
+	 */
+	public void pleaseWait();
 
 }
