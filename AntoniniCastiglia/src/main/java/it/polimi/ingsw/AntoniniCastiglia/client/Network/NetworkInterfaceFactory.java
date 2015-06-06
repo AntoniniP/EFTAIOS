@@ -1,8 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.Network;
 
 /**
- * Factory method pattern implementation for the choice of the network interface
- * (RMI/socket).
+ * Factory method pattern implementation for the choice of the network interface (RMI/socket).
  * 
  * @author Paolo Antonini
  *
@@ -24,8 +23,11 @@ public class NetworkInterfaceFactory {
 	 */
 	public static NetworkInterface getInterface(int param) {
 		if (param == 1) {
-			return null;
+			return new RMIInterface();
 		} else {
+			System.out.println("Funnily enough, I'm sure I told you that Socket network interface"
+					+ " has NOT been implemented yet."
+					+ " Since I love you, I'll let you play with RMI connection, instead.");
 			return new RMIInterface();
 		}
 	}

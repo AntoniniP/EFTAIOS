@@ -18,9 +18,9 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	String connect();
+	String connect()throws RemoteException;
 
-	boolean close() throws IOException;
+	boolean close() throws RemoteException;
 
 	/**
 	 * Gets the map from the server.
@@ -52,14 +52,15 @@ public interface NetworkInterface {
 	 * @param ui user interface (to communicate with the player
 	 * @param player TODO
 	 */
-	void useCards(String[] cards, UserInterface ui, String player);
+	void useCards(String[] cards, UserInterface ui, String player) throws RemoteException;
 
 	/**
 	 * Asks the server for the adjacent sectors list.
 	 * 
 	 * @return the list of adjacent sectors, in form of a string
+	 * @throws RemoteException 
 	 */
-	String getAdjacents();
+	String getAdjacents() throws RemoteException;
 
-	boolean isStarted();
+	boolean isStarted() throws RemoteException;
 }

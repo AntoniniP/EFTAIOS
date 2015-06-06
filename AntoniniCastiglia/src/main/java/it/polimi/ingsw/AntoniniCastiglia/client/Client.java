@@ -7,6 +7,7 @@ import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,8 +31,7 @@ public class Client {
 			NetworkInterface ni = NetworkInterfaceFactory.getInterface(chooseNetwork());
 			Client application = new Client(ni);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("There has been an error. We are sorry!");
 		}
 
 	}
@@ -42,23 +42,23 @@ public class Client {
 	 * @param ni network interface
 	 * @throws IOException
 	 */
-	private Client(NetworkInterface ni) throws IOException {
-
+	private Client(NetworkInterface ni) throws RemoteException {
 		UserInterface ui = UserInterfaceFactory.getInterface(chooseUI());
+		ui.connected(); // TODO no!!! dopo ni.connect()!!!
 
-		ui.connecting();
-
+		// TODO assegnazione giocatore quando inizia la partita
 		String player = new String(ni.connect());
 		ui.youAre(player);
-
 		// System.out.println("Waiting for at least another player to begin.");
 
-		boolean endGame = false;
 
 		// String toPrint = "Maybe I'm useful! Probably I contain the report of the move.";
 		
+		// Waiting for a game to begin
 		while (!ni.isStarted()){}
-
+		
+		boolean endGame = false;
+		
 		while (!endGame) {
 
 			if (!ni.isEnded()) {
@@ -66,9 +66,10 @@ public class Client {
 				// print map
 				ui.printMap(ni.getMap().replace(";", "\n"));
 				
-				// print cards
+				// get cards
 				String[] cards = ni.getCards(player).split(";");
-				boolean canUseCards = (cards.length != 0); // TODO null?
+				boolean canUseCards = (cards.length != 0); // TODO null occupa un posto?
+				ui.printCards(cards);
 				
 				// print possible actions
 				List<Character> possibleActions = new ArrayList<Character>(Arrays.asList(
@@ -77,19 +78,22 @@ public class Client {
 					possibleActions.add(MyConstants.USE_CARD);
 				}
 				ui.chooseAction(possibleActions);
-
 				char choice = readLine().charAt(0);
 				Character.toUpperCase(choice);
 				switch (choice) {
+				
 					case MyConstants.QUIT: {
 						endGame = true;
 						break;
 					}
+					
+					//TODO only one card at a time (maybe I ask more than one time?)
 					case MyConstants.USE_CARD: {
 						// TODO unsafe: I may type U anyway!
 						ni.useCards(cards, ui, player);
 						break;
 					}
+					
 					case MyConstants.MOVE: {
 						String adjacents = new String(ni.getAdjacents());
 						String chosenSector = null;
@@ -145,14 +149,14 @@ public class Client {
 	private static int chooseNetwork() {
 		String choice;
 		do {
-			System.out.println("Choose your network interface:");
-			System.out.println("1 - Socket (not implemented yet)");
-			System.out.println("2 - RMI");
+			System.out.println("Choose your preferred network interface (as if you were interested):");
+			System.out.println("1 - RMI");
+			System.out.println("2 - Socket (not implemented yet)");
 			choice = readLine();
 			if (!"1".equals(choice) && !"2".equals(choice)) {
-				System.out.println("You typed the wrong command!");
+				System.out.println("Please, choose between 1 or 2.");
 			}
-		} while (!choice.equals("1") && !choice.equals("2"));
+		} while (!"1".equals(choice) && !"2".equals(choice));
 		return Integer.parseInt(choice);
 	}
 
@@ -164,12 +168,12 @@ public class Client {
 	private static int chooseUI() {
 		String choice;
 		do {
-			System.out.println("Choose your user interface:");
+			System.out.println("Choose your preferred user interface:");
 			System.out.println("1 - CLI");
-			System.out.println("2 - GUI (not implemented yet)\n");
+			System.out.println("2 - GUI (not implemented yet)");
 			choice = readLine();
 			if (!"1".equals(choice) && !"2".equals(choice)) {
-				System.out.println("You typed the wrong command!");
+				System.out.println("Please, choose between 1 or 2.");
 			}
 		} while (!"1".equals(choice) && !"2".equals(choice));
 		return Integer.parseInt(choice);

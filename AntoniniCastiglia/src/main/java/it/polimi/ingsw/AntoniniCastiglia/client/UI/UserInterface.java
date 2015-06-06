@@ -14,7 +14,7 @@ public interface UserInterface {
 	/**
 	 * Prints a simple message.
 	 */
-	public void connecting();
+	public void connected();
 
 	/**
 	 * Lets the player know which are his name and nature (Human/Alien)
@@ -31,11 +31,11 @@ public interface UserInterface {
 	public void printMap(String map);
 
 	/**
-	 * Prints the cards owned by a player.
+	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array.
 	 * 
 	 * @param card
 	 */
-	public void printAllCards(String... card);
+	public void printCards(String... card);
 
 	/**
 	 * Shows all possible actions to the player.
@@ -48,11 +48,17 @@ public interface UserInterface {
 	 * Prints a simple message, asking the player to choose which card(s) he wants to use.
 	 */
 	public void chooseCards();
-	
+
 	/**
 	 * Prints a simple message, asking the player to choose where to move.
+	 * 
 	 * @param player TODO
 	 */
 	public void askMove(String adjacents, String player);
+
+	/**
+	 * Prints a simple message, to let the player know that an error occurred.
+	 */
+	void genericError();
 
 }
