@@ -6,6 +6,13 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
  * @author Paolo Antonini
  *
  */
-public interface Card {
+public abstract class Card {
+
+	protected String type;
+	protected String name;
+
+	public String getCard() {
+		return type + "_" + name;
+	}
 
 }
