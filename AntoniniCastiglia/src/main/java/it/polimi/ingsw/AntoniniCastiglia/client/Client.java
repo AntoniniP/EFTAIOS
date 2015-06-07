@@ -81,11 +81,7 @@ public class Client {
 				ui.yourTurn();
 
 				phase1(ni);
-				
-				hasAttacked = false;
-				if (canAttack()) {
-					phase2(ni);
-				}
+				phase2(ni);
 
 				phase3(ni, hasAttacked);
 
@@ -101,7 +97,7 @@ public class Client {
 	// Use card, then move
 	private void phase1(NetworkInterface ni) throws RemoteException {
 		useCards(ni);
-		
+
 		String adjacentSectors = new String(ni.getAdjacentSectors(playerID));
 		String chosenSector = null;
 		do {
@@ -114,12 +110,14 @@ public class Client {
 
 	// Use card (attack) if HUMAN, then attack
 	private void phase2(NetworkInterface ni) throws RemoteException {
-
-		ui.youCanAttack(nature);
-		String chosenAction = CommonMethods.readLine();
-		if (chosenAction.equals("A")) {
-			ni.attack(playerID);
-			hasAttacked = true;
+		hasAttacked = false;
+		if (canAttack(ni)) {
+			ui.youCanAttack(nature);
+			String chosenAction = CommonMethods.readLine();
+			if (chosenAction.equals("A")) {
+				ni.attack(playerID);
+				hasAttacked = true;
+			}
 		}
 	}
 
@@ -128,9 +126,8 @@ public class Client {
 		if (!hasAttacked) {
 			ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
 		}
-		boolean canUseCards = canUseCards(ni);
 
-		if (canUseCards) {
+		if (canUseCards(ni)) {
 			ui.chooseCards();
 			useCards(ni);
 		}
@@ -143,7 +140,7 @@ public class Client {
 			ui.chooseCards();
 			String choice = CommonMethods.readLine();
 			int[] validChoices = new int[3];
-			
+
 			// TODO now assuming that the player is neither evil nor dumb.
 			// if he chooses 0, he won't write anything else
 			validChoices = CommonMethods.validCard(choice, cards.length);
@@ -166,16 +163,18 @@ public class Client {
 		return false;
 	}
 
-	private boolean canAttack() {
+	private boolean canAttack(NetworkInterface ni) throws RemoteException {
 		// if player is alien
 		if ("A".equals(nature)) {
 			return true;
 		}
 		// if player is human and has Attack card
-		for (String card : cards) {
-			// TODO there is a constant for the name!
-			if ("Attack".equals((card.split("_"))[1])) {
-				return true;
+		if (canUseCards(ni)) {
+			for (String card : cards) {
+				// TODO there is a constant for the name of the card!
+				if ("Attack".equals((card.split("_"))[1])) {
+					return true;
+				}
 			}
 		}
 		// if player if human but has no Attack card

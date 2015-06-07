@@ -69,4 +69,9 @@ public interface NetworkInterface {
 	void attack(int playerID)throws RemoteException;
 
 	String drawDangerousSectorCard()throws RemoteException;
+	
+	String drawEscapeHatchCard()throws RemoteException;
+
+	String drawItemCard()throws RemoteException;
+
 }

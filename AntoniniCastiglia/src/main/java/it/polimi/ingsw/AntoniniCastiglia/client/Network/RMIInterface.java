@@ -52,7 +52,7 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public void useCard(String card, int playerID) throws RemoteException {
-		remoteEFTAIOS.useCard(card);
+		remoteEFTAIOS.useCard(card, playerID);
 	}
 
 	@Override
@@ -73,13 +73,7 @@ public class RMIInterface implements NetworkInterface {
 					.lookup(gameInt));
 			remoteRMI = (it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface) (registry
 					.lookup(rmiInt));
-		} catch (AccessException e) {
-			e.printStackTrace();
-			return -1;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return -1;
-		} catch (NotBoundException e) {
+		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 			return -1;
 		}
@@ -114,9 +108,19 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String drawDangerousSectorCard() throws RemoteException {
-		
 		return remoteEFTAIOS.drawCard("DS");
+	}
+
+	@Override
+	public String drawEscapeHatchCard() throws RemoteException {
+		return remoteEFTAIOS.drawCard("EH");
+	}
+
+	@Override
+	public String drawItemCard() throws RemoteException {
+		return remoteEFTAIOS.drawCard("IC");
 	}
 	
 	
+
 }

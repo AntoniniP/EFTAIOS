@@ -81,7 +81,7 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public Card useCard(String s) throws RemoteException {
+	public Card useCard(String card, int playerID ) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

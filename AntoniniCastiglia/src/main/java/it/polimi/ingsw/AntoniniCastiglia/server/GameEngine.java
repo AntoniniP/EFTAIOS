@@ -17,7 +17,7 @@ public interface GameEngine extends Remote {
 
 	public String getCards(int playerID) throws RemoteException;
 
-	public Card useCard(String s) throws RemoteException;
+	public Card useCard(String s, int playerID) throws RemoteException;
 
 	public String getPlayerString(int playerID) throws RemoteException;
 
