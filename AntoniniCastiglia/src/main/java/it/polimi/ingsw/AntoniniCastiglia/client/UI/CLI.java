@@ -85,7 +85,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void askMove(String adjacents, String player) {
+	public void askMove(String adjacents) {
 		System.out.println("You can move in the following sectors: ");
 		System.out.println(adjacents.replace(';', ' ') + "\n");
 		System.out.print("Please, choose where you want to go: ");
@@ -105,6 +105,29 @@ public class CLI implements UserInterface {
 	@Override
 	public void yourTurn() {
 		System.out.println("Now it's your turn!");
+	}
+
+	@Override
+	public void youCanAttack(String nature) {
+		System.out
+				.println("It seems that you can attack the sector you are in! Now think carefully "
+						+ "if you want to attack or not.");
+		if ("H".equals(nature)) {
+			System.out.println("(Please note that you are a Human. As such, you can perform "
+					+ "an attack thanks to your Attack item card. If you go on, your Attack card "
+					+ "will be discarded)");
+		}
+		System.out.println("Now choose:" + "\n" + "A - Attack" + "\n" + "B - Be a good guy");
+
+	}
+
+	@Override
+	public void drawDangerousSectorCard(String drawnCard) {
+		// TODO settore sicuro
+		System.out.println("Since you were good, and you didn't attack, here is a reward (well, kind of...).");
+		System.out.println(drawnCard);
+
+		
 	}
 
 }

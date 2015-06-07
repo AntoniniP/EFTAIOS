@@ -65,4 +65,8 @@ public interface NetworkInterface {
 	boolean isStarted() throws RemoteException;
 
 	String getPlayer(int playerID) throws RemoteException;
+
+	void attack(int playerID)throws RemoteException;
+
+	String drawDangerousSectorCard()throws RemoteException;
 }

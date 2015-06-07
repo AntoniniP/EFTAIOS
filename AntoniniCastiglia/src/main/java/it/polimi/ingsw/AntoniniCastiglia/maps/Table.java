@@ -31,6 +31,11 @@ public class Table {
 	// keeps a list of each type of sector, for convenience
 	private static Sector alienBase;
 	private static Sector humanBase;
+	
+	
+	public Sector getSector(int y, int x){
+		return table[y][x];
+	}
 
 	/**
 	 * Constructor for Table class. Reads a text file containing a map (every sector is denoted by a

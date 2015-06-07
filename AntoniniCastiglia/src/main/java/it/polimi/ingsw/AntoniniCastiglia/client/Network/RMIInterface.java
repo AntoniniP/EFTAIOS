@@ -31,8 +31,7 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public boolean isEnded() throws RemoteException {
-		// return eftaios.isEnded();
-		return false;
+		return remoteEFTAIOS.isEnded();
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String getCards(int playerID) throws RemoteException {
-		return remoteEFTAIOS.getCards( playerID);
+		return remoteEFTAIOS.getCards(playerID);
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class RMIInterface implements NetworkInterface {
 			return remoteRMI.connect();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} 
+		}
 		return -1;
 	}
 
@@ -102,9 +101,22 @@ public class RMIInterface implements NetworkInterface {
 	public boolean isStarted() throws RemoteException {
 		return remoteRMI.isStarted();
 	}
-	
+
 	@Override
-	public String getPlayer(int playerID) throws RemoteException{
+	public String getPlayer(int playerID) throws RemoteException {
 		return remoteEFTAIOS.getPlayerString(playerID);
 	}
+
+	@Override
+	public void attack(int playerID) throws RemoteException {
+		remoteEFTAIOS.attack(playerID);
+	}
+
+	@Override
+	public String drawDangerousSectorCard() throws RemoteException {
+		
+		return remoteEFTAIOS.drawCard("DS");
+	}
+	
+	
 }

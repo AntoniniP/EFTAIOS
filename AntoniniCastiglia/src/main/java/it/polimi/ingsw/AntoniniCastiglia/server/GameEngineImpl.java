@@ -1,7 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
+import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCardDeck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
@@ -13,7 +16,9 @@ import java.util.List;
 public class GameEngineImpl implements GameEngine {
 
 	private Table table;
-	private Deck deck;
+	private Deck dangerousSectorDeck;
+	private Deck itemCardDeck;
+	private Deck escapeHatchDeck;
 	private PlayerList playerList;
 
 	public GameEngineImpl() { // Constructor
@@ -26,6 +31,12 @@ public class GameEngineImpl implements GameEngine {
 	
 	public void createPlayers(int numPlayers){
 		playerList= new PlayerList(numPlayers);
+	}
+	
+	public void createDecks(){
+		dangerousSectorDeck = new DangerousSectorDeck();
+		itemCardDeck = new ItemCardDeck();
+		escapeHatchDeck = new EscapeHatchDeck();
 	}
 	
 	@Override
@@ -43,13 +54,17 @@ public class GameEngineImpl implements GameEngine {
 	@Override
 	public String move(int  playerID, String sector) throws RemoteException {
 		Player p= CommonMethods.toPlayer(playerID, playerList);
-		//Sector s = //convert string to coordinates, access table[][]
-	    //p.setCurrentSector(s);
+		
+		Sector s = CommonMethods.toSector(sector, table); 
+	    p.setCurrentSector(s);
 		return "You are now in Sector"+ p.getCurrentSector();
 	}
+	
+	
 
 	@Override
-	public String attack(Player p) throws RemoteException {
+	public String attack(int playerID) throws RemoteException {
+		Player p = CommonMethods.toPlayer(playerID, playerList);
 		p.setAttack(true);
 		/*for(int i=0; i<playerList.lenght-1;i++){
 		 * if(!playerList[i].getAttack && !playerList[i].getShield && playerList[i].getCurrentSector==p.currentSector)
@@ -84,6 +99,26 @@ public class GameEngineImpl implements GameEngine {
 			toReturn = toReturn+sector.toString()+";";
 		}
 		return toReturn;
+	}
+
+	@Override
+	public boolean isEnded() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String drawCard(String deck) throws RemoteException {
+		if ("DS".equals(deck)){
+			return (dangerousSectorDeck.drawCard()).getCard();
+		}
+		if ("IC".equals(deck)){
+			return (itemCardDeck.drawCard()).getCard();
+		}
+		if ("EH".equals(deck)){
+			return (escapeHatchDeck.drawCard()).getCard();
+		}
+		return null;
 	}
 
 	

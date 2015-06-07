@@ -82,6 +82,7 @@ public class Server {
 		// Game game = new Game //Creation of the class Game, extending thread, maybe?
 		((GameEngineImpl) game).createMap();
 		((GameEngineImpl) game).createPlayers(numPlayer);
+		((GameEngineImpl) game).createDecks();
 		started = true;
 	}
 

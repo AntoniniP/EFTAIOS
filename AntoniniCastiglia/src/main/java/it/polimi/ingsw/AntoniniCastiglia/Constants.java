@@ -48,7 +48,7 @@ public final class Constants {
 	public static final String ANSI_GRAY= "\u001b[37m";
 
 	/**
-	 * Private constructor to hide the public one.
+	 * Private constructor to hide the implicit one.
 	 */
 	private Constants() {
 	}

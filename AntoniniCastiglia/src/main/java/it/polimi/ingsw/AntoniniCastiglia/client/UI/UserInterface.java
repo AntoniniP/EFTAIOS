@@ -51,10 +51,8 @@ public interface UserInterface {
 
 	/**
 	 * Prints a simple message, asking the player to choose where to move.
-	 * 
-	 * @param player TODO
 	 */
-	public void askMove(String adjacents, String player);
+	public void askMove(String adjacents);
 
 	/**
 	 * Prints a simple message, to let the player know that an error occurred.
@@ -70,5 +68,9 @@ public interface UserInterface {
 	 * Prints a simple message, informing the player that it's his turn.
 	 */
 	public void yourTurn();
+
+	public void youCanAttack(String nature);
+	
+	public void drawDangerousSectorCard(String drawnCard);
 
 }

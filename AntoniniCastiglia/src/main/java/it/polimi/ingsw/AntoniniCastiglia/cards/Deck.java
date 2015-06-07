@@ -56,6 +56,14 @@ public class Deck {
 		deck.remove(c);
 		discardedDeck.add(c);
 	}
+	
+	public int deckSize() {
+		return deck.size();
+	}
+	
+	public int discardedDeckSize() {
+		return discardedDeck.size();
+	}
 
 	@Override
 	public String toString() {
