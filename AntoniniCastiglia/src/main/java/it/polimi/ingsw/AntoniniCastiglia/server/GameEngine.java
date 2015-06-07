@@ -13,14 +13,14 @@ public interface GameEngine extends Remote {
 
 	public String getMap() throws RemoteException;
 
-	public String move(String player, String sector) throws RemoteException;
+	public String move(int playerID, String sector) throws RemoteException;
 
 	public String attack(Player p) throws RemoteException;
 
-	public String getCards(Player p) throws RemoteException;
+	public String getCards(int playerID) throws RemoteException;
 
 	public Card useCard(String s) throws RemoteException;
 
 
-	public String getPlayer(int playerID) throws RemoteException;
+	public String getPlayerString(int playerID) throws RemoteException;
 }

@@ -11,19 +11,15 @@ public class Server {
 	private static final int port = 1099;
 
 	private Registry registry;
-	
+
 	private GameEngine game;
 	private RMIInterface rmiInterface;
 	private Timer timer;
 
 	private boolean outOfTime;
-	private boolean firstConn;
+	private boolean firstConnected;
 	private int numPlayer;
 	private boolean started = false;
-
-	public boolean isStarted() {
-		return started;
-	}
 
 	public static void main(String[] args) {
 		Server server = new Server();
@@ -43,73 +39,74 @@ public class Server {
 			e.printStackTrace();
 		}
 		System.out.println("Registry bound");
-		//firstConn=false;
-		//waitFirstConn();
-		//startTimer();
-		//outOfTime=false;
-		numPlayer=0;
 
 		waitConn();
 	}
 
 	private void waitConn() {
-
-		System.out.println("Waiting for connections...");
-		while (!outOfTime && getNumPlayer() < Constants.MAXPLAYERS) {
-			// Waiting for others to connect
-			if (getNumPlayer() == 9)
+		firstConnection();
+		System.out.println("\n" + "Waiting for other connections..." + "\n");
+		while (!outOfTime && (getNumPlayer() < Constants.MAXPLAYERS)) {
+			// TODO Some magic happens here (without the IF, nothing works).
+			if (getNumPlayer() > Constants.MAXPLAYERS)
 				System.out.println(getNumPlayer());
-
 		}
-
 		System.out.println("Out of the loop");
-		startGame();
-		return;
-		// timer.cancel(); // in case the timer is out AND the number of players is right
-		/*
-		 * if (outOfTime && numPlayer < Constants.MINPLAYERS) {
-		 * System.out.println("Sorry.The game won't start."); } else { startGame(); }
-		 */
+		timer.cancel(); // in case the timer is out AND the number of players is right
+		if (outOfTime && numPlayer < Constants.MINPLAYERS) {
+			System.out.println("Sorry.The game won't start.");
+		} else {
+			startGame();
+		}
+	}
+
+	private void firstConnection() {
+		firstConnected = false;
+		numPlayer = 0;
+		System.out.println("Waiting for first connection");
+		while (!isFirstConn()) {
+			// TODO Some magic happens here (without the IF, nothing works).
+			if (isFirstConn())
+				System.out.println(isFirstConn());
+		}
+		startTimer();
+		outOfTime = false;
 	}
 
 	private void startGame() {
-		// Game game = new Game ---->Creation of the class Game, extending thread, maybe?
-		
-		((GameEngineImpl)game).createMap();
-		((GameEngineImpl)game).createPlayers(numPlayer);
+		// Game game = new Game //Creation of the class Game, extending thread, maybe?
+		((GameEngineImpl) game).createMap();
+		((GameEngineImpl) game).createPlayers(numPlayer);
 		started = true;
-
 	}
 
 	private void startTimer() {
 		timer = new Timer();
 		timer.schedule(new MyTimer(this), 5 * 60 * 1000);
 	}
-/*
-	private void waitFirstConn() {
-		System.out.println("Waiting for first connection");
-		while (!firstConn) {}
+
+	protected boolean isStarted() {
+		return started;
 	}
 
-	public void firstConn() {
-		firstConn = true;
+	protected void firstConn() {
+		firstConnected = true;
 	}
 
-	public boolean isFirstConn() {
-		return firstConn;
+	protected boolean isFirstConn() {
+		return firstConnected;
 	}
-*/
+
 	public synchronized void timeout() {
 		outOfTime = true;
 	}
 
-	public void incrementNumPlayer() {
+	protected void incrementNumPlayer() {
 		numPlayer++;
 	}
 
-	public int getNumPlayer() {
+	protected int getNumPlayer() {
 		return numPlayer; // numPlayer=playerID
 	}
-	
-	
+
 }

@@ -94,11 +94,11 @@ public class Player {
 	}
 
 	public String getPlayerCards() {
-		String string="";
-		for(int i=0;i<3;i++){
-			string=string + items[i];
+		String toReturn="";
+		for(int i=0;i<items.length;i++){
+			toReturn=toReturn + items[i]+";";
 		}
-		return string;
+		return toReturn;
 	}
 
 }

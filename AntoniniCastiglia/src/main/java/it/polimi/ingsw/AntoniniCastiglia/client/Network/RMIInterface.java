@@ -25,8 +25,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String move(String player, String sector) throws RemoteException {
-		return remoteEFTAIOS.move(player, sector);
+	public String move(int playerID, String sector) throws RemoteException {
+		return remoteEFTAIOS.move(playerID, sector);
 	}
 
 	@Override
@@ -43,10 +43,7 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String getCards(int playerID) throws RemoteException {
-		remoteEFTAIOS.getCards(null);// I have modified the getCards method in Game Engine Impl; put
-										// null to avoid error
-		// It needs to be fixed!
-		return "abc"; // TODO!!
+		return remoteEFTAIOS.getCards( playerID);
 	}
 
 	@Override
@@ -109,6 +106,6 @@ public class RMIInterface implements NetworkInterface {
 	
 	@Override
 	public String getPlayer(int playerID) throws RemoteException{
-		return remoteEFTAIOS.getPlayer(playerID);
+		return remoteEFTAIOS.getPlayerString(playerID);
 	}
 }

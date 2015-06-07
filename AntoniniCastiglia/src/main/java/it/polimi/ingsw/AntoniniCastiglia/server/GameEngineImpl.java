@@ -28,8 +28,8 @@ public class GameEngineImpl implements GameEngine {
 	}
 	
 	@Override
-	public String getPlayer(int playerID){
-		return (playerList.get(playerID-1)).toString();
+	public String getPlayerString(int playerID){
+		return (playerList.get(playerID)).toString();
 	}
 	
 	@Override
@@ -43,11 +43,11 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public String move(String player, String sector) throws RemoteException {
-		/*Player p= CommonMethods.getPlayer(name);
-	    p.setCurrentSector(s);
-		return "You are now in Sector"+ p.getCurrentSector();*/
-		return "ABC";
+	public String move(int  playerID, String sector) throws RemoteException {
+		Player p= CommonMethods.toPlayer(playerID, playerList);
+		//Sector s = //convert string to coordinates, access table[][]
+	    //p.setCurrentSector(s);
+		return "You are now in Sector"+ p.getCurrentSector();
 	}
 
 	@Override
@@ -71,10 +71,10 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override 
-	public String getCards(Player p) throws RemoteException {//better to be called drawCard
-		String string;
-		string=p.getPlayerCards();
-		return string;
+	public String getCards(int playerID) throws RemoteException {//better to be called drawCard
+		Player p = CommonMethods.toPlayer(playerID, playerList);
+		String cards = p.getPlayerCards();
+		return cards;
 	}
 
 	

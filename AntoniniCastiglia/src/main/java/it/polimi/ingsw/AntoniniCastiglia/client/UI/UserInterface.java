@@ -39,8 +39,8 @@ public interface UserInterface {
 
 	/**
 	 * Shows all possible actions to the player.
-	 * 
 	 * @param possibleActions
+	 * @deprecated (not used)
 	 */
 	public void chooseAction(List<Character> possibleActions);
 

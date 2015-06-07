@@ -31,7 +31,7 @@ public class CLI implements UserInterface {
 		}
 		System.out.println("You are player number " + id + ".");
 		System.out.println("You are a" + nature + ", and your name is " + name + ".");
-		System.out.println("On this unfortunate ship you are " + role + ".");
+		System.out.println("On this unfortunate ship you are the " + role + ".");
 	}
 
 	@Override
@@ -41,9 +41,10 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void printCards(boolean canUseCards, String... cards) {
+		System.out.println(canUseCards);
 		if (canUseCards) {
 			for (int i = 0; i < cards.length; i++) {
-				if (cards[i] != null) {
+				if (!"null".equals(cards[i])) {
 					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
 				}
 			}
@@ -53,6 +54,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
+	@Deprecated
 	public void chooseAction(List<Character> possibleActions) {
 		System.out.println("Please, choose your next action:\n");
 		for (int i = 0; i < possibleActions.size(); i++) {
@@ -100,24 +102,9 @@ public class CLI implements UserInterface {
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
 
-	
 	@Override
 	public void yourTurn() {
 		System.out.println("Now it's your turn!");
-		}
-	
-	// Main to test
-		public static void main(String[] args) {
-			CLI ui = new CLI();
-			String[] s = new String[3];
-			ui.printCards(true, s);
-			s[0] = null;
-			ui.printCards(true, s);
-			s[0] = "1.a_bc";
-			s[2] = "3.g_hi";
-			ui.printCards(true, s);
-			s[1] = "2.d_ef";
-			ui.printCards(true, s);
-		}
+	}
 
 }

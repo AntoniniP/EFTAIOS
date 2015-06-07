@@ -64,7 +64,7 @@ public class Client {
 		nature = player[2];
 		ui.whoYouAreComplete(player);
 		
-		if (playerID-1 != Integer.parseInt(player[3])) {
+		if (playerID != Integer.parseInt(player[3])) {
 			System.out.println("Ops! Something went wrong.");
 		}
 
@@ -74,9 +74,10 @@ public class Client {
 			if (!ni.isEnded()) {
 				boolean hasAttacked = false;
 				// print map
-				ui.printMap(ni.getMap(playerID).replace(";", "\n"));
+				//ui.printMap(ni.getMap(playerID).replace(";", "\n"));
 
 				// get cards
+				System.out.println("Your cards: "+ni.getCards(playerID));
 				cards = ni.getCards(playerID).split(";");
 				ui.printCards(canUseCards(), cards);
 
@@ -114,7 +115,7 @@ public class Client {
 			ui.askMove(adjacents, player[0]);
 			chosenSector = CommonMethods.readLine();
 		} while (!CommonMethods.validSector(adjacents, chosenSector));
-		ni.move(chosenSector, player[0]);
+		ni.move(playerID, chosenSector);
 
 	}
 
@@ -154,7 +155,7 @@ public class Client {
 
 	private boolean canUseCards() {
 		for (String card : cards) {
-			if (card != null) {
+			if (!"null".equals(card)) {
 				return true;
 			}
 		}
