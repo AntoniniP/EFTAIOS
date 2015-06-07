@@ -55,11 +55,12 @@ public interface NetworkInterface {
 
 	/**
 	 * Asks the server for the adjacent sectors list.
+	 * @param playerID 
 	 * 
 	 * @return the list of adjacent sectors, in form of a string
 	 * @throws RemoteException 
 	 */
-	String getAdjacents() throws RemoteException;
+	String getAdjacents(int playerID) throws RemoteException;
 
 	boolean isStarted() throws RemoteException;
 

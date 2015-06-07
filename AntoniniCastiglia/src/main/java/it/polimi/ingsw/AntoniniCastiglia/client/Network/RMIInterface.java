@@ -94,9 +94,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String getAdjacents() throws RemoteException {
-		// return eftaios.getAdjacents();
-		return null;
+	public String getAdjacents(int playerID) throws RemoteException {
+		return remoteEFTAIOS.getAdjacents(playerID);
 	}
 
 	@Override

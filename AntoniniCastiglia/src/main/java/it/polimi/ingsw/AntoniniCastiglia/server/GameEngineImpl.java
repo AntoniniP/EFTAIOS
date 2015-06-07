@@ -8,6 +8,7 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameEngineImpl implements GameEngine {
 
@@ -32,10 +33,7 @@ public class GameEngineImpl implements GameEngine {
 		return (playerList.get(playerID)).toString();
 	}
 	
-	@Override
-	public ArrayList<Sector> adjacentSectors(Player p) throws RemoteException {
-		return table.adjacent(p.getCurrentSector(), p.getHops());
-	}
+	
 
 	@Override
 	public String getMap() throws RemoteException {
@@ -77,6 +75,18 @@ public class GameEngineImpl implements GameEngine {
 		return cards;
 	}
 
+	@Override
+	public String getAdjacents(int playerID) throws RemoteException {
+		Player p = CommonMethods.toPlayer(playerID, playerList);
+		List<Sector> adjacents = table.adjacent(p.getCurrentSector(), p.getHops());
+		String toReturn = "";
+		for (Sector sector: adjacents){
+			toReturn = toReturn+sector.toString()+";";
+		}
+		return toReturn;
+	}
+
+	
 	
 	
 	

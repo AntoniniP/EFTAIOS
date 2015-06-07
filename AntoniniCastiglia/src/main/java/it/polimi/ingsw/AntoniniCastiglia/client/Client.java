@@ -109,7 +109,7 @@ public class Client {
 			ni.getCards(playerID);
 		}
 
-		String adjacents = new String(ni.getAdjacents());
+		String adjacents = new String(ni.getAdjacents(playerID));
 		String chosenSector = null;
 		do {
 			ui.askMove(adjacents, player[0]);

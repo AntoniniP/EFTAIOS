@@ -5,6 +5,7 @@ import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -47,9 +48,11 @@ public class Server {
 		firstConnection();
 		System.out.println("\n" + "Waiting for other connections..." + "\n");
 		while (!outOfTime && (getNumPlayer() < Constants.MAXPLAYERS)) {
-			// TODO Some magic happens here (without the IF, nothing works).
-			if (getNumPlayer() > Constants.MAXPLAYERS)
-				System.out.println(getNumPlayer());
+			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+			}
 		}
 		System.out.println("Out of the loop");
 		timer.cancel(); // in case the timer is out AND the number of players is right
@@ -65,9 +68,11 @@ public class Server {
 		numPlayer = 0;
 		System.out.println("Waiting for first connection");
 		while (!isFirstConn()) {
-			// TODO Some magic happens here (without the IF, nothing works).
-			if (isFirstConn())
-				System.out.println(isFirstConn());
+			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+			}
 		}
 		startTimer();
 		outOfTime = false;

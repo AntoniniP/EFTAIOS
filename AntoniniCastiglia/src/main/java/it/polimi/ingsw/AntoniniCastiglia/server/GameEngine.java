@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface GameEngine extends Remote {
 
-	public ArrayList<Sector> adjacentSectors(Player p) throws RemoteException;
+	// public ArrayList<Sector> adjacentSectors(Player p) throws RemoteException;
 
 	public String getMap() throws RemoteException;
 
@@ -23,4 +23,6 @@ public interface GameEngine extends Remote {
 
 
 	public String getPlayerString(int playerID) throws RemoteException;
+
+	public String getAdjacents(int playerID) throws RemoteException;
 }
