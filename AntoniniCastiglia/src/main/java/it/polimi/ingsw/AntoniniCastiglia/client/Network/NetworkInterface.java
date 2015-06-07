@@ -60,7 +60,7 @@ public interface NetworkInterface {
 	 * @return the list of adjacent sectors, in form of a string
 	 * @throws RemoteException 
 	 */
-	String getAdjacents(int playerID) throws RemoteException;
+	String getAdjacentSectors(int playerID) throws RemoteException;
 
 	boolean isStarted() throws RemoteException;
 

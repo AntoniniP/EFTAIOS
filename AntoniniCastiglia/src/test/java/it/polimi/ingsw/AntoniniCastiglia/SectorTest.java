@@ -4,10 +4,18 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.Collection;
+import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorDeck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCardDeck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.*;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * I test both equals and convert() (indirectly)
@@ -15,23 +23,32 @@ import org.junit.Test;
  * @author Paolo
  *
  */
+@RunWith(value = Parameterized.class)
 public class SectorTest {
 	Sector s1;
 	Sector s2;
 	Sector s3;
 	Sector s4;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		s1 = new DangerousSector("L09");
-		s2 = new SecureSector("L09");
-		s3 = new DangerousSector(11, 8);
-		s4 = new AlienBase(3,3);
+	@Parameters
+	public static Collection<Sector> data() {
+		int letter=11;
+		int number = 8;
+		
+		return Arrays.asList(new AlienBase(letter, number), new DangerousSector(letter, number),
+				new EmptySector(letter, number), new EscapeHatch(letter, number), new SecureSector(letter, number));
 	}
-
+	
+	public SectorTest(Sector concreteSector){
+		this.s1 = concreteSector;
+		this.s2 = concreteSector;
+		this.s3 = concreteSector;
+		this.s4 = concreteSector;
+	}
+	
+	
+	
+	
 	@Test
 	public void testEqualsReflexive() {
 		assertTrue(s1.equals(s1));
@@ -62,25 +79,7 @@ public class SectorTest {
 		assertEquals(s1.getY(),8);
 	}
 	
-	@Test
-	public void testIsReachable1(){
-		assertTrue(s1.isReachable());
-	}
 	
-	@Test
-	public void testIsReachable2(){
-		assertFalse(s4.isReachable());
-	}
-	
-	@Test
-	public void testToString1(){
-		assertEquals(s4.toString(), " A ");
-	}
-
-	@Test
-	public void testToString2(){
-		assertEquals(s3.toString(), "L09");
-	}
 	
 	@Test
 	public void testHashCode(){

@@ -72,5 +72,7 @@ public interface UserInterface {
 	public void youCanAttack(String nature);
 	
 	public void drawDangerousSectorCard(String drawnCard);
+	
+	public void moveResult(String result);
 
 }

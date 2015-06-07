@@ -16,7 +16,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(value = Parameterized.class)
-public class DeckTest {
+public class SISTEMADeckTest {
 
 	Deck deck;
 	Card c;
@@ -27,7 +27,7 @@ public class DeckTest {
 		return Arrays.asList(new EscapeHatchDeck(), new DangerousSectorDeck(), new ItemCardDeck());
 	}
 
-	public DeckTest(Deck concreteDeck) {
+	public SISTEMADeckTest(Deck concreteDeck) {
 		this.deck = concreteDeck;
 	}
 

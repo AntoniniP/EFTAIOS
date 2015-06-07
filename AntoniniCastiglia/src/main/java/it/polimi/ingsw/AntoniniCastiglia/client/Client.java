@@ -23,7 +23,6 @@ public class Client {
 	private UserInterface ui;
 	boolean hasAttacked;
 
-
 	/**
 	 * This is the <code>main</code> method of the class. It simply creates a network interface,
 	 * which is passed to the constructor of the class. The whole game is started in the
@@ -76,21 +75,20 @@ public class Client {
 				ui.printMap(ni.getMap(playerID).replace(";", "\n"));
 
 				// get cards
-				System.out.println("Your cards: " + ni.getCards(playerID));
 				cards = ni.getCards(playerID).split(";");
-				ui.printCards(canUseCards(), cards);
+				ui.printCards(canUseCards(ni), cards);
 
 				ui.yourTurn();
 
 				phase1(ni);
+				
 				hasAttacked = false;
 				if (canAttack()) {
 					phase2(ni);
 				}
 
 				phase3(ni, hasAttacked);
-				
-				
+
 				endGame = true;
 
 			} else {
@@ -102,32 +100,27 @@ public class Client {
 
 	// Use card, then move
 	private void phase1(NetworkInterface ni) throws RemoteException {
-
-		if (canUseCards()) {
-			ui.chooseCards();
-			useCards(ni);
-			ni.getCards(playerID);
-		}
-
-		String adjacents = new String(ni.getAdjacents(playerID));
+		useCards(ni);
+		
+		String adjacentSectors = new String(ni.getAdjacentSectors(playerID));
 		String chosenSector = null;
 		do {
-			ui.askMove(adjacents);
+			ui.askMove(adjacentSectors);
 			chosenSector = CommonMethods.readLine();
-		} while (!CommonMethods.validSector(adjacents, chosenSector));
+		} while (!CommonMethods.validSector(adjacentSectors, chosenSector));
 		String toPrint = ni.move(playerID, chosenSector);
-		System.out.println(toPrint);
+		ui.moveResult(toPrint);
 	}
 
 	// Use card (attack) if HUMAN, then attack
 	private void phase2(NetworkInterface ni) throws RemoteException {
-		
-			ui.youCanAttack(nature);
-			String chosenAction = CommonMethods.readLine();
-			if (chosenAction.equals("A")) {
-				ni.attack(playerID);
-				hasAttacked=true;
-			}
+
+		ui.youCanAttack(nature);
+		String chosenAction = CommonMethods.readLine();
+		if (chosenAction.equals("A")) {
+			ni.attack(playerID);
+			hasAttacked = true;
+		}
 	}
 
 	// Use card, then end turn
@@ -135,34 +128,36 @@ public class Client {
 		if (!hasAttacked) {
 			ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
 		}
-		boolean canUseCards = canUseCards();
+		boolean canUseCards = canUseCards(ni);
 
 		if (canUseCards) {
 			ui.chooseCards();
 			useCards(ni);
 		}
-		
-		//TODO endTurn
+
+		// TODO endTurn
 	}
 
 	private void useCards(NetworkInterface ni) throws RemoteException {
-		String choice = CommonMethods.readLine();
-
-		int[] validChoices = new int[3];
-
-		validChoices = CommonMethods.validCard(choice, cards.length);
-
-		// TODO now assuming that the player is neither evil nor dumb.
-		// if he chooses 0, he won't write anything else
-		if (validChoices[0] == 0) {
-			return;
-		}
-		for (int i = 0; i < validChoices.length; i++) {
-			ni.useCard(cards[i], playerID);
+		if (canUseCards(ni)) {
+			ui.chooseCards();
+			String choice = CommonMethods.readLine();
+			int[] validChoices = new int[3];
+			
+			// TODO now assuming that the player is neither evil nor dumb.
+			// if he chooses 0, he won't write anything else
+			validChoices = CommonMethods.validCard(choice, cards.length);
+			if (validChoices[0] == 0) {
+				return;
+			}
+			for (int i = 0; i < validChoices.length; i++) {
+				ni.useCard(cards[i], playerID);
+			}
 		}
 	}
 
-	private boolean canUseCards() {
+	private boolean canUseCards(NetworkInterface ni) throws RemoteException {
+		cards = ni.getCards(playerID).split(";"); // Update the variable cards
 		for (String card : cards) {
 			if (!"null".equals(card)) {
 				return true;

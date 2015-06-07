@@ -25,8 +25,9 @@ public class Player {
 	protected Sector currentSector;
 	protected ArrayList<Sector> path = new ArrayList<Sector>();
 	private Card[] items = new ItemCard[3];
+	private boolean shield = false;
+	private boolean dead=false;
 
-	boolean attack = false;
 
 	protected Player(String name, String role, String nature, int id) {
 		this.name = name;
@@ -47,6 +48,24 @@ public class Player {
 	 */
 	public int getMoves() {
 		return maxMoves;
+	}
+
+	public boolean hasShield(){
+		return shield;
+	}
+	
+	public void setShield(boolean newShield){
+		this.shield=newShield;
+	}
+	
+	
+	public boolean isDead() {
+		return dead;
+	}
+
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 
 	/**
@@ -78,20 +97,14 @@ public class Player {
 	}
 
 	public Sector getCurrentSector() {
-		// TODO Auto-generated method stub
 		return currentSector;
 	}
 
 	public int getHops() {
-		// TODO Auto-generated method stub
 		return maxMoves;
 	}
 
-	public void setAttack(boolean b) {
-		this.attack = attack;
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	public String getPlayerCards() {
 		String toReturn="";

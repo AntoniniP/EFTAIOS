@@ -10,8 +10,6 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Human extends Player {
 
-	boolean beenEaten = false;
-	boolean shield = false;
 	
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are

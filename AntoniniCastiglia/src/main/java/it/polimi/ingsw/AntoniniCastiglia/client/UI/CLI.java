@@ -130,4 +130,9 @@ public class CLI implements UserInterface {
 		
 	}
 
+	@Override
+	public void moveResult(String result) {
+		System.out.println(result);		
+	}
+
 }

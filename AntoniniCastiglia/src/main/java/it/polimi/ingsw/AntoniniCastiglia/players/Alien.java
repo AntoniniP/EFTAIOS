@@ -10,7 +10,6 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Alien extends Player {
 
-	boolean hasEaten = false;
 
 	/**
 	 * Constructor for Alien player. Sets all fundamental parameters. Some are
