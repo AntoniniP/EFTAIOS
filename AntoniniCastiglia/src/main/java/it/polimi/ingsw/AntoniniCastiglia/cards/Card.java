@@ -1,11 +1,18 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 /**
- * Public interface for cards. Completely empty for now.
+ * Public interface for cards. Completely empty now.
  * 
  * @author Paolo Antonini
  *
  */
-public interface Card {
+public abstract class Card {
+
+	protected String type;
+	protected String name;
+
+	public String getCard() {
+		return type + "_" + name;
+	}
 
 }

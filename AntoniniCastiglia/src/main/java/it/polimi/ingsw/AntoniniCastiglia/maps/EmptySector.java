@@ -32,7 +32,7 @@ public class EmptySector extends Sector {
 
 	@Override
 	public void action() {
-		;
+		
 	}
 
 }

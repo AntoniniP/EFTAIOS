@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import java.util.ArrayList;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
@@ -12,22 +11,22 @@ public class ItemCardDeck extends Deck {
 	public ItemCardDeck() {
 
 		for (int i = 0; i < Constants.ADRENALINECARD; i++) {
-			deck.add(new AdrenalineCard());
+			deck.add(new ItemAdrenaline());
 		}
 		for (int i = 0; i < Constants.ATTACKCARD; i++) {
-			deck.add(new AttackCard());
+			deck.add(new ItemAttack());
 		}
 		for (int i = 0; i < Constants.DEFENSECARD; i++) {
-			deck.add(new DefenseCard());
+			deck.add(new ItemDefense());
 		}
 		for (int i = 0; i < Constants.SEDATIVESCARD; i++) {
-			deck.add(new SedativesCard());
+			deck.add(new ItemSedatives());
 		}
 		for (int i = 0; i < Constants.SPOTLIGHTCARD; i++) {
-			deck.add(new SpotlightCard());
+			deck.add(new ItemSpotlight());
 		}
 		for (int i = 0; i < Constants.TELEPORTCARD; i++) {
-			deck.add(new TeleportCard());
+			deck.add(new ItemTeleport());
 		}
 		shuffleDeck();
 	}

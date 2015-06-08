@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 public class HumanBase extends Sector { // TODO SINGLETON!!
 
 	/**
@@ -27,12 +29,12 @@ public class HumanBase extends Sector { // TODO SINGLETON!!
 
 	@Override
 	public String toString() {
-		return " H ";
+		return Constants.ANSI_BOLD + Constants.ANSI_RED + " H " + Constants.ANSI_RESET;
 	}
 
 	@Override
 	public void action() {
-		// TODO nextTurn();		
+		// TODO nextTurn();
 	}
-	
+
 }

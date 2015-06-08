@@ -1,8 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**
@@ -21,27 +18,27 @@ public class DangerousSectorDeck extends Deck {
 
 		// noise in your sector, with object
 		for (int i = 0; i < Constants.NOISE_YOURSECTOR_WITHOBJECT; i++) {
-			deck.add(new NoiseCard(true, true));
+			deck.add(new DangerousSectorNoise(true, true));
 		}
 
 		// noise in any sector, with object
 		for (int i = 0; i < Constants.NOISE_ANYSECTOR_WITHOBJECT; i++) {
-			deck.add(new NoiseCard(false, true));
+			deck.add(new DangerousSectorNoise(false, true));
 		}
 
 		// noise in your sector, without object
 		for (int i = 0; i < Constants.NOISE_YOURSECTOR_WITHOUTOBJECT; i++) {
-			deck.add(new NoiseCard(true, false));
+			deck.add(new DangerousSectorNoise(true, false));
 		}
 
 		// noise in any sector, without object
 		for (int i = 0; i < Constants.NOISE_ANYSECTOR_WITHOUTOBJECT; i++) {
-			deck.add(new NoiseCard(false, false));
+			deck.add(new DangerousSectorNoise(false, false));
 		}
 
 		// silence
 		for (int i = 0; i < Constants.SILENCE; i++) {
-			deck.add(new Silence());
+			deck.add(new DangerousSectorSilence());
 		}
 
 		shuffleDeck();

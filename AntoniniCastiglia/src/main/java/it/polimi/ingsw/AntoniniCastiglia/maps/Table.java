@@ -6,14 +6,13 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
 // TODO drawMap is VIEW (maybe improve it, to avoid repeated code
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides the map for the game (it's called Table in order to avoid
- * override problems with Java predefined classes).
+ * This class provides the map for the game (it's called Table in order to avoid override problems
+ * with Java predefined classes).
  * 
  * @author Laura Castiglia
  *
@@ -32,66 +31,69 @@ public class Table {
 	// keeps a list of each type of sector, for convenience
 	private static Sector alienBase;
 	private static Sector humanBase;
+	
+	
+	public Sector getSector(int y, int x){
+		return table[y][x];
+	}
 
 	/**
-	 * Constructor for Table class. Reads a text file containing a map (every
-	 * sector is denoted by a number, to denote its type), and the matrix of
-	 * Sector called table.
+	 * Constructor for Table class. Reads a text file containing a map (every sector is denoted by a
+	 * number, to denote its type), and the matrix of Sector called table.
 	 * 
 	 * @throws IOException
 	 */
-	public Table(){
-		   FileInputStream f;
-	        try {
-	            f = new FileInputStream("resources/table.txt");
-	 
-	            for (int i = 0; i < Constants.HEIGHT; i++)
-	                for (int j = 0; j < Constants.WIDTH; j++) {
-	     
-	                    switch (validChar(f)) {
-	     
-	                    case EMPTYSECTOR:
-	                        table[i][j] = new EmptySector(j, i);
-	                        break;
-	     
-	                    case DANGEROUSSECTOR:
-	                        table[i][j] = new DangerousSector(j, i);
-	                        break;
-	     
-	                    case HUMANBASE:
-	                        table[i][j] = new HumanBase(j, i);
-	                        humanBase = table[i][j];
-	                        break;
-	     
-	                    case ALIENBASE:
-	                        table[i][j] = new AlienBase(j, i);
-	                        alienBase = table[i][j];
-	                        break;
-	     
-	                    case SECURESECTOR:
-	                        table[i][j] = new SecureSector(j, i);
-	                        break;
-	     
-	                    case ESCAPEHATCH:
-	                        table[i][j] = new EscapeHatch(j, i);
-	                        break;
-	     
-	                    default:
-	                    }
-	     
-	                }
-	            f.close();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
+	public Table() {
+		FileInputStream f;
+		try {
+			f = new FileInputStream("resources/table.txt");
+
+			for (int i = 0; i < Constants.HEIGHT; i++)
+				for (int j = 0; j < Constants.WIDTH; j++) {
+
+					switch (validChar(f)) {
+
+						case EMPTYSECTOR:
+							table[i][j] = new EmptySector(j, i);
+							break;
+
+						case DANGEROUSSECTOR:
+							table[i][j] = new DangerousSector(j, i);
+							break;
+
+						case HUMANBASE:
+							table[i][j] = new HumanBase(j, i);
+							humanBase = table[i][j];
+							break;
+
+						case ALIENBASE:
+							table[i][j] = new AlienBase(j, i);
+							alienBase = table[i][j];
+							break;
+
+						case SECURESECTOR:
+							table[i][j] = new SecureSector(j, i);
+							break;
+
+						case ESCAPEHATCH:
+							table[i][j] = new EscapeHatch(j, i);
+							break;
+
+						default:
+					}
+
+				}
+			f.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
-	 * The method receives the reference to the map file, and returns only valid
-	 * characters (that is, the chars corresponding to the various types of
-	 * sectors).
+	 * The method receives the reference to the map file, and returns only valid characters (that
+	 * is, the chars corresponding to the various types of sectors).
 	 * 
-	 * @param f
-	 *            reference to the map file
+	 * @param f reference to the map file
 	 * @return valid character
 	 * @throws IOException
 	 */
@@ -102,9 +104,8 @@ public class Table {
 		try {
 			do {
 				c = (char) f.read();
-			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR
-					&& c != EMPTYSECTOR && c != ESCAPEHATCH && c != HUMANBASE
-					&& c != SECURESECTOR);
+			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR && c != EMPTYSECTOR
+					&& c != ESCAPEHATCH && c != HUMANBASE && c != SECURESECTOR);
 		} catch (EOFException e) {
 			eof = true;
 			System.out.println(e);
@@ -117,27 +118,27 @@ public class Table {
 	 */
 	public String drawMap() {
 		String string = "";
-        
-        for (int i = 0; i < Constants.HEIGHT; i++) {
-            for (int j = 0; j < Constants.WIDTH; j++) {
-                if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
-                    string= string + "     ";
-                } else {
-                    string= string + "[" + table[i][j] + "]";
-                }
-            }
-            string= string + "\n";
-            for (int j = 0; j < Constants.WIDTH; j++) {
-                if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
-                    string= string + "     ";
-                } else {
-                    string= string +"[" + table[i][j] + "]";
-                }
- 
-            }
-            string= string + "\n";
-        }
-        return string;
+
+		for (int i = 0; i < Constants.HEIGHT; i++) {
+			for (int j = 0; j < Constants.WIDTH; j++) {
+				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
+					string = string + "     ";
+				} else {
+					string = string + "[" + table[i][j] + "]";
+				}
+			}
+			string = string + "\n";
+			for (int j = 0; j < Constants.WIDTH; j++) {
+				if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
+					string = string + "     ";
+				} else {
+					string = string + "[" + table[i][j] + "]";
+				}
+
+			}
+			string = string + "\n";
+		}
+		return string;
 	}
 
 	/**
@@ -159,22 +160,21 @@ public class Table {
 	}
 
 	/**
-	 * The method, after receiving a sector and the maximum distance, produces
-	 * an ArrayList containing all reachable sectors within the given distance.
-	 * The calling sector is EXCLUDED.
+	 * The method, after receiving a sector and the maximum distance, produces an ArrayList
+	 * containing all reachable sectors within the given distance. The calling sector is EXCLUDED.
 	 * 
 	 * @param s
 	 * @param hops
 	 * @return ArrayList of sectors
 	 */
 	public ArrayList<Sector> adjacent(Sector s, int hops) {
+
 		ArrayList<Sector> sectorList = new ArrayList<Sector>();
+
 		sectorList.add(s);
 
-		int x = s.getX();
-		int y = s.getY();
-
 		while (hops > 0) {
+
 			List<Sector> tmp = new ArrayList<Sector>();
 
 			for (Sector s1 : sectorList) {
@@ -183,39 +183,50 @@ public class Table {
 				int y1 = s1.getY();
 
 				for (int i = y1 - 1; i <= y1 + 1; i++) {
-					for (int j = x1 - 1; j <= x1 + 1; j++) {
-						if ((i >= 0 && i < Constants.HEIGHT)
-								&& (j >= 0 && j < Constants.WIDTH)) {
-							if (table[i][j].isReachable()
-									&& !(j == x1 && i == y1)) {
-								if ((x1 % 2 == 1)
-										&& (!(j == x1 - 1 && i == y1 - 1) && !(j == x1 + 1 && i == y1 - 1))) {
-									tmp.add(table[i][j]);
-								} else if ((x1 % 2 == 0)
-										&& (!(j == x1 - 1 && i == y1 + 1) && !(j == x1 + 1 && i == y1 + 1))) {
-									tmp.add(table[i][j]);
-								}
-							}
-						}
-					}
+					addSector(i, x1, tmp);
 				}
 
+				for (int j = x1 - 1; j <= x1 + 1; j++) {
+					addSector(y1, j, tmp);
+				}
+
+				if (x1 % 2 == 1) { // Pari
+					addSector(y1 + 1, x1 - 1, tmp);
+					addSector(y1 + 1, x1 + 1, tmp);
+
+				} else { // Dispari
+					addSector(y1 - 1, x1 - 1, tmp);
+					addSector(y1 - 1, x1 + 1, tmp);
+				}
 			}
 
 			for (Sector s1 : tmp) {
-
-				if (!sectorList.contains(s1) && !s.equals(s1)) {
+				if (!sectorList.contains(s1) && s1.isReachable()) {
 					sectorList.add(s1);
 				}
 			}
-
+			
 			sectorList.remove(s);
-
 			hops--;
-
 		}
-
+		
+		sectorList.trimToSize();
 		return sectorList;
-
 	}
+
+	private void addSector(int y, int x, List<Sector> tmp) {
+		try {
+			tmp.add(table[y][x]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
+	}
+
+	// Main to test
+	public static void main(String[] args) {
+		Table t = new Table();
+		//Sector s = new DangerousSector(11, 8);
+		//System.out.println(s + " " + t.adjacent(s, 2));
+		System.out.println(t.drawMap().replace(';', '\n'));
+	}
+
 }
