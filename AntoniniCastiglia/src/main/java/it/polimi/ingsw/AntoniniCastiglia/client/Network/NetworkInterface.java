@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.Network;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
@@ -18,8 +17,6 @@ public interface NetworkInterface {
 	 * @return the name of the player
 	 */
 	int connect()throws RemoteException;
-
-	boolean close() throws RemoteException;
 
 	/**
 	 * Gets the map from the server.

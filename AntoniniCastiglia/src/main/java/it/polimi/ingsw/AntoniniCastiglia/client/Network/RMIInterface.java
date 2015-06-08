@@ -1,12 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.Network;
 
-import java.rmi.AccessException;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameEngine;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.server.GameEngine;
 
 /**
  * RMI implementation of <code>NetworkInterface</code>.
@@ -18,6 +16,37 @@ public class RMIInterface implements NetworkInterface {
 
 	private GameEngine remoteEFTAIOS;
 	private it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface remoteRMI;
+
+	@Override
+	public int connect() throws RemoteException {
+		String gameInt = "GameEngine";
+		String rmiInt = "RMIinterface";
+		Registry registry;
+	
+		try {
+			registry = LocateRegistry.getRegistry(1099);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	
+		try {
+			remoteEFTAIOS = (it.polimi.ingsw.AntoniniCastiglia.server.GameEngine) (registry
+					.lookup(gameInt));
+			remoteRMI = (it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface) (registry
+					.lookup(rmiInt));
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	
+		try {
+			return remoteRMI.connect();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
 	@Override
 	public String getMap(int playerID) throws RemoteException {
@@ -46,44 +75,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public boolean close() throws RemoteException {
-		return true;
-	}
-
-	@Override
 	public void useCard(String card, int playerID) throws RemoteException {
 		remoteEFTAIOS.useCard(card, playerID);
-	}
-
-	@Override
-	public int connect() throws RemoteException {
-		String gameInt = "GameEngine";
-		String rmiInt = "RMIinterface";
-		Registry registry;
-
-		try {
-			registry = LocateRegistry.getRegistry(1099);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return -1;
-		}
-
-		try {
-			remoteEFTAIOS = (it.polimi.ingsw.AntoniniCastiglia.server.GameEngine) (registry
-					.lookup(gameInt));
-			remoteRMI = (it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface) (registry
-					.lookup(rmiInt));
-		} catch (RemoteException | NotBoundException e) {
-			e.printStackTrace();
-			return -1;
-		}
-
-		try {
-			return remoteRMI.connect();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return -1;
 	}
 
 	@Override

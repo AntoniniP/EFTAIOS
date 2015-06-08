@@ -1,7 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
-import java.util.List;
-
 /**
  * This interface provides a list of methods, useful for the factory method pattern implementation
  * of <code>UserInterface</code>.
@@ -13,8 +11,9 @@ public interface UserInterface {
 
 	/**
 	 * Prints a simple message.
+	 * @param playerID TODO
 	 */
-	public void connected();
+	public void connected(int playerID);
 
 	/**
 	 * Lets the player know which are his name and nature (Human/Alien)
@@ -38,11 +37,9 @@ public interface UserInterface {
 	public void printCards(boolean canUseCards, String... card);
 
 	/**
-	 * Shows all possible actions to the player.
-	 * @param possibleActions
-	 * @deprecated (not used)
+	 * Prints a simple message, informing the player that it's his turn.
 	 */
-	public void chooseAction(List<Character> possibleActions);
+	public void yourTurn();
 
 	/**
 	 * Prints a simple message, asking the player to choose which card(s) he wants to use.
@@ -58,16 +55,6 @@ public interface UserInterface {
 	 * Prints a simple message, to let the player know that an error occurred.
 	 */
 	void genericError();
-
-	/**
-	 * Asks the player to wait for a game to begin.
-	 */
-	public void pleaseWait();
-	
-	/**
-	 * Prints a simple message, informing the player that it's his turn.
-	 */
-	public void yourTurn();
 
 	public void youCanAttack(String nature);
 	

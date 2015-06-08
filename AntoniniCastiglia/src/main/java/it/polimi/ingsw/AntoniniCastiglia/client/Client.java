@@ -21,7 +21,7 @@ public class Client {
 	private String nature;
 	private String[] cards;
 	private UserInterface ui;
-	boolean hasAttacked;
+	private boolean hasAttacked;
 
 	/**
 	 * This is the <code>main</code> method of the class. It simply creates a network interface,
@@ -37,7 +37,6 @@ public class Client {
 			System.out.println();
 			Client application = new Client(ni);
 		} catch (Exception e) {
-			// System.out.println(e);
 			e.printStackTrace();
 		}
 
@@ -53,10 +52,8 @@ public class Client {
 		ui = UserInterfaceFactory.getInterface(chooseUI());
 
 		playerID = ni.connect();
-		ui.connected();
-		System.out.println("playerID: " + playerID);
+		ui.connected(playerID);
 
-		ui.pleaseWait();
 		// Waiting for a game to begin
 		while (!ni.isStarted()) {
 			try {
@@ -64,15 +61,18 @@ public class Client {
 			} catch (InterruptedException e) {
 			}
 		}
+
+		// It's: [0] name; [1] role; [2] nature; [3] playerID; [4] maxMoves.
 		player = (new String(ni.getPlayer(playerID))).split("_");
 		nature = player[2];
+
 		ui.whoYouAreComplete(player);
 
 		boolean endGame = false;
 		while (!endGame) {
 			if (!ni.isEnded()) {
 				// print map
-				ui.printMap(ni.getMap(playerID).replace(";", "\n"));
+				ui.printMap(ni.getMap(playerID));
 
 				// get cards
 				cards = ni.getCards(playerID).split(";");
@@ -82,10 +82,9 @@ public class Client {
 
 				phase1(ni);
 				phase2(ni);
+				phase3(ni);
 
-				phase3(ni, hasAttacked);
-
-				endGame = true;
+				endGame = true; // Remove me as soon as isEnded() is decently implemented
 
 			} else {
 				endGame = true;
@@ -122,7 +121,7 @@ public class Client {
 	}
 
 	// Use card, then end turn
-	private void phase3(NetworkInterface ni, boolean hasAttacked) throws RemoteException {
+	private void phase3(NetworkInterface ni) throws RemoteException {
 		if (!hasAttacked) {
 			ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
 		}
@@ -154,9 +153,9 @@ public class Client {
 	}
 
 	private boolean canUseCards(NetworkInterface ni) throws RemoteException {
-		cards = ni.getCards(playerID).split(";"); // Update the variable cards
+		cards = ni.getCards(playerID).split(";"); // Update the global variable cards
 		for (String card : cards) {
-			if (!"null".equals(card)) {
+			if (!("null".equals(card))) {
 				return true;
 			}
 		}
@@ -189,14 +188,14 @@ public class Client {
 	private static int chooseNetwork() {
 		String choice;
 		while (true) {
-			System.out.println("Choose your preferred network interface:");
+			System.out.println("Choose your preferred network interface. Here's what we offer:");
 			System.out.println("1 - RMI");
 			System.out.println("2 - Socket (not implemented yet)");
 			choice = CommonMethods.readLine();
 			if ("1".equals(choice) || "2".equals(choice)) {
 				return Integer.parseInt(choice);
 			}
-			System.out.println("Please, choose between 1 or 2.");
+			System.out.println("Please, choose between 1 or 2. Not difficult.");
 		}
 	}
 
@@ -208,14 +207,15 @@ public class Client {
 	private static int chooseUI() {
 		String choice;
 		while (true) {
-			System.out.println("\n" + "Now choose your preferred user interface:");
+			System.out
+					.println("Now choose your preferred user interface. In know you're interested!");
 			System.out.println("1 - CLI");
 			System.out.println("2 - GUI (not implemented yet)");
 			choice = CommonMethods.readLine();
 			if ("1".equals(choice) || "2".equals(choice)) {
 				return Integer.parseInt(choice);
 			}
-			System.out.println("Please, choose between 1 or 2.");
+			System.out.println("Please, choose between 1 or 2. It's simple, actually.");
 		}
 	}
 
