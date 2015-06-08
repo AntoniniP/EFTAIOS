@@ -15,18 +15,13 @@ public class PlayerTest {
 		p = new Human("John", "Captain", 0);
 	}
 
-	@Test
-	public void testToString() {
-		String expected = new String ("John, Captain, 0, 1");
-		assertEquals(expected, p.toString());
-	}
 
 	@Test
 	public void testSetCurrentSector() {
 		Sector s1 = new SecureSector ("A02");
 		p.setCurrentSector(s1);
 		//TODO test che sia stato aggiunto a path[]!
-		assertEquals(s1, p.getCurrenSector());
+		assertEquals(s1, p.getCurrentSector());
 	}
 	
 }

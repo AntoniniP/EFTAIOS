@@ -3,15 +3,16 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 /**
- * Every instance of this class is a Silence card (type of Dangerous Sector
- * card).
+ * Every instance of this class is a Silence card (type of Dangerous Sector card).
  * 
  * @author Laura Castiglia
  *
  */
-public class Silence implements DangerousSectorCard {
+public class DangerousSectorSilence extends DangerousSectorCard {
 
-	public Silence() { // Constructor
+	public DangerousSectorSilence() {
+		super();
+		name = CardNames.SILENCE;
 	}
 
 	@Override

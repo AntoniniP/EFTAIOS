@@ -12,13 +12,26 @@ import it.polimi.ingsw.AntoniniCastiglia.client.MyConstants;
 public class CLI implements UserInterface {
 
 	@Override
-	public void connecting() {
-		System.out.println("Now connecting...");
+	public void connected() {
+		System.out.println("You are now connected to the game. "
+				+ "Please wait for the game to begin. "
+				+ "Soon you will know what character you are going to play with.");
 	}
 
 	@Override
-	public void youAre(String name) {
-		System.out.println("You are " + name);
+	public void whoYouAreComplete(String[] player) {
+		String name = player[0];
+		String role = player[1];
+		String id = player[3];
+		String nature;
+		if ("A".equals(player[2])) {
+			nature = new String("n alien");
+		} else {
+			nature = new String(" human");
+		}
+		System.out.println("You are player number " + id + ".");
+		System.out.println("You are a" + nature + ", and your name is " + name + ".");
+		System.out.println("On this unfortunate ship you are the " + role + ".");
 	}
 
 	@Override
@@ -27,17 +40,21 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void printAllCards(String... cards) {
-		if (cards.length == 0) {
-			System.out.println("You don't have any card!");
-		} else {
+	public void printCards(boolean canUseCards, String... cards) {
+		System.out.println(canUseCards);
+		if (canUseCards) {
 			for (int i = 0; i < cards.length; i++) {
-				System.out.println((i + 1) + ". " + cards[i]);
+				if (!"null".equals(cards[i])) {
+					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
+				}
 			}
+		} else {
+			System.out.println("You don't have any Item card right now.");
 		}
 	}
 
 	@Override
+	@Deprecated
 	public void chooseAction(List<Character> possibleActions) {
 		System.out.println("Please, choose your next action:\n");
 		for (int i = 0; i < possibleActions.size(); i++) {
@@ -68,9 +85,54 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void askMove(String adjacents, String player) {
+	public void askMove(String adjacents) {
 		System.out.println("You can move in the following sectors: ");
-		System.out.println(adjacents.replace(';', ' ')+"\n");
+		System.out.println(adjacents.replace(';', ' ') + "\n");
 		System.out.print("Please, choose where you want to go: ");
 	}
+
+	@Override
+	public void genericError() {
+		System.out.println("There has been an error while trying to connect the client.");
+	}
+
+	@Override
+	public void pleaseWait() {
+		System.out.println("Please, wait for a game to begin."
+				+ "Soon you will be provided with a character, and you will see the map.");
+	}
+
+	@Override
+	public void yourTurn() {
+		System.out.println("Now it's your turn!");
+	}
+
+	@Override
+	public void youCanAttack(String nature) {
+		System.out
+				.println("It seems that you can attack the sector you are in! Now think carefully "
+						+ "if you want to attack or not.");
+		if ("H".equals(nature)) {
+			System.out.println("(Please note that you are a Human. As such, you can perform "
+					+ "an attack thanks to your Attack item card. If you go on, your Attack card "
+					+ "will be discarded)");
+		}
+		System.out.println("Now choose:" + "\n" + "A - Attack" + "\n" + "B - Be a good guy");
+
+	}
+
+	@Override
+	public void drawDangerousSectorCard(String drawnCard) {
+		// TODO settore sicuro
+		System.out.println("Since you were good, and you didn't attack, here is a reward (well, kind of...).");
+		System.out.println(drawnCard);
+
+		
+	}
+
+	@Override
+	public void moveResult(String result) {
+		System.out.println(result);		
+	}
+
 }

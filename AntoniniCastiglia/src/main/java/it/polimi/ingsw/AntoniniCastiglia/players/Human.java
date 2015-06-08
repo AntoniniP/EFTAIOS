@@ -10,7 +10,6 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Human extends Player {
 
-	boolean beenEaten = false;
 	
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are
@@ -21,7 +20,7 @@ public class Human extends Player {
 	 * @param id
 	 */
 	public Human(String name, String role, int id) {
-		super(name, role, id);
+		super(name, role, "H", id);
 		maxMoves = 1;
 		myBase = Table.getHumanBase();
 		currentSector = myBase; path.add(myBase); // TODO use a move action!

@@ -5,10 +5,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import it.polimi.ingsw.AntoniniCastiglia.client.Client;
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
-import it.polimi.ingsw.AntoniniCastiglia.misc.RemoteEFTAIOS;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameEngine;
 
 /**
  * RMI implementation of <code>NetworkInterface</code>.
@@ -18,91 +16,109 @@ import it.polimi.ingsw.AntoniniCastiglia.misc.RemoteEFTAIOS;
  */
 public class RMIInterface implements NetworkInterface {
 
-	private RemoteEFTAIOS eftaios;
+	private GameEngine remoteEFTAIOS;
+	private it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface remoteRMI;
 
 	@Override
-	public String getMap() throws RemoteException {
-		return eftaios.getMap();
+	public String getMap(int playerID) throws RemoteException {
+		return remoteEFTAIOS.getMap();
 	}
 
 	@Override
-	public String move(String sector, String player) throws RemoteException  {
-		return eftaios.move(sector, player);
+	public String move(int playerID, String sector) throws RemoteException {
+		return remoteEFTAIOS.move(playerID, sector);
 	}
 
 	@Override
 	public boolean isEnded() throws RemoteException {
-		return eftaios.isEnded();
+		return remoteEFTAIOS.isEnded();
 	}
 
 	@Override
 	public String getWinner() throws RemoteException {
-		return eftaios.getWinner();
+		// return eftaios.getWinner();
+		return "abc";
 	}
 
 	@Override
-	public String getCards(String player) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCards(int playerID) throws RemoteException {
+		return remoteEFTAIOS.getCards(playerID);
 	}
 
 	@Override
-	public boolean close() {
+	public boolean close() throws RemoteException {
 		return true;
 	}
 
 	@Override
-	public void useCards(String[] cards, UserInterface ui, String player) {
-		String choice;
-		int[] validChoices = new int[3];
-
-		ui.chooseCards();
-		ui.printAllCards(cards);
-
-		choice = Client.readLine();
-		validChoices = CommonMethods.validCard(choice, cards.length);
-		for (int i = 0; i < validChoices.length; i++) {
-			eftaios.useCard(cards[i]);
-		}
+	public void useCard(String card, int playerID) throws RemoteException {
+		remoteEFTAIOS.useCard(card, playerID);
 	}
 
 	@Override
-	public String connect() {
-		String name = "RemoteEFTAIOS";
+	public int connect() throws RemoteException {
+		String gameInt = "GameEngine";
+		String rmiInt = "RMIinterface";
 		Registry registry;
 
 		try {
-			registry = LocateRegistry.getRegistry(2026);
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-			return null;
+			registry = LocateRegistry.getRegistry(1099);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return -1;
 		}
 
 		try {
-			eftaios = (RemoteEFTAIOS) registry.lookup(name);
-		} catch (AccessException e) {
+			remoteEFTAIOS = (it.polimi.ingsw.AntoniniCastiglia.server.GameEngine) (registry
+					.lookup(gameInt));
+			remoteRMI = (it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface) (registry
+					.lookup(rmiInt));
+		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
+			return -1;
 		}
 
 		try {
-			return eftaios.connect();
+			return remoteRMI.connect();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
-		return null;
+		return -1;
 	}
 
 	@Override
-	public String getAdjacents() {
-		return eftaios.getAdjacents();
+	public String getAdjacentSectors(int playerID) throws RemoteException {
+		return remoteEFTAIOS.getAdjacents(playerID);
+	}
+
+	@Override
+	public boolean isStarted() throws RemoteException {
+		return remoteRMI.isStarted();
+	}
+
+	@Override
+	public String getPlayer(int playerID) throws RemoteException {
+		return remoteEFTAIOS.getPlayerString(playerID);
+	}
+
+	@Override
+	public void attack(int playerID) throws RemoteException {
+		remoteEFTAIOS.attack(playerID);
+	}
+
+	@Override
+	public String drawDangerousSectorCard() throws RemoteException {
+		return remoteEFTAIOS.drawCard("DS");
+	}
+
+	@Override
+	public String drawEscapeHatchCard() throws RemoteException {
+		return remoteEFTAIOS.drawCard("EH");
+	}
+
+	@Override
+	public String drawItemCard() throws RemoteException {
+		return remoteEFTAIOS.drawCard("IC");
 	}
 	
 	

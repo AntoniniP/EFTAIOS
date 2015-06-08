@@ -10,7 +10,6 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Alien extends Player {
 
-	boolean hasEaten = false;
 
 	/**
 	 * Constructor for Alien player. Sets all fundamental parameters. Some are
@@ -21,7 +20,7 @@ public class Alien extends Player {
 	 * @param id
 	 */
 	public Alien(String name, String role, int id) {
-		super(name, role, id);
+		super(name, role, "A", id);
 		maxMoves = 2;
 		myBase = Table.getAlienBase();
 		currentSector = myBase; path.add(myBase); // TODO use a move action!
