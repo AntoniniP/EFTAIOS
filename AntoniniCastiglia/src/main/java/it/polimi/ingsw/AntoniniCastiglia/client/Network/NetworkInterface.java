@@ -17,7 +17,7 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	String connect()throws RemoteException;
+	int connect()throws RemoteException;
 
 	boolean close() throws RemoteException;
 
@@ -37,7 +37,7 @@ public interface NetworkInterface {
 	 * @return
 	 * @throws RemoteException
 	 */
-	String move(String sector, String player) throws RemoteException;
+	String move(int playerID, String sector) throws RemoteException;
 
 	boolean isEnded() throws RemoteException;
 
@@ -55,11 +55,23 @@ public interface NetworkInterface {
 
 	/**
 	 * Asks the server for the adjacent sectors list.
+	 * @param playerID 
 	 * 
 	 * @return the list of adjacent sectors, in form of a string
 	 * @throws RemoteException 
 	 */
-	String getAdjacents() throws RemoteException;
+	String getAdjacentSectors(int playerID) throws RemoteException;
 
 	boolean isStarted() throws RemoteException;
+
+	String getPlayer(int playerID) throws RemoteException;
+
+	void attack(int playerID)throws RemoteException;
+
+	String drawDangerousSectorCard()throws RemoteException;
+	
+	String drawEscapeHatchCard()throws RemoteException;
+
+	String drawItemCard()throws RemoteException;
+
 }

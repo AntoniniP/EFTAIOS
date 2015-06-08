@@ -26,9 +26,9 @@ public class CommonMethods {
 		for (int i = 0; i < choice.length(); i++) {
 			String ch = choice.substring(i, i + 1);
 
-			if ("1".compareTo(ch)==1 || "2".compareTo(ch)==1 || "3".compareTo(ch)==1) {
+			if ("0".compareTo(ch)>0 || "1".compareTo(ch)>0 || "2".compareTo(ch)>0 || "3".compareTo(ch)>0) {
 				int n = Integer.parseInt(ch);
-				if (n >= 1 && n <= len) {
+				if (n >= 0 && n <= len) {
 					cardsToUse[count] = n;
 					count++;
 				}

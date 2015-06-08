@@ -31,7 +31,7 @@ public class CLI implements UserInterface {
 		}
 		System.out.println("You are player number " + id + ".");
 		System.out.println("You are a" + nature + ", and your name is " + name + ".");
-		System.out.println("On this unfortunate ship you are " + role + ".");
+		System.out.println("On this unfortunate ship you are the " + role + ".");
 	}
 
 	@Override
@@ -41,9 +41,10 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void printCards(boolean canUseCards, String... cards) {
+		System.out.println(canUseCards);
 		if (canUseCards) {
 			for (int i = 0; i < cards.length; i++) {
-				if (cards[i] != null) {
+				if (!"null".equals(cards[i])) {
 					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
 				}
 			}
@@ -53,6 +54,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
+	@Deprecated
 	public void chooseAction(List<Character> possibleActions) {
 		System.out.println("Please, choose your next action:\n");
 		for (int i = 0; i < possibleActions.size(); i++) {
@@ -83,7 +85,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void askMove(String adjacents, String player) {
+	public void askMove(String adjacents) {
 		System.out.println("You can move in the following sectors: ");
 		System.out.println(adjacents.replace(';', ' ') + "\n");
 		System.out.print("Please, choose where you want to go: ");
@@ -100,24 +102,37 @@ public class CLI implements UserInterface {
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
 
-	
 	@Override
 	public void yourTurn() {
 		System.out.println("Now it's your turn!");
+	}
+
+	@Override
+	public void youCanAttack(String nature) {
+		System.out
+				.println("It seems that you can attack the sector you are in! Now think carefully "
+						+ "if you want to attack or not.");
+		if ("H".equals(nature)) {
+			System.out.println("(Please note that you are a Human. As such, you can perform "
+					+ "an attack thanks to your Attack item card. If you go on, your Attack card "
+					+ "will be discarded)");
 		}
-	
-	// Main to test
-		public static void main(String[] args) {
-			CLI ui = new CLI();
-			String[] s = new String[3];
-			ui.printCards(true, s);
-			s[0] = null;
-			ui.printCards(true, s);
-			s[0] = "1.a_bc";
-			s[2] = "3.g_hi";
-			ui.printCards(true, s);
-			s[1] = "2.d_ef";
-			ui.printCards(true, s);
-		}
+		System.out.println("Now choose:" + "\n" + "A - Attack" + "\n" + "B - Be a good guy");
+
+	}
+
+	@Override
+	public void drawDangerousSectorCard(String drawnCard) {
+		// TODO settore sicuro
+		System.out.println("Since you were good, and you didn't attack, here is a reward (well, kind of...).");
+		System.out.println(drawnCard);
+
+		
+	}
+
+	@Override
+	public void moveResult(String result) {
+		System.out.println(result);		
+	}
 
 }
