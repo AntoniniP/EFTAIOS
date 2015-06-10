@@ -86,22 +86,4 @@ public class PlayerList {
 	public Player get(int i) {
 		return players.get(i);
 	}
-
-	public void add(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * Implementation of SINGLETON pattern. Receives the number of players (
-	 * <code>n</code>), returns a single instance of <code>PlayerList</code>.
-	 * 
-	 * @param n
-	 *            number of players
-	 * @return a <code>PlayerList</code> instance
-	 */
-	/*
-	 * public static PlayerList getPlayerList(int n) { if (instance == null) {
-	 * instance = new PlayerList(n); } return instance; }
-	 */
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
-import it.polimi.ingsw.AntoniniCastiglia.misc.PlayerActions;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 import org.junit.*;
