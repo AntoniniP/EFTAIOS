@@ -1,10 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-// TODO SINGLETON? An updateTable() method is needed.
-// TODO adjacent() is horrible!
-// TODO assuming (for now) that "table.txt" is well-formed
-// TODO drawMap is VIEW (maybe improve it, to avoid repeated code
-
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import java.io.*;
 import java.util.ArrayList;
@@ -31,11 +26,6 @@ public class Table {
 	// keeps a list of each type of sector, for convenience
 	private static Sector alienBase;
 	private static Sector humanBase;
-	
-	
-	public Sector getSector(int y, int x){
-		return table[y][x];
-	}
 
 	/**
 	 * Constructor for Table class. Reads a text file containing a map (every sector is denoted by a
@@ -90,31 +80,20 @@ public class Table {
 	}
 
 	/**
-	 * The method receives the reference to the map file, and returns only valid characters (that
-	 * is, the chars corresponding to the various types of sectors).
+	 * Returns the reference to a sector of the map, given its coordinates.
 	 * 
-	 * @param f reference to the map file
-	 * @return valid character
-	 * @throws IOException
+	 * @param y row
+	 * @param x column
+	 * @return the corresponding sector
 	 */
-	private char validChar(FileInputStream f) throws IOException {
-		char c = 0;
-		boolean eof = false;
-
-		try {
-			do {
-				c = (char) f.read();
-			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR && c != EMPTYSECTOR
-					&& c != ESCAPEHATCH && c != HUMANBASE && c != SECURESECTOR);
-		} catch (EOFException e) {
-			eof = true;
-			System.out.println(e);
-		}
-		return c;
+	public Sector getSector(int y, int x) {
+		return table[y][x];
 	}
 
 	/**
-	 * The method draws the map on the console.
+	 * Returns a String containing the whole map.
+	 * 
+	 * @return the map
 	 */
 	public String drawMap() {
 		String string = "";
@@ -163,8 +142,8 @@ public class Table {
 	 * The method, after receiving a sector and the maximum distance, produces an ArrayList
 	 * containing all reachable sectors within the given distance. The calling sector is EXCLUDED.
 	 * 
-	 * @param s
-	 * @param hops
+	 * @param s the sector we are considering
+	 * @param hops the maximum reachable distance
 	 * @return ArrayList of sectors
 	 */
 	public ArrayList<Sector> adjacent(Sector s, int hops) {
@@ -190,11 +169,13 @@ public class Table {
 					addSector(y1, j, tmp);
 				}
 
-				if (x1 % 2 == 1) { // Pari
+				if (x1 % 2 == 1) {
+					// Even columns
 					addSector(y1 + 1, x1 - 1, tmp);
 					addSector(y1 + 1, x1 + 1, tmp);
 
-				} else { // Dispari
+				} else {
+					// Odd columns
 					addSector(y1 - 1, x1 - 1, tmp);
 					addSector(y1 - 1, x1 + 1, tmp);
 				}
@@ -205,15 +186,22 @@ public class Table {
 					sectorList.add(s1);
 				}
 			}
-			
+
 			sectorList.remove(s);
 			hops--;
 		}
-		
+
 		sectorList.trimToSize();
 		return sectorList;
 	}
 
+	/**
+	 * Adds a sector to the table (it's a method to support <code>adjacent</code> method.
+	 * 
+	 * @param y row
+	 * @param x column
+	 * @param tmp the list to which the sector must be added
+	 */
 	private void addSector(int y, int x, List<Sector> tmp) {
 		try {
 			tmp.add(table[y][x]);
@@ -221,11 +209,41 @@ public class Table {
 		}
 	}
 
-	// Main to test
+	/**
+	 * Receives the reference to the map file, and returns only valid characters (that is, the chars
+	 * corresponding to the various types of sectors).
+	 * 
+	 * @param f reference to the map file
+	 * @return valid character
+	 * @throws IOException
+	 */
+	private char validChar(FileInputStream f) throws IOException {
+		char c = 0;
+		boolean eof = false;
+
+		try {
+			do {
+				c = (char) f.read();
+			} while (!eof && c != ALIENBASE && c != DANGEROUSSECTOR && c != EMPTYSECTOR
+					&& c != ESCAPEHATCH && c != HUMANBASE && c != SECURESECTOR);
+		} catch (EOFException e) {
+			eof = true;
+			System.out.println(e);
+		}
+		return c;
+	}
+
+	/**
+	 * Main to test some things.
+	 * 
+	 * @param args
+	 * @deprecated to delete before final commit!
+	 */
+	@Deprecated
 	public static void main(String[] args) {
 		Table t = new Table();
-		//Sector s = new DangerousSector(11, 8);
-		//System.out.println(s + " " + t.adjacent(s, 2));
+		// Sector s = new DangerousSector(11, 8);
+		// System.out.println(s + " " + t.adjacent(s, 2));
 		System.out.println(t.drawMap().replace(';', '\n'));
 	}
 

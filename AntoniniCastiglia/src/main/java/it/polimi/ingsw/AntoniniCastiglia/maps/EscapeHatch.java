@@ -1,10 +1,16 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
-
+/**
+ * ESCAPE HATCH SECTOR: Humans must reach one of these Sectors to win. Only Human players can end
+ * their move on an Escape Hatch Sector.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class EscapeHatch extends Sector {
-	
-	public boolean useable;
+
+	@SuppressWarnings("unused")
+	private boolean useable;
 
 	/**
 	 * Standard constructor.
@@ -36,21 +42,9 @@ public class EscapeHatch extends Sector {
 
 	@Override
 	public void action() {
-		// TODO EscapeHatchDeck.drawCard();
-		this.setReachable(false);
-		// TODO nextTurn();		
+		this.useable = false;
 	}
 
+	// Only Human players can end their move on an Escape Hatch Sector.
 
-	//Only Human players can end their move on an Escape Hatch Sector.
-	
-	/*
-	public static void main(String[] args) {
-		Sector s = new EscapeHatch("E03");
-		System.out.println((Sector)s);
-		System.out.println(s);
-	}
-	
-	*/
-	
 }

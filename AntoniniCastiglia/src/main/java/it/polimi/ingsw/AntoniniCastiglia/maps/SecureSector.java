@@ -1,5 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+/**
+ * SECURE SECTOR: If you end your move in a Secure Sector, your turn is over.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class SecureSector extends Sector {
 
 	/**
@@ -27,7 +33,6 @@ public class SecureSector extends Sector {
 
 	@Override
 	public void action() {
-		// TODO nextTurn();
 	}
 
 }

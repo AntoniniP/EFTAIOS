@@ -2,7 +2,14 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
-public class HumanBase extends Sector { // TODO SINGLETON!!
+/**
+ * HUMAN SECTOR: This is the starting Sector for all Human players. After the game begins, no player
+ * can move through or end his move in this Sector.
+ * 
+ * @author Laura Castiglia
+ *
+ */
+public class HumanBase extends Sector {
 
 	/**
 	 * Standard constructor.
@@ -34,7 +41,6 @@ public class HumanBase extends Sector { // TODO SINGLETON!!
 
 	@Override
 	public void action() {
-		// TODO nextTurn();
 	}
 
 }

@@ -3,31 +3,28 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**
- * This class provides sector instances, and methods to convert coordinates
- * formats (number/number for table's sake, single string as probable input by
- * users, letter/number like in the map).
+ * This abstract class provides sector instances, and methods to convert coordinates formats
+ * (number/number for table's sake, single string as probable input by users, letter/number like in
+ * the map).
  * 
  * @author Laura Castiglia
  *
  */
 public abstract class Sector {
+
 	private int x; // column (literal part of coordinates, counter j)
 	private int y; // row (numeric part of coordinates, counter i)
 	private String letter;
 	private String number;
-	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW"
-			.toCharArray();
+	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW".toCharArray();
 	private boolean reachable;
 
 	/**
-	 * Standard constructor: receives the coordinates in numeric (integer)
-	 * format only, and calls method convert() to give a proper value to
-	 * variables letter and number.
+	 * Standard constructor: receives the coordinates in numeric (integer) format only, and calls
+	 * method convert() to give a proper value to variables letter and number.
 	 * 
-	 * @param x
-	 *            column: literal part of coordinates, counter j
-	 * @param y
-	 *            row: numeric part of coordinates, counter i
+	 * @param x column: literal part of coordinates, counter j
+	 * @param y row: numeric part of coordinates, counter i
 	 */
 	public Sector(int x, int y) {
 		this.x = x;
@@ -36,13 +33,10 @@ public abstract class Sector {
 	}
 
 	/**
-	 * Alternative constructor (overloading): receives a string containing the
-	 * coordinates and calls inverseConversion() method to give a proper value
-	 * to variables x, y, letter, number.
+	 * Alternative constructor (overloading): receives a string containing the coordinates and calls
+	 * inverseConversion() method to give a proper value to variables x, y, letter, number.
 	 * 
-	 * @param name
-	 *            three-character string containing the alphanumeric coordinates
-	 *            of a sector
+	 * @param name three-character string containing the alphanumeric coordinates of a sector
 	 */
 	public Sector(String coord) {
 		inverseConvertion(coord);
@@ -75,16 +69,15 @@ public abstract class Sector {
 	}
 
 	/**
-	 * @param reachable
-	 *            the reachable to set
+	 * @param reachable the reachable to set
 	 */
 	public void setReachable(boolean reachable) {
 		this.reachable = reachable;
 	}
 
 	/**
-	 * The method gives a proper value to letter and number strings, given the
-	 * numeric coordinates values (stored in x and y integers).
+	 * The method gives a proper value to letter and number strings, given the numeric coordinates
+	 * values (stored in x and y integers).
 	 */
 	private void convert() {
 		letter = ((Character) ALPHABET[x]).toString(); // casting char to String
@@ -95,11 +88,10 @@ public abstract class Sector {
 	}
 
 	/**
-	 * The method receives the coordinates as a single alphanumeric string and
-	 * gives proper values to x, y, letter and number variables.
+	 * The method receives the coordinates as a single alphanumeric string and gives proper values
+	 * to x, y, letter and number variables.
 	 * 
-	 * @param s
-	 *            coordinates in alphanumeric format
+	 * @param s coordinates in alphanumeric format
 	 */
 	private void inverseConvertion(String coord) {
 		this.letter = coord.substring(0, 1);
@@ -134,8 +126,7 @@ public abstract class Sector {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * Override to comply with the contract between equals(Object) and
-	 * hashCode().
+	 * Override to comply with the contract between equals(Object) and hashCode().
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */

@@ -1,7 +1,12 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorDeck;
-
+/**
+ * DANGEROUS SECTOR: If you end your move in a Dangerous Sector, you must draw a Dangerous Sector
+ * Card and follow its instructions. Then your turn is over.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class DangerousSector extends Sector {
 
 	/**
@@ -29,11 +34,6 @@ public class DangerousSector extends Sector {
 
 	@Override
 	public void action() {
-		// TODO DangerousSectorDeck.drawCard();
-		// TODO nextTurn();
 	}
-	
-	
-	
 
 }

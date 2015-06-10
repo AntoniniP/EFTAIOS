@@ -1,5 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+/**
+ * It's a non-existing sector in the map. The class was created for an easier handling of the map.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class EmptySector extends Sector {
 
 	/**
@@ -32,7 +38,6 @@ public class EmptySector extends Sector {
 
 	@Override
 	public void action() {
-		
 	}
 
 }

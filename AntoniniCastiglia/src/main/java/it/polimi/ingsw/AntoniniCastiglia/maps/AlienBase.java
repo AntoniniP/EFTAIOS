@@ -1,13 +1,13 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
 /**
- * Every instance of this class (it will be one, hopefully) is an Alien Base
- * sector.
+ * ALIEN SECTOR: This is the starting Sector for all Alien players. After the game begins, no player
+ * can move through or end his move in this Sector.
  * 
- * @author Paolo Antonini
+ * @author Laura Castiglia
  *
  */
-public class AlienBase extends Sector { // TODO SINGLETON?
+public class AlienBase extends Sector {
 
 	/**
 	 * Standard constructor.
