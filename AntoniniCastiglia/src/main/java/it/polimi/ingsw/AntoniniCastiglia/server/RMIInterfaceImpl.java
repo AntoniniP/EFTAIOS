@@ -19,15 +19,9 @@ public class RMIInterfaceImpl implements RMIInterface {
 			}
 			server.incrementNumPlayer();
 		}
-
+		//assign player to client, add in list, try to give it to gameHandler
 		System.out.println("New player connected. " + server.getNumPlayer());
 
 		return server.getNumPlayer() - 1;
 	}
-
-	@Override
-	public boolean isStarted() throws RemoteException {
-		return server.isStarted();
-	}
-
 }

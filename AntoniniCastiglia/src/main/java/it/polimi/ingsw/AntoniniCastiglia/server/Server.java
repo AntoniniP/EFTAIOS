@@ -1,13 +1,16 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Server {
+public class Server implements TimerInterface {
 
 	private static final int port = 1099;
 
@@ -16,11 +19,14 @@ public class Server {
 	private GameEngine game;
 	private RMIInterface rmiInterface;
 	private Timer timer;
-
+	
 	private boolean outOfTime;
 	private boolean firstConnected;
 	private int numPlayer;
 	private boolean started = false;
+	private boolean suspended=false;
+	private GameHandler gameHandler;
+	private int gameId=0;
 
 	public static void main(String[] args) {
 		Server server = new Server();
@@ -40,14 +46,20 @@ public class Server {
 			e.printStackTrace();
 		}
 		System.out.println("Registry bound");
-
-		waitConn();
+		
+		while(true)
+			waitConn();//multiple game thing
+		
 	}
 
 	private void waitConn() {
 		firstConnection();
-		System.out.println("\n" + "Waiting for other connections..." + "\n");
-		while (!outOfTime && (getNumPlayer() < Constants.MAXPLAYERS)) {
+		gameHandler= new GameHandler();
+		ExecutorService newGame=Executors.newSingleThreadExecutor();
+		newGame.submit(gameHandler);
+		((GameEngineImpl)game).addGame(gameHandler);
+		System.out.println("Waiting for other connections..."+"\n");
+		while (!outOfTime && (numPlayer < Constants.MAXPLAYERS)) {
 			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
@@ -57,10 +69,11 @@ public class Server {
 		System.out.println("Out of the loop");
 		timer.cancel(); // in case the timer is out AND the number of players is right
 		if (outOfTime && numPlayer < Constants.MINPLAYERS) {
-			System.out.println("Sorry.The game won't start.");
+			suspendGame();
 		} else {
 			startGame();
 		}
+		gameHandler.notify();
 	}
 
 	private void firstConnection() {
@@ -78,21 +91,15 @@ public class Server {
 		outOfTime = false;
 	}
 
-	private void startGame() {
-		// Game game = new Game //Creation of the class Game, extending thread, maybe?
-		((GameEngineImpl) game).createMap();
-		((GameEngineImpl) game).createPlayers(numPlayer);
-		((GameEngineImpl) game).createDecks();
-		started = true;
+	public void startGame() {
+		gameHandler.setStarted();
+		gameHandler.setNumPlayer(numPlayer);
+		gameHandler.gameTools();
 	}
 
 	private void startTimer() {
 		timer = new Timer();
 		timer.schedule(new MyTimer(this), 5 * 60 * 1000);
-	}
-
-	protected boolean isStarted() {
-		return started;
 	}
 
 	protected void firstConn() {
@@ -102,7 +109,7 @@ public class Server {
 	protected boolean isFirstConn() {
 		return firstConnected;
 	}
-
+	@Override
 	public synchronized void timeout() {
 		outOfTime = true;
 	}
@@ -110,9 +117,11 @@ public class Server {
 	protected void incrementNumPlayer() {
 		numPlayer++;
 	}
-
-	protected int getNumPlayer() {
-		return numPlayer; // numPlayer=playerID
+	
+	public void suspendGame() {
+		gameHandler.setSuspended();
 	}
-
+	public int getNumPlayer(){
+		return numPlayer;
+	}
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
 
-import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
@@ -24,9 +23,10 @@ public class Player {
 	protected Sector myBase;
 	protected Sector currentSector;
 	protected ArrayList<Sector> path = new ArrayList<Sector>();
-	private Card[] items = new ItemCard[3];
-	private boolean shield = false;
-	private boolean dead=false;
+	private ItemCard[] items = new ItemCard[3];
+	private boolean dead;
+	private boolean suspended;
+	private boolean active;
 
 
 	protected Player(String name, String role, String nature, int id) {
@@ -49,15 +49,10 @@ public class Player {
 	public int getMoves() {
 		return maxMoves;
 	}
-
-	public boolean hasShield(){
-		return shield;
-	}
 	
-	public void setShield(boolean newShield){
-		this.shield=newShield;
+	public int getPlayerID(){
+		return id;
 	}
-	
 	
 	public boolean isDead() {
 		return dead;
@@ -104,8 +99,6 @@ public class Player {
 		return maxMoves;
 	}
 
-	
-
 	public String getPlayerCards() {
 		String toReturn="";
 		for(int i=0;i<items.length;i++){
@@ -113,5 +106,47 @@ public class Player {
 		}
 		return toReturn;
 	}
+	@Override
+	public boolean equals(Object arg0){
+		if(!(arg0 instanceof Player))
+			return false;
+		return ((Player) arg0).getPlayerID() == this.getPlayerID();
+	}
+	public ItemCard removeCard(int i){
+		ItemCard c=items[i];
+		items[i]=null;
+		for(int j=i; j<items.length-1 && items[j+1]!=null; j++)
+			items[j]=items[j+1]; //re-ordering the not null-cards
+		return c;
+	}
+	public ItemCard switchCard(ItemCard c, int i){
+		ItemCard toRemove=this.removeCard(i);
+		addItemCard(c);
+		return toRemove;
+	}
+	
+	public boolean addItemCard(ItemCard c){ //adding item card to the player's deck; if there isn't any space left, return false to server
+		for(int i=0;i<items.length;i++)
+			if(items[i]==null){
+				items[i]=c;
+				return true;
+			}
+		return false;
+	}
 
+	public void suspend() {
+		suspended=true;
+	}
+
+	public boolean isSuspended() {
+		return suspended;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }
