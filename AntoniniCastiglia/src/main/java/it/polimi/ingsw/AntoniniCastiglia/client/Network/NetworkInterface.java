@@ -70,5 +70,7 @@ public interface NetworkInterface {
 	String drawEscapeHatchCard()throws RemoteException;
 
 	String drawItemCard()throws RemoteException;
+	
+	String whereYouAre(int playerID) throws RemoteException;
 
 }

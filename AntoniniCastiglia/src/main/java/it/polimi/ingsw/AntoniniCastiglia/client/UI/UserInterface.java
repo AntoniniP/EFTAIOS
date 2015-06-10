@@ -11,49 +11,50 @@ public interface UserInterface {
 
 	/**
 	 * Prints a simple message.
+	 * 
 	 * @param playerID TODO
 	 */
-	public void connected(int playerID);
+	void connected(int playerID);
 
 	/**
 	 * Lets the player know which are his name and nature (Human/Alien)
 	 * 
 	 * @param name
 	 */
-	public void whoYouAreComplete(String[] player);
+	void whoYouAreComplete(String[] player);
 
 	/**
 	 * Shows the map, received as a string.
 	 * 
 	 * @param map
 	 */
-	public void printMap(String map);
+	void printMap(String map);
 
 	/**
 	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array.
+	 * 
 	 * @param canUseCards TODO
 	 * @param card
 	 */
-	public void printCards(boolean canUseCards, String... card);
+	void printCards(boolean canUseCards, String... card);
 
 	/**
 	 * Prints a simple message, informing the player that it's his turn.
 	 */
-	public void yourTurn();
+	void yourTurn();
 
-	public String selectCard(String[] cards);
+	String selectCard(String[] cards);
 
-	/**
-	 * Prints a simple message, to let the player know that an error occurred.
-	 */
-	void genericError();
+	String wantToAttack(String nature);
 
-	public String wantToAttack(String nature);
-	
-	public void drawDangerousSectorCard(String drawnCard);
-	
-	public void moveResult(String result);
-	
-	public String move(int playerID, String adjacentSectors);
+	void drawDangerousSectorCard(String drawnCard);
+
+	void moveResult(String result);
+
+	String move(int playerID, String adjacentSectors);
+
+	void whereYouAre(String currentSector);
+
+	String chooseAction(boolean hasMoved, boolean canAttack, boolean hasAttacked, boolean canUseCards, boolean mustDraw, boolean hasDrawn);
 
 }

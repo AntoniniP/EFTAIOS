@@ -19,9 +19,14 @@ public class Client {
 	private String[] player;
 	private int playerID;
 	private String nature;
-	private String[] cards;
+	private String[] cards; // item cards
 	private UserInterface ui;
+	private String currentSector;
+	private boolean hasMoved;
 	private boolean hasAttacked;
+	private boolean mustDraw; // dangerous sector card
+	private boolean hasDrawn; // dangerous sector card
+	private boolean canUseCards; // item cards
 
 	/**
 	 * This is the <code>main</code> method of the class. It simply creates a network interface,
@@ -39,7 +44,6 @@ public class Client {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -72,20 +76,26 @@ public class Client {
 		boolean endGame = false;
 		while (!endGame) {
 			if (!ni.isEnded()) {
+				hasMoved = false;
+				hasAttacked = false;
+				mustDraw = false;
+				hasDrawn = false;
+
 				// print map
 				ui.printMap(ni.getMap(playerID));
 
+				// print your current position
+				currentSector = ni.whereYouAre(playerID);
+				ui.whereYouAre(currentSector);
+
 				// get cards
 				cards = ni.getCards(playerID).split(";");
-				ui.printCards(canUseCards(ni), cards);
+				canUseCards = this.canUseCards();
+				ui.printCards(canUseCards, cards);
 
 				ui.yourTurn();
 
-				phase1(ni);
-				phase2(ni);
-				/***************************/
-				//return currentsector_type
-				phase3(ni);
+				this.play(ni);
 
 				endGame = true; // TODO Remove me as soon as isEnded() is decently implemented
 
@@ -96,52 +106,43 @@ public class Client {
 		}
 	}
 
-	/**
-	 * In phase ONE, the player is asked to use a card (if it's possible and if he wants to), then
-	 * he must move to a new sector.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @throws RemoteException
-	 */
-	private void phase1(NetworkInterface ni) throws RemoteException {
-
-		clientUseCards(ni);
-
-		clientMove(ni);
-	}
-
-	/**
-	 * If the player can attack (either because he's an alien, or a human who holds an Attack card),
-	 * he's asked if he wants to do so. The variable <code>hasAttacked</code> is set to true for
-	 * convenience.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @throws RemoteException
-	 */
-	private void phase2(NetworkInterface ni) throws RemoteException {
-		hasAttacked = false;
-		if (canAttack(ni)) {
-			String chosenAction = ui.wantToAttack(nature);
-			if ("A".equals(chosenAction)) {
-				ni.attack(playerID);
-				hasAttacked = true;
+	private void play(NetworkInterface ni) throws RemoteException {
+		String chosenAction = null;
+		do {
+			chosenAction = ui.chooseAction(hasMoved, canAttack(), hasAttacked, canUseCards,
+					mustDraw, hasDrawn);
+			switch (chosenAction) {
+				case Constants.USE_CARD: { // ITEM CARDS
+					this.clientUseCards(ni);
+					break;
+				}
+				case Constants.MOVE: {
+					this.clientMove(ni);
+					hasMoved = true;
+					// mustDraw = true??
+					break;
+				}
+				case Constants.ATTACK: {
+					ni.attack(playerID);
+					hasAttacked = true;
+					break;
+				}
+				case Constants.DRAW_CARD: { // DANGEROUS SECTOR CARDS
+					ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
+					hasDrawn = true;
+					mustDraw = false;
+					break;
+				}
+				case Constants.QUIT: {
+					// TODO endTurn()
+					break;
+				}
+				default: {
+					// Will never execute this
+					break;
+				}
 			}
-		}
-	}
-
-	/**
-	 * If the player didn't attack in phase TWO, a Dangerous sector card, if needed, is drawn. Then
-	 * he's asked again to use a card, and eventually the turn is automatically ended.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @throws RemoteException
-	 */
-	private void phase3(NetworkInterface ni) throws RemoteException {
-		if (!hasAttacked) {
-			ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
-		}
-		this.clientUseCards(ni);
-		// TODO endTurn
+		} while (!("Q".equals(chosenAction)));
 	}
 
 	/**
@@ -151,8 +152,7 @@ public class Client {
 	 * @return the result of the check
 	 * @throws RemoteException
 	 */
-	private boolean canUseCards(NetworkInterface ni) throws RemoteException {
-		cards = ni.getCards(playerID).split(";"); // Update the global variable cards
+	private boolean canUseCards() {
 		for (String card : cards) {
 			if (!("null".equals(card))) {
 				return true;
@@ -161,46 +161,11 @@ public class Client {
 		return false;
 	}
 
-	/**
-	 * Calls the proper methods in UI and NI package to let the player use a card.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @throws RemoteException
-	 */
 	private void clientUseCards(NetworkInterface ni) throws RemoteException {
-		while (canUseCards(ni)) {
-			String cardToUse = ui.selectCard(cards);
-			if ("noCard".equals(cardToUse)) {
-				break;
-			} else {
-				ni.useCard(cardToUse, playerID);
-			}
+		String cardToUse = ui.selectCard(cards);
+		if (!("noCard".equals(cardToUse))) {
+			ni.useCard(cardToUse, playerID);
 		}
-	}
-
-	/**
-	 * The method checks whether the player can attack, and returns a boolean.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @return the result of the check
-	 * @throws RemoteException
-	 */
-	private boolean canAttack(NetworkInterface ni) throws RemoteException {
-		// if player is alien
-		if ("A".equals(nature)) {
-			return true;
-		}
-		// if player is human and has Attack card
-		if (canUseCards(ni)) {
-			for (String card : cards) {
-				// TODO there is a constant for the name of the card!
-				if ("Attack".equals((card.split("_"))[1])) {
-					return true;
-				}
-			}
-		}
-		// if player if human but has no Attack card
-		return false;
 	}
 
 	/**
@@ -214,6 +179,31 @@ public class Client {
 		String chosenSector = ui.move(playerID, adjacentSectors);
 		String toPrint = ni.move(playerID, chosenSector);
 		ui.moveResult(toPrint);
+	}
+
+	/**
+	 * The method checks whether the player can attack, and returns a boolean.
+	 * 
+	 * @param ni instantiation of the network interface
+	 * @return the result of the check
+	 * @throws RemoteException
+	 */
+	private boolean canAttack() throws RemoteException {
+		// if player is alien
+		if ("A".equals(nature)) {
+			return true;
+		}
+		// if player is human and has Attack card
+		if (canUseCards) {
+			for (String card : cards) {
+				// TODO there is a constant for the name of the card!
+				if ("Attack".equals((card.split("_"))[1])) {
+					return true;
+				}
+			}
+		}
+		// if player if human but has no Attack card
+		return false;
 	}
 
 	/**
@@ -243,8 +233,7 @@ public class Client {
 	private static int chooseUI() {
 		String choice;
 		while (true) {
-			System.out
-					.println("Now choose your preferred user interface. In know you're interested!");
+			System.out.println("Now choose your user interface. In know you're interested!");
 			System.out.println("1 - CLI");
 			System.out.println("2 - GUI (not implemented yet)");
 			choice = CommonMethods.readLine();

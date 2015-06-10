@@ -114,6 +114,11 @@ public class RMIInterface implements NetworkInterface {
 		return remoteEFTAIOS.drawCard("IC");
 	}
 	
+	@Override
+	public String whereYouAre(int playerID) throws RemoteException {
+		//return remoteEFTAIOS.whereyouAre(playerID);
+		return "ABC";
+	}
 	
 
 }

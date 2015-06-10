@@ -1,8 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
-import java.rmi.RemoteException;
+import it.polimi.ingsw.AntoniniCastiglia.client.Constants;
 
 /**
  * CLI implementation of <code>UserInterface</code>.
@@ -79,6 +78,7 @@ public class CLI implements UserInterface {
 		return cards[cardIndex];
 	}
 
+	@Override
 	public String move(int playerID, String adjacentSectors) {
 		System.out.println("You can move to the following sectors: " + "\n"
 				+ adjacentSectors.replace(';', ' '));
@@ -108,11 +108,6 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void genericError() {
-		System.out.println("There has been an error while trying to connect the client.");
-	}
-
-	@Override
 	public void drawDangerousSectorCard(String drawnCard) {
 		// TODO settore sicuro
 		System.out.println("Since you were good, here is a reward (well, kind of...).");
@@ -123,6 +118,44 @@ public class CLI implements UserInterface {
 	@Override
 	public void moveResult(String result) {
 		System.out.println(result);
+	}
+
+	@Override
+	public void whereYouAre(String currentSector) {
+		System.out.println("You are now in " + currentSector
+				+ "sector, which is a XXXXXXXXX sector.");
+	}
+
+	@Override
+	public String chooseAction(boolean hasMoved, boolean canAttack, boolean hasAttacked,
+			boolean canUseCards, boolean mustDraw, boolean hasDrawn) {
+		String chosenAction = null;
+		do {
+
+			System.out.println("Now choose your next action:");
+
+			if (!hasMoved) {
+				System.out.println(Constants.MOVE + " - Move to a new sector");
+			}
+			if (canAttack && !hasAttacked && !hasDrawn) {
+				System.out.println(Constants.ATTACK + " - Attack the sector you are in now");
+			}
+			if (canUseCards) {
+				System.out.println(Constants.USE_CARD + " - Use your cards");
+			}
+			if (mustDraw && !hasAttacked) {
+				System.out.println(Constants.USE_CARD + " - Use your cards");
+			}
+			System.out.println(Constants.QUIT + " - End your turn");
+
+			chosenAction = (CommonMethods.readLine()).toUpperCase();
+
+		} while (!((!hasMoved && Constants.MOVE.equals(chosenAction))
+				|| (!hasAttacked && canAttack && Constants.ATTACK.equals(chosenAction))
+				|| (canUseCards && Constants.USE_CARD.equals(chosenAction))
+				|| (Constants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && Constants.DRAW_CARD
+				.equals(chosenAction))));
+		return chosenAction;
 	}
 
 }
