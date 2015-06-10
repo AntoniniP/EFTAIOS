@@ -18,28 +18,16 @@ public class CommonMethods {
 	private CommonMethods() {
 	}
 
-	// TODO check + JavaDoc
-	public static int[] validCard(String choice, int len) {
-		int count = 0;
-		int[] cardsToUse = new int[3];
-
-		for (int i = 0; i < choice.length(); i++) {
-			String ch = choice.substring(i, i + 1);
-
-			if ("0".compareTo(ch)>0 || "1".compareTo(ch)>0 || "2".compareTo(ch)>0 || "3".compareTo(ch)>0) {
-				int n = Integer.parseInt(ch);
-				if (n >= 0 && n <= len) {
-					cardsToUse[count] = n;
-					count++;
-				}
-			}
-		}
-		return cardsToUse;
-	}
-
-	public static boolean validSector(String adjacents, String sector) {
-		return adjacents.contains(sector);
-
+	/**
+	 * Checks whether a <code>sector</code>, chosen by the player, is a valid destination (i.e. it
+	 * is contained in the <code>adjacentSectors</code> list).
+	 * 
+	 * @param adjacentSectors string containing all the adjacent sectors
+	 * @param chosenSector sector chosen by the player
+	 * @return true/false
+	 */
+	public static boolean validSector(String adjacentSectors, String chosenSector) {
+		return adjacentSectors.contains(chosenSector);
 	}
 
 	/**
@@ -59,25 +47,4 @@ public class CommonMethods {
 		return read;
 	}
 
-	/*
-	private static String readWriteLine(String format, Object... args) {
-		if (System.console() != null) {
-			return System.console().readLine(format, args);
-		}
-
-		System.out.print(String.format(format, args));
-
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(isr);
-		String read = null;
-
-		try {
-			read = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return read;
-	}
-	*/
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
+import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
+import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
+import java.rmi.RemoteException;
 
 /**
  * CLI implementation of <code>UserInterface</code>.
@@ -11,11 +14,11 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void connected(int playerID) {
-		System.out.println("You are now connected to the game as player number " +playerID + ".\n" 
+		System.out.println("You are now connected to the game as player number " + playerID + ".\n"
 				+ "Please wait for a game to begin. "
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
-	
+
 	@Override
 	public void whoYouAreComplete(String[] player) {
 		String name = player[0];
@@ -26,7 +29,8 @@ public class CLI implements UserInterface {
 		} else {
 			nature = new String(" human");
 		}
-		System.out.println("It turns out that you are a" + nature + ", and your name is " + name + ".");
+		System.out.println("It turns out that you are a" + nature + ", and your name is " + name
+				+ ".");
 		System.out.println("On this unfortunate ship you are the " + role + ".");
 	}
 
@@ -36,8 +40,10 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
+	// TODO make suitable to DangerousSectorCards too!
 	public void printCards(boolean canUseCards, String... cards) {
 		if (canUseCards) {
+			// TODO add string for noCard
 			for (int i = 0; i < cards.length; i++) {
 				if (!("null".equals(cards[i]))) {
 					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
@@ -54,15 +60,52 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void chooseCards() {
-		System.out.println("Please, choose the card (or cards) you want to use.");
+	public String selectCard(String[] cards) {
+		System.out.println("You can take advantage of the card(s) you own, which are:");
+		this.printCards(true, cards);
+		int cardIndex;
+		do {
+			String choice = CommonMethods.readLine();
+			try {
+				cardIndex = Integer.parseInt(choice);
+			} catch (NumberFormatException e) {
+				cardIndex = -1;
+			}
+		} while ((cardIndex >= 0 && cardIndex <= cards.length) && "null".equals(cards[cardIndex]));
+
+		if (cardIndex == 0) {
+			return "noCard";
+		}
+		return cards[cardIndex];
+	}
+
+	public String move(int playerID, String adjacentSectors) {
+		System.out.println("You can move to the following sectors: " + "\n"
+				+ adjacentSectors.replace(';', ' '));
+		String chosenSector = null;
+		do {
+			System.out.println("Please, choose where you want to go: ");
+			chosenSector = (CommonMethods.readLine()).toUpperCase();
+		} while (!CommonMethods.validSector(adjacentSectors, chosenSector));
+
+		return chosenSector;
 	}
 
 	@Override
-	public void askMove(String adjacents) {
-		System.out.println("You can move in the following sectors: ");
-		System.out.println(adjacents.replace(';', ' ') + "\n");
-		System.out.print("Please, choose where you want to go: ");
+	public String wantToAttack(String nature) {
+		System.out.println("It seems that you can attack the sector you are in!");
+		if ("H".equals(nature)) {
+			System.out.println("(Note that you are a Human. As such, you can perform "
+					+ "an attack thanks to your Attack item card.)");
+		}
+		System.out.println("Now choose carefully:" + "\n" + "A - Attack" + "\n"
+				+ "B - Be a good guy");
+		String chosenAction = null;
+		do {
+			chosenAction = CommonMethods.readLine();
+			chosenAction.toUpperCase(); // TODO doesn't work!!
+		} while (!("A".equals(chosenAction) || "B".equals(chosenAction)));
+		return chosenAction;
 	}
 
 	@Override
@@ -70,34 +113,17 @@ public class CLI implements UserInterface {
 		System.out.println("There has been an error while trying to connect the client.");
 	}
 
-	
-
-	@Override
-	public void youCanAttack(String nature) {
-		System.out
-				.println("It seems that you can attack the sector you are in! Now think carefully "
-						+ "if you want to attack or not.");
-		if ("H".equals(nature)) {
-			System.out.println("(Please note that you are a Human. As such, you can perform "
-					+ "an attack thanks to your Attack item card. If you go on, your Attack card "
-					+ "will be discarded)");
-		}
-		System.out.println("Now choose:" + "\n" + "A - Attack" + "\n" + "B - Be a good guy");
-
-	}
-
 	@Override
 	public void drawDangerousSectorCard(String drawnCard) {
 		// TODO settore sicuro
-		System.out.println("Since you were good, and you didn't attack, here is a reward (well, kind of...).");
+		System.out.println("Since you were good, here is a reward (well, kind of...).");
 		System.out.println(drawnCard);
 
-		
 	}
 
 	@Override
 	public void moveResult(String result) {
-		System.out.println(result);		
+		System.out.println(result);
 	}
 
 }

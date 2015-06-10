@@ -41,25 +41,19 @@ public interface UserInterface {
 	 */
 	public void yourTurn();
 
-	/**
-	 * Prints a simple message, asking the player to choose which card(s) he wants to use.
-	 */
-	public void chooseCards();
-
-	/**
-	 * Prints a simple message, asking the player to choose where to move.
-	 */
-	public void askMove(String adjacents);
+	public String selectCard(String[] cards);
 
 	/**
 	 * Prints a simple message, to let the player know that an error occurred.
 	 */
 	void genericError();
 
-	public void youCanAttack(String nature);
+	public String wantToAttack(String nature);
 	
 	public void drawDangerousSectorCard(String drawnCard);
 	
 	public void moveResult(String result);
+	
+	public String move(int playerID, String adjacentSectors);
 
 }
