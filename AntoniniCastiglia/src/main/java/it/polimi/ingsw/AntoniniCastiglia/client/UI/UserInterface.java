@@ -49,8 +49,6 @@ public interface UserInterface {
 
 	void drawDangerousSectorCard(String drawnCard);
 
-	void moveResult(String result);
-
 	String move(int playerID, String adjacentSectors);
 
 	void whereYouAre(String currentSector);

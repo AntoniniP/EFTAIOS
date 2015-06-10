@@ -34,7 +34,7 @@ public interface NetworkInterface {
 	 * @return
 	 * @throws RemoteException
 	 */
-	String move(int playerID, String sector) throws RemoteException;
+	boolean move(int playerID, String sector) throws RemoteException;
 
 	boolean isEnded() throws RemoteException;
 

@@ -44,8 +44,8 @@ public class RMIInterface implements NetworkInterface {
 			return remoteRMI.connect();
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			return -1;
 		}
-		return -1;
 	}
 
 	@Override
@@ -54,8 +54,10 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String move(int playerID, String sector) throws RemoteException {
-		return remoteEFTAIOS.move(playerID, sector);
+	public boolean move(int playerID, String sector) throws RemoteException {
+		//TODO returns whether the player must draw a DSC
+		//return remoteEFTAIOS.move(playerID, sector);
+		return true;
 	}
 
 	@Override

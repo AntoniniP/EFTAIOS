@@ -109,21 +109,13 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void drawDangerousSectorCard(String drawnCard) {
-		// TODO settore sicuro
-		System.out.println("Since you were good, here is a reward (well, kind of...).");
-		System.out.println(drawnCard);
-
-	}
-
-	@Override
-	public void moveResult(String result) {
-		System.out.println(result);
+		System.out.println("Well, here is your card: " + (drawnCard.split("_"))[1]);
 	}
 
 	@Override
 	public void whereYouAre(String currentSector) {
-		System.out.println("You are now in " + currentSector
-				+ "sector, which is a XXXXXXXXX sector.");
+		System.out.println("You are now in " + (currentSector.split("_"))[0]
+				+ " sector, which is a XXXXXXXXX sector.");
 	}
 
 	@Override
@@ -138,13 +130,25 @@ public class CLI implements UserInterface {
 				System.out.println(Constants.MOVE + " - Move to a new sector");
 			}
 			if (canAttack && !hasAttacked && !hasDrawn) {
-				System.out.println(Constants.ATTACK + " - Attack the sector you are in now");
+				System.out.print(Constants.ATTACK + " - Attack the sector you are in now");
+				if (mustDraw && !hasAttacked) {
+					System.out.println(" (please note that you won't be able"
+							+ " to draw a Dangerous Sector card during this turn)");
+				} else {
+					System.out.println();
+				}
 			}
 			if (canUseCards) {
 				System.out.println(Constants.USE_CARD + " - Use your cards");
 			}
 			if (mustDraw && !hasAttacked) {
-				System.out.println(Constants.USE_CARD + " - Use your cards");
+				System.out.print(Constants.DRAW_CARD + " - Draw a Dangerous Sector card");
+				if (canAttack && !hasAttacked && !hasDrawn) {
+					System.out.println(" (please note that you won't be able"
+							+ " to attack during this turn)");
+				} else {
+					System.out.println();
+				}
 			}
 			System.out.println(Constants.QUIT + " - End your turn");
 

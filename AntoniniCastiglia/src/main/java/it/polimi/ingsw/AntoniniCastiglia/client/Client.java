@@ -117,9 +117,8 @@ public class Client {
 					break;
 				}
 				case Constants.MOVE: {
-					this.clientMove(ni);
+					this.clientMove(ni); // updates mustDraw
 					hasMoved = true;
-					// mustDraw = true??
 					break;
 				}
 				case Constants.ATTACK: {
@@ -177,8 +176,9 @@ public class Client {
 	private void clientMove(NetworkInterface ni) throws RemoteException {
 		String adjacentSectors = new String(ni.getAdjacentSectors(playerID));
 		String chosenSector = ui.move(playerID, adjacentSectors);
-		String toPrint = ni.move(playerID, chosenSector);
-		ui.moveResult(toPrint);
+		mustDraw = ni.move(playerID, chosenSector);
+		currentSector = ni.whereYouAre(playerID); // update the global variable
+		ui.whereYouAre(currentSector);
 	}
 
 	/**
