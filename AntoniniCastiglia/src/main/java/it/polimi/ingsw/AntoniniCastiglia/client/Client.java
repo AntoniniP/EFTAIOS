@@ -83,11 +83,11 @@ public class Client {
 
 				phase1(ni);
 				phase2(ni);
-
-		/***************************************************************************/
+				/***************************/
+				//return currentsector_type
 				phase3(ni);
 
-				endGame = true; // Remove me as soon as isEnded() is decently implemented
+				endGame = true; // TODO Remove me as soon as isEnded() is decently implemented
 
 			} else {
 				endGame = true;

@@ -1,5 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+/**
+ * Public class which contains the names of the different types of cards.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public final class CardNames {
 
 	// Types
@@ -20,7 +26,7 @@ public final class CardNames {
 	public static final String SILENCE = "Silence";
 
 	/**
-	 * Private constructor to hide the public one.
+	 * Private constructor to hide the public implicit one.
 	 */
 	private CardNames() {
 	}

@@ -11,6 +11,10 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Player;
  */
 public class ItemTeleport extends ItemCard {
 
+	/**
+	 * Public constructor for the class. It sets the <code>type</code> parameter by calling the
+	 * superclass constructor, and then its <code>name</code>.
+	 */
 	public ItemTeleport() {
 		super();
 		name = CardNames.TELEPORT;

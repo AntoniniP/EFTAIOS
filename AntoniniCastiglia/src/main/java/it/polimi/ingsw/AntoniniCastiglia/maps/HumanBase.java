@@ -29,7 +29,7 @@ public class HumanBase extends Sector { // TODO SINGLETON!!
 
 	@Override
 	public String toString() {
-		return Constants.ANSI_BOLD + Constants.ANSI_RED + " H " + Constants.ANSI_RESET;
+		return Constants.ANSI_BOLD + Constants.ANSI_RED_BRIGHT + " H " + Constants.ANSI_RESET;
 	}
 
 	@Override

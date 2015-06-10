@@ -3,7 +3,7 @@ package it.polimi.ingsw.AntoniniCastiglia.cards;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**
- * Deck for Dangerous Sector cards. 
+ * Deck for Dangerous Sector cards.
  * 
  * @author Laura Castiglia
  *
@@ -11,8 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
 public class DangerousSectorDeck extends Deck {
 
 	/**
-	 * Constructor for the deck of dangerous sector cards. The deck is created
-	 * and shuffled.
+	 * Constructor for the deck of dangerous sector cards. The deck is created and shuffled.
 	 */
 	public DangerousSectorDeck() {
 
@@ -43,13 +42,5 @@ public class DangerousSectorDeck extends Deck {
 
 		shuffleDeck();
 	}
-	/*
-	 * public static void main(String[] args) { Deck d = new
-	 * DangerousSectorDeck(); for (int i = 0; i <
-	 * (Constants.NOISE_ANYSECTOR_WITHOBJECT +
-	 * Constants.NOISE_ANYSECTOR_WITHOUTOBJECT +
-	 * Constants.NOISE_YOURSECTOR_WITHOBJECT +
-	 * Constants.NOISE_YOURSECTOR_WITHOUTOBJECT + Constants.SILENCE); i++) {
-	 * System.out.println(i + 1 + " " + d.drawCard()); } }
-	 */
+
 }

@@ -11,6 +11,10 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Player;
  */
 public class ItemSedatives extends ItemCard {
 
+	/**
+	 * Public constructor for the class. It sets the <code>type</code> parameter by calling the
+	 * superclass constructor, and then its <code>name</code>.
+	 */
 	public ItemSedatives() {
 		super();
 		name = CardNames.SEDATIVES;

@@ -102,8 +102,7 @@ public class CLI implements UserInterface {
 				+ "B - Be a good guy");
 		String chosenAction = null;
 		do {
-			chosenAction = CommonMethods.readLine();
-			chosenAction.toUpperCase(); // TODO doesn't work!!
+			chosenAction = (CommonMethods.readLine()).toUpperCase();
 		} while (!("A".equals(chosenAction) || "B".equals(chosenAction)));
 		return chosenAction;
 	}
