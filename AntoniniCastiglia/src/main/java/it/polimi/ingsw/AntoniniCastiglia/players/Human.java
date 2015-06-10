@@ -10,20 +10,19 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Human extends Player {
 
-	
 	/**
-	 * Constructor for Human player. Sets all fundamental parameters. Some are
-	 * given to the constructor of the superclass, some are set here.
+	 * Constructor for Human player. Sets all fundamental parameters. Some are given to the
+	 * constructor of the superclass, some are set here.
 	 * 
-	 * @param name
-	 * @param role
-	 * @param id
+	 * @param name the name in the game
+	 * @param role the role in the crew, as stated in the game rules
+	 * @param c character to identify the player's nature (alien/human)
 	 */
 	public Human(String name, String role, int id) {
 		super(name, role, "H", id);
 		maxMoves = 1;
 		myBase = Table.getHumanBase();
-		currentSector = myBase; path.add(myBase); // TODO use a move action!
+		currentSector = myBase;
 	}
 
 }
