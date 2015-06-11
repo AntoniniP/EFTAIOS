@@ -10,6 +10,8 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Human extends Player {
 
+	private boolean shield;
+	
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are given to the
 	 * constructor of the superclass, some are set here.
@@ -24,5 +26,12 @@ public class Human extends Player {
 		myBase = Table.getHumanBase();
 		currentSector = myBase;
 	}
-
+	
+	public boolean hasShield(){
+		return shield;
+	}
+	
+	public void setShield(boolean newShield){
+		this.shield=newShield;
+	}
 }

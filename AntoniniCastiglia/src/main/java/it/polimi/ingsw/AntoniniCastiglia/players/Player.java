@@ -1,8 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
-import java.util.List;
-import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
@@ -23,10 +21,11 @@ public abstract class Player {
 	protected int maxMoves;
 	protected Sector myBase;
 	protected Sector currentSector;
-	protected List<Sector> path = new ArrayList<Sector>();
-	private Card[] items = new ItemCard[3];
-	private boolean shield = false;
-	private boolean dead = false;
+	protected ArrayList<Sector> path = new ArrayList<Sector>();
+	private ItemCard[] items = new ItemCard[3];
+	private boolean dead;
+	private boolean suspended;
+	private boolean active;
 
 	/**
 	 * Constructor for the class. It sets some parameters, such as the name, role, nature and ID of
@@ -58,6 +57,18 @@ public abstract class Player {
 		return maxMoves;
 	}
 
+	public int getPlayerID() {
+		return id;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
+
 	/**
 	 * Standard setter for <code>maxMoves</code>.
 	 * 
@@ -65,43 +76,6 @@ public abstract class Player {
 	 */
 	public void setMoves(int moves) {
 		this.maxMoves = moves;
-	}
-
-	/**
-	 * Standard getter for <code>shield</code> variable (it states whether the player is protected
-	 * from attacks thanks to a Defense Card).
-	 * 
-	 * @return whether the player is protected from an attack
-	 */
-	public boolean hasShield() {
-		return shield;
-	}
-
-	/**
-	 * Standard setter for <code>shield</code> variable.
-	 * 
-	 * @param newShield the new value for the <code>shield</code> variable
-	 */
-	public void setShield(boolean newShield) {
-		this.shield = newShield;
-	}
-
-	/**
-	 * Standard getter for <code>dead</code> variable.
-	 * 
-	 * @return whether the player is dead or not
-	 */
-	public boolean isDead() {
-		return dead;
-	}
-
-	/**
-	 * Standard setter for <code>dead</code> variable.
-	 * 
-	 * @param dead the new value for <code>dead</code> variable
-	 */
-	public void setDead(boolean dead) {
-		this.dead = dead;
 	}
 
 	/**
@@ -146,4 +120,50 @@ public abstract class Player {
 		return toReturn;
 	}
 
+	@Override
+	public boolean equals(Object arg0) {
+		if (!(arg0 instanceof Player))
+			return false;
+		return ((Player) arg0).getPlayerID() == this.getPlayerID();
+	}
+
+	public ItemCard removeCard(int i) {
+		ItemCard c = items[i];
+		items[i] = null;
+		for (int j = i; j < items.length - 1 && items[j + 1] != null; j++)
+			items[j] = items[j + 1]; // re-ordering the not null-cards
+		return c;
+	}
+
+	public ItemCard switchCard(ItemCard c, int i) {
+		ItemCard toRemove = this.removeCard(i);
+		addItemCard(c);
+		return toRemove;
+	}
+
+	public boolean addItemCard(ItemCard c) { // adding item card to the player's deck; if there
+												// isn't any space left, return false to server
+		for (int i = 0; i < items.length; i++)
+			if (items[i] == null) {
+				items[i] = c;
+				return true;
+			}
+		return false;
+	}
+
+	public void suspend() {
+		suspended = true;
+	}
+
+	public boolean isSuspended() {
+		return suspended;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }
