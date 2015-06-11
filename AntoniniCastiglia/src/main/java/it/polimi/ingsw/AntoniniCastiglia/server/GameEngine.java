@@ -12,7 +12,7 @@ public interface GameEngine extends Remote {
 
 	public void useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
-	public String getAdjacents(int playerID, int gameID) throws RemoteException;
+	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
 	public boolean isEnded(int gameID) throws RemoteException;
 

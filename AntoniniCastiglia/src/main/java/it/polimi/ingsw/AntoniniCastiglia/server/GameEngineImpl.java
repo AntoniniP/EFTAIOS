@@ -5,26 +5,21 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-
-
-
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameEngineImpl implements GameEngine {
 
-
 	private List<GameHandler> gameHandlerList;
-	
+
 	public GameEngineImpl() { // Constructor
-		this.gameHandlerList=new ArrayList<GameHandler>();
+		this.gameHandlerList = new ArrayList<GameHandler>();
 	}
-	public void addGameToList(GameHandler game){
+
+	public void addGame(GameHandler game) {
 		gameHandlerList.add(game);
 	}
-	
 
 	@Override
 	public String getPlayer(int playerID, int gameID) throws RemoteException {
@@ -37,9 +32,9 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public String move(int playerID, int gameID, String sector) throws RemoteException {//tell client to give me what I want
+	// tell client to give me what I want
+	public String move(int playerID, int gameID, String sector) throws RemoteException {
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-
 		Sector s = CommonMethods.toSector(sector, gameHandlerList.get(gameID).getTable());
 		p.setCurrentSector(s);
 		return "You are now in Sector" + p.getCurrentSector();
@@ -47,19 +42,18 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public String attack(int playerID, int gameID) throws RemoteException {
-		boolean humanKilled=false;
+		boolean humanKilled = false;
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
 		for (int i = 0; i < gameHandlerList.get(gameID).getPlayerList().size(); i++) {
 			Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
 			if (!(p.equals(p1)) && !p1.isSuspended()) {
 				if ((p.getCurrentSector()).equals(p1.getCurrentSector())) {
 					if (p1 instanceof Human) {
-						if(!((Human)p1).hasShield()){
-							humanKilled=true;
+						if (!((Human) p1).hasShield()) {
+							humanKilled = true;
 							p1.isDead();
-						}
-						else
-							; //TODO implement card actions!!! and notify and re insert in the deck
+						} else
+							; // TODO implement card actions!!! and notify and re insert in the deck
 					}
 				}
 			}
@@ -71,24 +65,26 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public void useCard(int playerID, int gameID, int posCard) throws RemoteException { //what if we use the index? 
-		Player p=gameHandlerList.get(gameID).getPlayerList().get(playerID);
-		ItemCard c=p.removeCard(posCard);
+	public void useCard(int playerID, int gameID, int posCard) throws RemoteException {
+		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
+		ItemCard c = p.removeCard(posCard);
 		c.action(p);
-		//build the notify stuff!
+		// build the notify stuff!
 	}
 
 	@Override
-	public String getCards(int playerID, int gameID) throws RemoteException {// better to be called drawCard
+	// Returns the item cards a player owns.
+	public String getCards(int playerID, int gameID) throws RemoteException {
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
 		String cards = p.getPlayerCards();
 		return cards;
 	}
 
 	@Override
-	public String getAdjacents(int playerID, int gameID) throws RemoteException {
+	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException {
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		List<Sector> adjacents = gameHandlerList.get(gameID).getTable().adjacent(p.getCurrentSector(), p.getMoves());
+		List<Sector> adjacents = gameHandlerList.get(gameID).getTable()
+				.adjacent(p.getCurrentSector(), p.getMoves());
 		String toReturn = "";
 		for (Sector sector : adjacents) {
 			toReturn = toReturn + sector.toString() + ";";
@@ -114,21 +110,17 @@ public class GameEngineImpl implements GameEngine {
 		}
 		return null;
 	}
-	
-	public void addGame(GameHandler gH){
-		gameHandlerList.add(gH);
-	}
-	
+
 	@Override
 	public void endTurn(int playerID, int gameID) throws RemoteException {
 		gameHandlerList.get(gameID).switchTurn();
 	}
-	
+
 	@Override
 	public boolean isStarted(int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).isStarted();
 	}
-	
+
 	@Override
 	public boolean isMyTurn(int playerID, int gameID) throws RemoteException {
 		gameHandlerList.get(gameID).isMyTurn(playerID);

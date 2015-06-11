@@ -1,7 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,14 +18,14 @@ public class Server implements TimerInterface {
 	private GameEngine game;
 	private RMIInterface rmiInterface;
 	private Timer timer;
-	
+
 	private boolean outOfTime;
 	private boolean firstConnected;
 	private int numPlayer;
 	private boolean started = false;
-	private boolean suspended=false;
+	private boolean suspended = false;
 	private GameHandler gameHandler;
-	private int gameId=0;
+	private int gameId = 0;
 
 	public static void main(String[] args) {
 		Server server = new Server();
@@ -46,24 +45,24 @@ public class Server implements TimerInterface {
 			e.printStackTrace();
 		}
 		System.out.println("Registry bound");
-		
-		while(true)
-			waitConn();//multiple game thing
-		
+
+		while (true)
+			waitConn();// multiple game thing
+
 	}
 
 	private void waitConn() {
 		firstConnection();
-		gameHandler= new GameHandler();
-		ExecutorService newGame=Executors.newSingleThreadExecutor();
+		gameHandler = new GameHandler();
+		ExecutorService newGame = Executors.newSingleThreadExecutor();
 		newGame.submit(gameHandler);
-		((GameEngineImpl)game).addGame(gameHandler);
-		System.out.println("Waiting for other connections..."+"\n");
+		((GameEngineImpl) game).addGame(gameHandler);
+		System.out.println("Waiting for other connections..." + "\n");
 		while (!outOfTime && (numPlayer < Constants.MAXPLAYERS)) {
-			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
+				// nothing to do; the sleep is fundamental to make the cycle work
 			}
 		}
 		System.out.println("Out of the loop");
@@ -81,10 +80,10 @@ public class Server implements TimerInterface {
 		numPlayer = 0;
 		System.out.println("Waiting for first connection");
 		while (!isFirstConn()) {
-			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
+				// nothing to do; the sleep is fundamental to make the cycle work
 			}
 		}
 		startTimer();
@@ -109,6 +108,7 @@ public class Server implements TimerInterface {
 	protected boolean isFirstConn() {
 		return firstConnected;
 	}
+
 	@Override
 	public synchronized void timeout() {
 		outOfTime = true;
@@ -117,11 +117,12 @@ public class Server implements TimerInterface {
 	protected void incrementNumPlayer() {
 		numPlayer++;
 	}
-	
+
 	public void suspendGame() {
 		gameHandler.setSuspended();
 	}
-	public int getNumPlayer(){
+
+	public int getNumPlayer() {
 		return numPlayer;
 	}
 }
