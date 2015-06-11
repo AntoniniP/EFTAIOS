@@ -18,7 +18,7 @@ public interface GameEngine extends Remote {
 
 	public String drawCard(int gameID, String deck) throws RemoteException;
 
-	public String getPlayerString(int playerID, int gameID) throws RemoteException;
+	public String getPlayer(int playerID, int gameID) throws RemoteException;
 
 	public String getMap(int gameID) throws RemoteException;
 

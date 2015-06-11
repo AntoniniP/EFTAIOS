@@ -27,7 +27,7 @@ public class GameEngineImpl implements GameEngine {
 	
 
 	@Override
-	public String getPlayerString(int playerID, int gameID) throws RemoteException {
+	public String getPlayer(int playerID, int gameID) throws RemoteException {
 		return (gameHandlerList.get(gameID).getPlayerList().get(playerID)).toString();
 	}
 
@@ -120,7 +120,7 @@ public class GameEngineImpl implements GameEngine {
 	}
 	
 	@Override
-	public void endTurn(int playerID, int gameID) throws RemoteException{
+	public void endTurn(int playerID, int gameID) throws RemoteException {
 		gameHandlerList.get(gameID).switchTurn();
 	}
 	

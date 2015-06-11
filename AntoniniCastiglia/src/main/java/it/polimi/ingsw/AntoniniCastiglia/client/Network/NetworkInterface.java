@@ -16,16 +16,17 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	int connect()throws RemoteException;
+	int connect() throws RemoteException;
 
 	/**
 	 * Gets the map from the server.
+	 * 
 	 * @param playerID TODO
 	 * 
 	 * @return the map, in form of a string, separated by <code>;</code>
 	 * @throws RemoteException
 	 */
-	String getMap(int playerID) throws RemoteException;
+	String getMap(int playerID, int gameID) throws RemoteException;
 
 	/**
 	 * Moves the player to the selected sector.
@@ -34,13 +35,11 @@ public interface NetworkInterface {
 	 * @return
 	 * @throws RemoteException
 	 */
-	boolean move(int playerID, String sector) throws RemoteException;
+	String move(int playerID, int gameID, String sector) throws RemoteException;
 
-	boolean isEnded() throws RemoteException;
+	boolean isEnded(int gameID) throws RemoteException;
 
-	String getWinner() throws RemoteException;
-
-	String getCards(int playerID) throws RemoteException;
+	String getCards(int playerID, int gameID) throws RemoteException;
 
 	/**
 	 * When invoked, presents to the player his cards and lets him use them.
@@ -48,29 +47,30 @@ public interface NetworkInterface {
 	 * @param cards item cards of the players
 	 * @param player TODO
 	 */
-	void useCard(String card, int playerID) throws RemoteException;
+	void useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
 	/**
 	 * Asks the server for the adjacent sectors list.
-	 * @param playerID 
+	 * 
+	 * @param playerID
 	 * 
 	 * @return the list of adjacent sectors, in form of a string
-	 * @throws RemoteException 
+	 * @throws RemoteException
 	 */
-	String getAdjacentSectors(int playerID) throws RemoteException;
+	String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
-	boolean isStarted() throws RemoteException;
+	boolean isStarted(int gameID) throws RemoteException;
 
-	String getPlayer(int playerID) throws RemoteException;
+	String getPlayer(int playerID, int gameID) throws RemoteException;
 
-	void attack(int playerID)throws RemoteException;
+	String attack(int playerID, int gameID) throws RemoteException;
 
-	String drawDangerousSectorCard()throws RemoteException;
-	
-	String drawEscapeHatchCard()throws RemoteException;
+	String drawCard(int gameID, String deck) throws RemoteException;
 
-	String drawItemCard()throws RemoteException;
-	
 	String whereYouAre(int playerID) throws RemoteException;
+
+	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
+
+	void endTurn(int playerID, int gameID) throws RemoteException;
 
 }
