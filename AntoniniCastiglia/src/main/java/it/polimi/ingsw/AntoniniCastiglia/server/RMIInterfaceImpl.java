@@ -2,6 +2,13 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import java.rmi.RemoteException;
 
+
+/**
+ * Implementation of the interface <code>RMIInterface<code>.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class RMIInterfaceImpl implements RMIInterface {
 
 	private Server server;

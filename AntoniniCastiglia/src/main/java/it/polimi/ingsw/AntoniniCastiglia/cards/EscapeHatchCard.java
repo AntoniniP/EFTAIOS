@@ -1,5 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
+
 /**
  * Every instance of this class is an Escape Hatch card. It contains a variable which indicates the
  * state of the Escape hatch.

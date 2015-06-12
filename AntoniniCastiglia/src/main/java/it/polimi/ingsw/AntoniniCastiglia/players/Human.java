@@ -11,6 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 public class Human extends Player {
 
 	private boolean shield;
+	private boolean escaped;
 	
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are given to the
@@ -34,4 +35,11 @@ public class Human extends Player {
 	public void setShield(boolean newShield){
 		this.shield=newShield;
 	}
+	public void setEscaped(boolean escaped){
+		this.escaped = escaped;
+	}
+	public boolean isEscaped(){
+		return escaped;
+	}
+		
 }

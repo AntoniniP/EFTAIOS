@@ -6,11 +6,18 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
+/**
+ * This class implements the remote interface <code>GameEngine<code>.
+ * 
+ * @author Laura Castiglia
+ *
+ */
 public class GameEngineImpl implements GameEngine {
 
 	private Map<Integer, GameHandler> gameHandlerList;
@@ -34,7 +41,6 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	// tell client to give me what I want
 	public String move(int playerID, int gameID, String sector) throws RemoteException {
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
 		Sector s = CommonMethods.toSector(sector, gameHandlerList.get(gameID).getTable());
@@ -55,8 +61,7 @@ public class GameEngineImpl implements GameEngine {
 							humanKilled = true;
 							p1.isDead();
 						} else
-							; // TODO implement card actions!!! and notify and re insert in the deck
-						// TODO notifiche al player nel player
+							;
 					}
 				}
 			}
@@ -72,7 +77,6 @@ public class GameEngineImpl implements GameEngine {
 		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
 		ItemCard c = p.removeCard(posCard);
 		c.action(p);
-		// build the notify stuff!
 	}
 
 	@Override
@@ -97,6 +101,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public boolean isEnded(int gameID) throws RemoteException {
+		gameHandlerList.get(gameID).endGame(); //method with the output strings
 		return gameHandlerList.get(gameID).isEnded();
 	}
 
@@ -128,5 +133,12 @@ public class GameEngineImpl implements GameEngine {
 	public boolean isMyTurn(int playerID, int gameID) throws RemoteException {
 		gameHandlerList.get(gameID).isMyTurn(playerID);
 		return false;
+	}
+
+	@Override
+	public void notifyWin(int gameID, int playerID) throws RemoteException {
+		if(!gameHandlerList.get(gameID).isMyTurn(playerID))//if it is not my turn
+			gameHandlerList.get(gameID).escapedNotify(); //Problem: the other players are in waiting!!!!
+		
 	}
 }

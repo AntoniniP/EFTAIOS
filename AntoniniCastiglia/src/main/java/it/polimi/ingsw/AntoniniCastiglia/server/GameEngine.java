@@ -29,4 +29,8 @@ public interface GameEngine extends Remote {
 	public boolean isMyTurn(int playerID, int gameID) throws RemoteException;
 	
 	public void endTurn(int playerID, int gameID) throws RemoteException;
+	
+	public void notifyWin(int gameID, int playerID) throws RemoteException;
+
+	
 }

@@ -1,12 +1,16 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
+import java.util.List;
 import java.util.Timer;
+
 import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCardDeck;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
+import it.polimi.ingsw.AntoniniCastiglia.players.Human;
+import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 public class GameHandler implements Runnable, TimerInterface {
@@ -19,11 +23,15 @@ public class GameHandler implements Runnable, TimerInterface {
 	private int numPlayers;
 	private int rounds;
 	private Timer timer;
+	private List<String> winningH;
 
 	private int playerTurn = 0;
 	private boolean started;
 	private boolean suspended;
-	private boolean winner;
+	boolean oneAlien;
+	boolean oneHuman;
+	private boolean aliensWin;
+	private boolean humanWins;
 	private boolean ended;
 
 	@Override
@@ -83,11 +91,7 @@ public class GameHandler implements Runnable, TimerInterface {
 					e.printStackTrace();
 				}
 			}
-
-			// Player's Actions: create another class with all the actions & stuff
-			// TODO create the method for the winner!
-			if (!winner)// or human killed==n_human
-				break;// goes out of the cycle if there's a winner
+			win();//check if someone has won
 
 		}
 
@@ -97,8 +101,45 @@ public class GameHandler implements Runnable, TimerInterface {
 		return playerID == playerTurn;
 	}
 
-	private void endGame() {
-		ended = true;
+	public String endGame() { // client will receive the output according to the ending way
+		String s;
+		win();
+		if(aliensWin)
+			s = "The game is over: aliens win!";
+		if(humanWins && ended){
+			s = arrayToString();
+		}
+		else
+			s = "The game is over: both Humans and Aliens win!";
+		
+		return s;
+	}
+	
+	public void win(){ //method to check if someone has won the game
+		Player p=playerList.get(playerTurn);
+		
+		if(!oneHuman||(rounds==38 && oneHuman)){
+			aliensWin=true; //case 1:Aliens win
+			ended=true;
+		}
+		
+		if(p instanceof Human){ //case 2: every human escaped is a winner!
+			if(((Human)p).isEscaped()){
+				humanWins=true;
+				p.suspend(); //the player end its game
+				escapedNotify();
+				if(rounds==38) //if a Human escapes, he's a winner, but the game is still on
+					ended=true; 
+			}
+		}
+		if(rounds==38)
+			ended=true;
+	}
+
+	public void escapedNotify(){ //live notification of winning by escape (extremely sad attempt T.T)
+		String s = "player" + playerList.get(playerTurn)+"has escaped: he wins!";
+		winningH.add(s);//putting all the messages in an array list to be printed at the end of the game
+		System.out.println(s);
 	}
 
 	public synchronized void switchTurn() {
@@ -122,18 +163,25 @@ public class GameHandler implements Runnable, TimerInterface {
 	}
 
 	// check if the game is still valid, according to the number of players still in
-	private boolean checkActivePlayers() { 
-		boolean oneAlien = false;
-		boolean oneHuman = false;
-		for (int i = 0; i < playerList.size() && !oneAlien && !oneHuman; i++) {
+	private boolean checkActivePlayers() {
+		for (int i = 0; i < playerList.size() && !oneAlien; i++) {
 			if (!playerList.get(i).isSuspended()) {
 				if (playerList.get(i) instanceof Alien)
 					oneAlien = true;
 				else
-					oneHuman = true;
+					oneHuman=humanLeft();
 			}
 		}
 		return oneAlien && oneHuman;
+	}
+
+	private boolean humanLeft() { //checks if there are human left
+		for (int i = 0; i < playerList.size() && !oneHuman; i++) {
+			if (!playerList.get(i).isSuspended()) 
+				if (playerList.get(i) instanceof Human)
+					oneHuman = true;
+		}
+		return oneHuman;
 	}
 
 	public PlayerList getPlayerList() {
@@ -180,5 +228,12 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	public boolean isStarted() {
 		return started;
+	}
+	
+	private String arrayToString() { //method usefull for conveerting winninH arrayList into String (see endGame)
+		String str = "";
+		for(String s:winningH)
+			str = str + s +"\t";
+		return str;
 	}
 }
