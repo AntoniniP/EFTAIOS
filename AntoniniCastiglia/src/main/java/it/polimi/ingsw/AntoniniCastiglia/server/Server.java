@@ -25,7 +25,12 @@ public class Server implements TimerInterface {
 	private boolean started = false;
 	private boolean suspended = false;
 	private GameHandler gameHandler;
-	private int gameId = 0;
+	private int gameID = 0;
+
+	
+	public int getGameID() {
+		return gameID;
+	}
 
 	public static void main(String[] args) {
 		Server server = new Server();
@@ -46,8 +51,10 @@ public class Server implements TimerInterface {
 		}
 		System.out.println("Registry bound");
 
-		while (true)
+		while (true){
 			waitConn();// multiple game thing
+			gameID++;
+		}
 
 	}
 
@@ -56,7 +63,7 @@ public class Server implements TimerInterface {
 		gameHandler = new GameHandler();
 		ExecutorService newGame = Executors.newSingleThreadExecutor();
 		newGame.submit(gameHandler);
-		((GameEngineImpl) game).addGame(gameHandler);
+		((GameEngineImpl) game).addGame(gameID, gameHandler);
 		System.out.println("Waiting for other connections..." + "\n");
 		while (!outOfTime && (numPlayer < Constants.MAXPLAYERS)) {
 			try {
@@ -91,9 +98,11 @@ public class Server implements TimerInterface {
 	}
 
 	public void startGame() {
-		gameHandler.setStarted();
-		gameHandler.setNumPlayer(numPlayer);
-		gameHandler.gameTools();
+		synchronized (gameHandler) {
+			gameHandler.setStarted();
+			gameHandler.setNumPlayer(numPlayer);
+			gameHandler.gameTools();
+		}
 	}
 
 	private void startTimer() {
@@ -119,7 +128,9 @@ public class Server implements TimerInterface {
 	}
 
 	public void suspendGame() {
-		gameHandler.setSuspended();
+		synchronized (gameHandler) {
+			gameHandler.setSuspended();
+		}
 	}
 
 	public int getNumPlayer() {

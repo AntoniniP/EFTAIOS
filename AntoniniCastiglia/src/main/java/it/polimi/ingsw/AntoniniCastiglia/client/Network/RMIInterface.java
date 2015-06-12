@@ -18,7 +18,7 @@ public class RMIInterface implements NetworkInterface {
 	private it.polimi.ingsw.AntoniniCastiglia.server.RMIInterface remoteRMI;
 
 	@Override
-	public int connect() throws RemoteException {
+	public String connect() throws RemoteException {
 		String gameInt = "GameEngine";
 		String rmiInt = "RMIinterface";
 		Registry registry;
@@ -27,7 +27,7 @@ public class RMIInterface implements NetworkInterface {
 			registry = LocateRegistry.getRegistry(1099);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 
 		try {
@@ -37,14 +37,14 @@ public class RMIInterface implements NetworkInterface {
 					.lookup(rmiInt));
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 
 		try {
 			return remoteRMI.connect();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 	}
 

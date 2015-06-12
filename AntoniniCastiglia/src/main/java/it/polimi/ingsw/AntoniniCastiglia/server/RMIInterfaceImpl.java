@@ -11,7 +11,7 @@ public class RMIInterfaceImpl implements RMIInterface {
 	}
 
 	@Override
-	public int connect() throws RemoteException {
+	public String connect() throws RemoteException {
 
 		synchronized (server) {
 			if (!server.isFirstConn()) {
@@ -22,6 +22,6 @@ public class RMIInterfaceImpl implements RMIInterface {
 		//assign player to client, add in list, try to give it to gameHandler
 		System.out.println("New player connected. " + server.getNumPlayer());
 
-		return server.getNumPlayer() - 1;
+		return server.getGameID()+"_"+(server.getNumPlayer() - 1);
 	}
 }

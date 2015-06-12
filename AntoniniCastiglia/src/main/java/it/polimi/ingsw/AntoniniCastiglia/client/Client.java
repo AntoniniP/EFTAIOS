@@ -27,7 +27,8 @@ public class Client {
 	private boolean mustDraw; // dangerous sector card
 	private boolean hasDrawn; // dangerous sector card
 	private boolean canUseCards; // item cards
-
+	
+	NetworkInterface ni;
 	/**
 	 * This is the <code>main</code> method of the class. It simply creates a network interface,
 	 * which is passed to the constructor of the class. The whole game is started in the
@@ -38,9 +39,9 @@ public class Client {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		try {
-			NetworkInterface ni = NetworkInterfaceFactory.getInterface(chooseNetwork());
+			NetworkInterface tmp = NetworkInterfaceFactory.getInterface(chooseNetwork());
 			System.out.println();
-			Client application = new Client(ni);
+			Client application = new Client(tmp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,6 +55,7 @@ public class Client {
 	 * @throws IOException
 	 */
 	private Client(NetworkInterface ni) throws RemoteException {
+		this.ni=ni;
 		ui = UserInterfaceFactory.getInterface(chooseUI());
 
 		playerID = ni.connect();

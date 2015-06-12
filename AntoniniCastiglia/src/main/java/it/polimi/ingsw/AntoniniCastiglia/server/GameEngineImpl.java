@@ -7,18 +7,20 @@ import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameEngineImpl implements GameEngine {
 
-	private List<GameHandler> gameHandlerList;
+	private Map<Integer, GameHandler> gameHandlerList;
 
 	public GameEngineImpl() { // Constructor
-		this.gameHandlerList = new ArrayList<GameHandler>();
+		this.gameHandlerList = new HashMap<Integer, GameHandler>();
 	}
 
-	public void addGame(GameHandler game) {
-		gameHandlerList.add(game);
+	public void addGame(int gameID, GameHandler game) {
+		gameHandlerList.put(gameID, game);
 	}
 
 	@Override
@@ -54,6 +56,7 @@ public class GameEngineImpl implements GameEngine {
 							p1.isDead();
 						} else
 							; // TODO implement card actions!!! and notify and re insert in the deck
+						// TODO notifiche al player nel player
 					}
 				}
 			}

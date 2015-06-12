@@ -16,7 +16,7 @@ public interface NetworkInterface {
 	 * 
 	 * @return the name of the player
 	 */
-	int connect() throws RemoteException;
+	String connect() throws RemoteException;
 
 	/**
 	 * Gets the map from the server.
