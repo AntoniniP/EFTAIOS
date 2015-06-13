@@ -1,8 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-
-
-import java.rmi.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface GameEngine extends Remote {
 
@@ -23,14 +22,13 @@ public interface GameEngine extends Remote {
 	public String getMap(int gameID) throws RemoteException;
 
 	public String getCards(int playerID, int gameID) throws RemoteException;
-	
+
 	public boolean isStarted(int gameID) throws RemoteException;
-	
+
 	public boolean isMyTurn(int playerID, int gameID) throws RemoteException;
-	
+
 	public void endTurn(int playerID, int gameID) throws RemoteException;
-	
+
 	public void notifyWin(int gameID, int playerID) throws RemoteException;
 
-	
 }

@@ -20,69 +20,47 @@ public class GameHandler implements Runnable, TimerInterface {
 	private Deck itemCardDeck;
 	private Deck escapeHatchDeck;
 	private PlayerList playerList;
-	private int numPlayers;
+	private int numPlayers =0;
 	private int rounds;
 	private Timer timer;
 	private List<String> winningH;
 
-	private int playerTurn = 0;
-	private boolean started;
-	private boolean suspended;
-	boolean oneAlien;
-	boolean oneHuman;
-	private boolean aliensWin;
-	private boolean humanWins;
-	private boolean ended;
+	private int playerTurn;
+	private boolean started = false;
+	private boolean suspended = false;
+	private boolean oneAlien=false;
+	private boolean oneHuman = false;
+	private boolean aliensWin=false;
+	private boolean humanWins=false;
+	private boolean ended=false;
 
 	@Override
 	public void run() {
 		while (!started && !suspended) {
 			try {
-				System.out.println("A game is about to start");
 				this.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		if (started) {
+			playerTurn=(int)(Math.random()*numPlayers);
+			rounds=0;
 			turn();
-		} else if (suspended) {
-			// nothing to do
-		}
-
+		} 
 		endGame();
-
 	}
 
 	public void gameTools() { // receives all the data about players, cards, map, etc!
-		createMap();
+		createMap(); // THE MAP MUST BE CREATED *BEFORE* THE PLAYERS!
 		createPlayers(numPlayers);
 		createDecks();
 		instatiateTimer();
 
 	}
 
-	private void instatiateTimer() {
-		timer = new Timer();
-
-	}
-
-	private void createMap() {
-		table = new Table();
-	}
-
-	private void createPlayers(int numPlayers) {// TODO initialize Players setPlayerList
-		playerList = new PlayerList(numPlayers);
-	}
-
-	private void createDecks() {
-		dangerousSectorDeck = new DangerousSectorDeck();
-		itemCardDeck = new ItemCardDeck();
-		escapeHatchDeck = new EscapeHatchDeck();
-	}
-
 	public void turn() {
-		while (rounds <= 39 && !ended) {
+		while (rounds <= ServerConstants.ROUNDS && !ended) {
 			timer.schedule(new MyTimer(this), 2 * 60 * 1000);
 			while (playerList.get(playerTurn).isActive()) {
 				try {
@@ -111,14 +89,14 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 		else
 			s = "The game is over: both Humans and Aliens win!";
-		
+		this.ended=true;
 		return s;
 	}
 	
 	public void win(){ //method to check if someone has won the game
 		Player p=playerList.get(playerTurn);
 		
-		if(!oneHuman||(rounds==38 && oneHuman)){
+		if(!oneHuman||(rounds==ServerConstants.ROUNDS-1 && oneHuman)){
 			aliensWin=true; //case 1:Aliens win
 			ended=true;
 		}
@@ -128,22 +106,22 @@ public class GameHandler implements Runnable, TimerInterface {
 				humanWins=true;
 				p.suspend(); //the player end its game
 				escapedNotify();
-				if(rounds==38) //if a Human escapes, he's a winner, but the game is still on
+				if(rounds==ServerConstants.ROUNDS-1) //if a Human escapes, he's a winner, but the game is still on
 					ended=true; 
 			}
 		}
-		if(rounds==38)
+		if(rounds==ServerConstants.ROUNDS-1)
 			ended=true;
 	}
 
-	public void escapedNotify(){ //live notification of winning by escape (extremely sad attempt T.T)
+	public void escapedNotify(){ //live notification of winning by escape
 		String s = "player" + playerList.get(playerTurn)+"has escaped: he wins!";
-		winningH.add(s);//putting all the messages in an array list to be printed at the end of the game
+		winningH.add(s);
 		System.out.println(s);
 	}
 
 	public synchronized void switchTurn() {
-		timer.cancel(); // avoid useless switches of turn
+		timer.cancel(); 
 		if (!checkActivePlayers()) {
 			ended = true;
 			return;
@@ -159,7 +137,6 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 		playerList.get(playerTurn).setActive(true);
 		this.notify();
-
 	}
 
 	// check if the game is still valid, according to the number of players still in
@@ -227,13 +204,32 @@ public class GameHandler implements Runnable, TimerInterface {
 	}
 
 	public boolean isStarted() {
-		return started;
+		return this.started;
 	}
 	
-	private String arrayToString() { //method usefull for conveerting winninH arrayList into String (see endGame)
+	private String arrayToString() { //method useful for converting winninH arrayList into String (see endGame)
 		String str = "";
 		for(String s:winningH)
 			str = str + s +"\t";
 		return str;
+	}
+
+	private void createPlayers(int numPlayers) {
+		playerList = new PlayerList(numPlayers);
+	}
+
+	private void createMap() {
+		table = new Table();
+	}
+
+	private void createDecks() {
+		dangerousSectorDeck = new DangerousSectorDeck();
+		itemCardDeck = new ItemCardDeck();
+		escapeHatchDeck = new EscapeHatchDeck();
+	}
+
+	private void instatiateTimer() {
+		timer = new Timer();
+	
 	}
 }

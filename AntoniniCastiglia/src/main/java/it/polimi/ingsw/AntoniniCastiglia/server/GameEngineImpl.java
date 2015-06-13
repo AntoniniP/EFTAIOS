@@ -10,24 +10,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 /**
  * This class implements the remote interface <code>GameEngine<code>.
- * 
+ *
  * @author Laura Castiglia
  *
  */
 public class GameEngineImpl implements GameEngine {
 
-	private Map<Integer, GameHandler> gameHandlerList;
+	private static Map<Integer, GameHandler> gameHandlerList;
 
 	public GameEngineImpl() { // Constructor
-		this.gameHandlerList = new HashMap<Integer, GameHandler>();
+		gameHandlerList = new HashMap<Integer, GameHandler>();
+	}
+
+	public static GameHandler getGameHandler(int gameID) {
+		return gameHandlerList.get(gameID);
 	}
 
 	public void addGame(int gameID, GameHandler game) {
 		gameHandlerList.put(gameID, game);
+	}
+
+	@Override
+	public boolean isStarted(int gameID) throws RemoteException {
+		return gameHandlerList.get(gameID).isStarted();
 	}
 
 	@Override
@@ -60,8 +67,9 @@ public class GameEngineImpl implements GameEngine {
 						if (!((Human) p1).hasShield()) {
 							humanKilled = true;
 							p1.isDead();
-						} else
+						} else {
 							;
+						}
 					}
 				}
 			}
@@ -90,10 +98,10 @@ public class GameEngineImpl implements GameEngine {
 	@Override
 	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException {
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		List<Sector> adjacents = gameHandlerList.get(gameID).getTable()
+		List<Sector> adjacentSectors = gameHandlerList.get(gameID).getTable()
 				.adjacent(p.getCurrentSector(), p.getMoves());
 		String toReturn = "";
-		for (Sector sector : adjacents) {
+		for (Sector sector : adjacentSectors) {
 			toReturn = toReturn + sector.toString() + ";";
 		}
 		return toReturn;
@@ -101,7 +109,6 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public boolean isEnded(int gameID) throws RemoteException {
-		gameHandlerList.get(gameID).endGame(); //method with the output strings
 		return gameHandlerList.get(gameID).isEnded();
 	}
 
@@ -125,20 +132,16 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public boolean isStarted(int gameID) throws RemoteException {
-		return gameHandlerList.get(gameID).isStarted();
-	}
-
-	@Override
 	public boolean isMyTurn(int playerID, int gameID) throws RemoteException {
-		gameHandlerList.get(gameID).isMyTurn(playerID);
-		return false;
+		return gameHandlerList.get(gameID).isMyTurn(playerID);
 	}
 
 	@Override
 	public void notifyWin(int gameID, int playerID) throws RemoteException {
-		if(!gameHandlerList.get(gameID).isMyTurn(playerID))//if it is not my turn
-			gameHandlerList.get(gameID).escapedNotify(); //Problem: the other players are in waiting!!!!
-		
+		if (!gameHandlerList.get(gameID).isMyTurn(playerID)) {
+			gameHandlerList.get(gameID).escapedNotify(); // Problem: the other players are in
+			// waiting!!!!
+		}
+
 	}
 }

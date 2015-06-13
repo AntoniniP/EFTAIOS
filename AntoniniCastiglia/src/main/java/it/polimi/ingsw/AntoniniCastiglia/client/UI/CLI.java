@@ -12,18 +12,18 @@ import it.polimi.ingsw.AntoniniCastiglia.client.Constants;
 public class CLI implements UserInterface {
 
 	@Override
-	public void connected(int playerID) {
-		System.out.println("You are now connected to the game as player number " + playerID + ".\n"
+	public void connected(int gameID, int playerID) {
+		System.out.println("You are now connected to the game "+gameID+" as player number " + playerID + ".\n"
 				+ "Please wait for a game to begin. "
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
 
 	@Override
-	public void whoYouAreComplete(String[] player) {
-		String name = player[0];
-		String role = player[1];
+	public void whoYouAreComplete(String[] args) {
+		String name = args[0];
+		String role = args[1];
 		String nature;
-		if ("A".equals(player[2])) {
+		if ("A".equals(args[2])) {
 			nature = new String("n alien");
 		} else {
 			nature = new String(" human");
@@ -39,10 +39,10 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	// TODO make suitable to DangerousSectorCards too!
+	// TODO make suitable for DangerousSectorCards too!
 	public void printCards(boolean canUseCards, String... cards) {
 		if (canUseCards) {
-			// TODO add string for noCard
+			System.out.println("0. Don't use any card");
 			for (int i = 0; i < cards.length; i++) {
 				if (!("null".equals(cards[i]))) {
 					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");

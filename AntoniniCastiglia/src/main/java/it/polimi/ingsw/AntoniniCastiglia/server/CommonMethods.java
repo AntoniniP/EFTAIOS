@@ -1,5 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
+import java.util.concurrent.TimeUnit;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.*;
@@ -24,7 +25,7 @@ public class CommonMethods {
 	 * @param playerList
 	 * @return player's identifier, searching in the player's list
 	 */
-	public static Player toPlayer(int playerID, PlayerList playerList) {
+	public static Player toPlayer(int playerID,  PlayerList playerList) {
 
 		return playerList.get(playerID);
 
@@ -71,5 +72,15 @@ public class CommonMethods {
 		int y = CommonMethods.getYcoord(sector);
 		
 		return table.getSector(y, x);
+	}
+	
+	
+	public static void doMagic(int time){
+		try {
+			TimeUnit.MILLISECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			// nothing to do; the sleep is fundamental to let everything work
+		}
+		
 	}
 }

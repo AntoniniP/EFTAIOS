@@ -73,4 +73,5 @@ public interface NetworkInterface {
 
 	void endTurn(int playerID, int gameID) throws RemoteException;
 
+
 }

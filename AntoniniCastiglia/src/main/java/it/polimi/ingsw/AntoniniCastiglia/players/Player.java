@@ -119,14 +119,14 @@ public abstract class Player {
 		}
 		return toReturn;
 	}
-
+/*
 	@Override
 	public boolean equals(Object arg0) {
 		if (!(arg0 instanceof Player))
 			return false;
 		return ((Player) arg0).getPlayerID() == this.getPlayerID();
 	}
-
+*/
 	public ItemCard removeCard(int i) {
 		ItemCard c = items[i];
 		items[i] = null;
@@ -166,4 +166,7 @@ public abstract class Player {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	
+	
 }

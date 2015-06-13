@@ -11,10 +11,10 @@ public interface UserInterface {
 
 	/**
 	 * Prints a simple message.
-	 * 
+	 * @param gameID TODO
 	 * @param playerID TODO
 	 */
-	void connected(int playerID);
+	void connected(int gameID, int playerID);
 
 	/**
 	 * Lets the player know which are his name and nature (Human/Alien)

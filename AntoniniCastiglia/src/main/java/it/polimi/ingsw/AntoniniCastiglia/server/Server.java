@@ -1,13 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Server implements TimerInterface {
 
@@ -21,17 +19,13 @@ public class Server implements TimerInterface {
 
 	private boolean outOfTime;
 	private boolean firstConnected;
-	private int numPlayer;
-	private boolean started = false;
-	private boolean suspended = false;
+	private int numPlayers;
+	private boolean started;
+	private boolean suspended ;
 	private GameHandler gameHandler;
 	private int gameID = 0;
 
 	
-	public int getGameID() {
-		return gameID;
-	}
-
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.start();
@@ -49,65 +43,79 @@ public class Server implements TimerInterface {
 		} catch (RemoteException | AlreadyBoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Registry bound");
+		System.out.println("Welcome to EFTAIOS server.");
 
-		while (true){
-			waitConn();// multiple game thing
+		while (true) {
+			numPlayers = 0;
+			waitConn();
 			gameID++;
 		}
 
 	}
 
 	private void waitConn() {
+
 		firstConnection();
-		gameHandler = new GameHandler();
-		ExecutorService newGame = Executors.newSingleThreadExecutor();
-		newGame.submit(gameHandler);
-		((GameEngineImpl) game).addGame(gameID, gameHandler);
-		System.out.println("Waiting for other connections..." + "\n");
-		while (!outOfTime && (numPlayer < Constants.MAXPLAYERS)) {
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-				// nothing to do; the sleep is fundamental to make the cycle work
-			}
+
+		while (!outOfTime && (numPlayers < ServerConstants.MAXPLAYERS)) {
+			CommonMethods.doMagic(500);
 		}
-		System.out.println("Out of the loop");
 		timer.cancel(); // in case the timer is out AND the number of players is right
-		if (outOfTime && numPlayer < Constants.MINPLAYERS) {
+
+		if (outOfTime && numPlayers < ServerConstants.MINPLAYERS) {
 			suspendGame();
-		} else {
-			startGame();
+			return;
 		}
-		gameHandler.notify();
+		startGame();
+
 	}
 
 	private void firstConnection() {
 		firstConnected = false;
-		numPlayer = 0;
-		System.out.println("Waiting for first connection");
+		System.out.println("Waiting for the first connection to start a new game.");
+	
+		gameHandler = new GameHandler();
+		ExecutorService newGame = Executors.newSingleThreadExecutor();
+		newGame.submit(gameHandler);
+		((GameEngineImpl) game).addGame(gameID, gameHandler);
+		
+		
+		
+		
+		/*TODO***************************ANDREA GUARDA QUI******************************TODO*/
+		/* devo aggiungere il gameHandler alla lista molto presto, per evitare NullPointerException.
+		 * facendo così, quando sincronizzo in  startGame(), sto sincronizzando sul
+		 * gameHandler corretto, già aggiunto alla lista. 
+		 * ma non sono per niente sicuro che vada bene.
+		 */
+		gameHandler=GameEngineImpl.getGameHandler(gameID);
+		/************************************************************************************/
+
+
+		
 		while (!isFirstConn()) {
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-				// nothing to do; the sleep is fundamental to make the cycle work
-			}
+			CommonMethods.doMagic(500);
 		}
+		
 		startTimer();
-		outOfTime = false;
 	}
 
-	public void startGame() {
-		synchronized (gameHandler) {
-			gameHandler.setStarted();
-			gameHandler.setNumPlayer(numPlayer);
-			gameHandler.gameTools();
-		}
-	}
-
+	
+	
+	
 	private void startTimer() {
 		timer = new Timer();
+		outOfTime = false;
 		timer.schedule(new MyTimer(this), 5 * 60 * 1000);
+	}
+
+	private void startGame() {
+		synchronized (gameHandler) {
+			gameHandler.setNumPlayer(numPlayers);
+			gameHandler.gameTools();
+			gameHandler.notify(); 
+			gameHandler.setStarted();
+		}
 	}
 
 	protected void firstConn() {
@@ -124,7 +132,7 @@ public class Server implements TimerInterface {
 	}
 
 	protected void incrementNumPlayer() {
-		numPlayer++;
+		numPlayers++;
 	}
 
 	public void suspendGame() {
@@ -134,6 +142,10 @@ public class Server implements TimerInterface {
 	}
 
 	public int getNumPlayer() {
-		return numPlayer;
+		return numPlayers;
+	}
+
+	public int getGameID() {
+		return gameID;
 	}
 }

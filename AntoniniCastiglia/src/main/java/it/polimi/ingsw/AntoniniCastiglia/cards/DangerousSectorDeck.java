@@ -16,27 +16,27 @@ public class DangerousSectorDeck extends Deck {
 	public DangerousSectorDeck() {
 
 		// noise in your sector, with object
-		for (int i = 0; i < Constants.NOISE_YOURSECTOR_WITHOBJECT; i++) {
+		for (int i = 0; i < CardsConstants.NOISE_YOURSECTOR_WITHOBJECT; i++) {
 			deck.add(new DangerousSectorNoise(true, true));
 		}
 
 		// noise in any sector, with object
-		for (int i = 0; i < Constants.NOISE_ANYSECTOR_WITHOBJECT; i++) {
+		for (int i = 0; i < CardsConstants.NOISE_ANYSECTOR_WITHOBJECT; i++) {
 			deck.add(new DangerousSectorNoise(false, true));
 		}
 
 		// noise in your sector, without object
-		for (int i = 0; i < Constants.NOISE_YOURSECTOR_WITHOUTOBJECT; i++) {
+		for (int i = 0; i < CardsConstants.NOISE_YOURSECTOR_WITHOUTOBJECT; i++) {
 			deck.add(new DangerousSectorNoise(true, false));
 		}
 
 		// noise in any sector, without object
-		for (int i = 0; i < Constants.NOISE_ANYSECTOR_WITHOUTOBJECT; i++) {
+		for (int i = 0; i < CardsConstants.NOISE_ANYSECTOR_WITHOUTOBJECT; i++) {
 			deck.add(new DangerousSectorNoise(false, false));
 		}
 
 		// silence
-		for (int i = 0; i < Constants.SILENCE; i++) {
+		for (int i = 0; i < CardsConstants.SILENCE; i++) {
 			deck.add(new DangerousSectorSilence());
 		}
 

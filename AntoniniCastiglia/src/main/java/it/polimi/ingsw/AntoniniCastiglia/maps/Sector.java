@@ -132,7 +132,7 @@ public abstract class Sector {
 	 */
 	@Override
 	public int hashCode() {
-		return ((this.y * Constants.WIDTH) + (this.x * Constants.HEIGHT));
+		return ((this.y * MapConstants.WIDTH) + (this.x * MapConstants.HEIGHT));
 	}
 
 	public abstract void action();

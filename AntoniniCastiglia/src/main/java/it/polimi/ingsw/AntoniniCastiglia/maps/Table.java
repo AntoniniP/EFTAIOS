@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Table {
 
-	private Sector[][] table = new Sector[Constants.HEIGHT][Constants.WIDTH];
+	private Sector[][] table = new Sector[MapConstants.HEIGHT][MapConstants.WIDTH];
 
 	private static final char EMPTYSECTOR = '0';
 	private static final char DANGEROUSSECTOR = '1';
@@ -38,8 +38,8 @@ public class Table {
 		try {
 			f = new FileInputStream("resources/table.txt");
 
-			for (int i = 0; i < Constants.HEIGHT; i++)
-				for (int j = 0; j < Constants.WIDTH; j++) {
+			for (int i = 0; i < MapConstants.HEIGHT; i++)
+				for (int j = 0; j < MapConstants.WIDTH; j++) {
 
 					switch (validChar(f)) {
 
@@ -98,8 +98,8 @@ public class Table {
 	public String drawMap() {
 		String string = "";
 
-		for (int i = 0; i < Constants.HEIGHT; i++) {
-			for (int j = 0; j < Constants.WIDTH; j++) {
+		for (int i = 0; i < MapConstants.HEIGHT; i++) {
+			for (int j = 0; j < MapConstants.WIDTH; j++) {
 				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
 					string = string + "     ";
 				} else {
@@ -107,7 +107,7 @@ public class Table {
 				}
 			}
 			string = string + "\n";
-			for (int j = 0; j < Constants.WIDTH; j++) {
+			for (int j = 0; j < MapConstants.WIDTH; j++) {
 				if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
 					string = string + "     ";
 				} else {

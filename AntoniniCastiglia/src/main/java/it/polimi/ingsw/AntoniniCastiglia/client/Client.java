@@ -18,6 +18,7 @@ public class Client {
 
 	private String[] player;
 	private int playerID;
+	private int gameID;
 	private String nature;
 	private String[] cards; // item cards
 	private UserInterface ui;
@@ -58,11 +59,22 @@ public class Client {
 		this.ni=ni;
 		ui = UserInterfaceFactory.getInterface(chooseUI());
 
-		playerID = ni.connect();
-		ui.connected(playerID);
-
+		String[] IDs = (ni.connect()).split("_");
+		gameID=Integer.parseInt(IDs[0]);
+		playerID=Integer.parseInt(IDs[1]);
+		
+		ui.connected(gameID, playerID);
+		
+		/**********************************************************
+		try {
+			TimeUnit.MILLISECONDS.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		************************************************************/
+		
 		// Waiting for a game to begin
-		while (!ni.isStarted()) {
+		while (!ni.isStarted(gameID)) {
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
@@ -70,66 +82,74 @@ public class Client {
 		}
 
 		// It's: [0] name; [1] role; [2] nature; [3] playerID; [4] maxMoves.
-		player = (new String(ni.getPlayer(playerID))).split("_");
+		player = (new String(ni.getPlayer(playerID, gameID))).split("_");
 		nature = player[2];
 
 		ui.whoYouAreComplete(player);
 
 		boolean endGame = false;
 		while (!endGame) {
-			if (!ni.isEnded()) {
+			
+			while (!ni.isMyTurn(playerID, gameID)){
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+				}
+			}
+			
+			if (!ni.isEnded(gameID)) {
 				hasMoved = false;
 				hasAttacked = false;
 				mustDraw = false;
 				hasDrawn = false;
 
 				// print map
-				ui.printMap(ni.getMap(playerID));
+				ui.printMap(ni.getMap(playerID, gameID));
 
 				// print your current position
 				currentSector = ni.whereYouAre(playerID);
 				ui.whereYouAre(currentSector);
 
 				// get cards
-				cards = ni.getCards(playerID).split(";");
+				cards = ni.getCards(playerID, gameID).split(";");
 				canUseCards = this.canUseCards();
 				ui.printCards(canUseCards, cards);
 
 				ui.yourTurn();
 
-				this.play(ni);
+				this.play();
 
-				endGame = true; // TODO Remove me as soon as isEnded() is decently implemented
+				
 
 			} else {
 				endGame = true;
-				System.out.println("THE WINNER IS " + ni.getWinner());
+				//System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
 	}
 
-	private void play(NetworkInterface ni) throws RemoteException {
+	private void play() throws RemoteException {
 		String chosenAction = null;
 		do {
 			chosenAction = ui.chooseAction(hasMoved, canAttack(), hasAttacked, canUseCards,
 					mustDraw, hasDrawn);
 			switch (chosenAction) {
 				case Constants.USE_CARD: { // ITEM CARDS
-					this.clientUseCards(ni);
+					this.clientUseCards();
 					break;
 				}
 				case Constants.MOVE: {
-					this.clientMove(ni); // updates mustDraw
+					this.clientMove(); // updates mustDraw
 					hasMoved = true;
 					break;
 				}
 				case Constants.ATTACK: {
-					ni.attack(playerID);
+					ni.attack(playerID, gameID);
 					hasAttacked = true;
 					break;
 				}
 				case Constants.DRAW_CARD: { // DANGEROUS SECTOR CARDS
-					ui.drawDangerousSectorCard(ni.drawDangerousSectorCard());
+					ui.drawDangerousSectorCard(ni.drawCard(gameID, "DS"));
 					hasDrawn = true;
 					mustDraw = false;
 					break;
@@ -162,10 +182,10 @@ public class Client {
 		return false;
 	}
 
-	private void clientUseCards(NetworkInterface ni) throws RemoteException {
+	private void clientUseCards() throws RemoteException {
 		String cardToUse = ui.selectCard(cards);
 		if (!("noCard".equals(cardToUse))) {
-			ni.useCard(cardToUse, playerID);
+			//ni.useCard(cardToUse, playerID);
 		}
 	}
 
@@ -175,10 +195,10 @@ public class Client {
 	 * @param ni instantiation of the network interface
 	 * @throws RemoteException
 	 */
-	private void clientMove(NetworkInterface ni) throws RemoteException {
-		String adjacentSectors = new String(ni.getAdjacentSectors(playerID));
+	private void clientMove() throws RemoteException {
+		String adjacentSectors = new String(ni.getAdjacentSectors(playerID, gameID));
 		String chosenSector = ui.move(playerID, adjacentSectors);
-		mustDraw = ni.move(playerID, chosenSector);
+		ni.move(playerID, gameID, chosenSector);
 		currentSector = ni.whereYouAre(playerID); // update the global variable
 		ui.whereYouAre(currentSector);
 	}

@@ -2,10 +2,9 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import java.rmi.RemoteException;
 
-
 /**
  * Implementation of the interface <code>RMIInterface<code>.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -26,9 +25,10 @@ public class RMIInterfaceImpl implements RMIInterface {
 			}
 			server.incrementNumPlayer();
 		}
-		//assign player to client, add in list, try to give it to gameHandler
-		System.out.println("New player connected. " + server.getNumPlayer());
 
-		return server.getGameID()+"_"+(server.getNumPlayer() - 1);
+		System.out.println("New player connected. " + "gameID: " + server.getGameID()
+				+ " playerID: " + server.getNumPlayer());
+
+		return server.getGameID() + "_" + (server.getNumPlayer() - 1);
 	}
 }

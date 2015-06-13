@@ -91,8 +91,8 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String whereYouAre(int playerID) throws RemoteException {
-		// return remoteEFTAIOS.whereyouAre(playerID);
-		return "ABC";
+		//return remoteEFTAIOS.whereYouAre(playerID);
+		return "A_BC";
 	}
 
 	@Override
