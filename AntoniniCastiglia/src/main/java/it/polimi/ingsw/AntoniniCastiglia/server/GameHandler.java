@@ -28,7 +28,7 @@ public class GameHandler implements Runnable, TimerInterface {
 	private int playerTurn;
 	private boolean started = false;
 	private boolean suspended = false;
-	private boolean oneAlien=false;
+	private boolean oneAlien=false; //at least one alien in game
 	private boolean oneHuman = false;
 	private boolean aliensWin=false;
 	private boolean humanWins=false;

@@ -17,7 +17,7 @@ public class ItemSedatives extends ItemCard {
 	 */
 	public ItemSedatives() {
 		super();
-		name = CardNames.SEDATIVES;
+		name = CardsConstants.SEDATIVES;
 	}
 
 	@Override

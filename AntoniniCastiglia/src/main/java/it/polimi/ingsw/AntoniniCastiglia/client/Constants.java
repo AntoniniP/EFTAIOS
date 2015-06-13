@@ -14,7 +14,7 @@ public final class Constants {
 	public static final String QUIT = "Q";
 	public static final String ATTACK = "A";
 	public static final String NOTHING = "N";
-	public static final String DRAW_CARD = "D"; //dangerous sector card
+	public static final String DRAW_DS_CARD = "D"; //dangerous sector card
 	
 	//public static final String 
 

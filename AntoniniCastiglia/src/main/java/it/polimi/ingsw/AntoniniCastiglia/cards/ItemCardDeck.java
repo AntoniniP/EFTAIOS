@@ -15,22 +15,22 @@ public class ItemCardDeck extends Deck {
 	 */
 	public ItemCardDeck() {
 
-		for (int i = 0; i < CardsConstants.ADRENALINECARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_ADRENALINE; i++) {
 			deck.add(new ItemAdrenaline());
 		}
-		for (int i = 0; i < CardsConstants.ATTACKCARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_ATTACK; i++) {
 			deck.add(new ItemAttack());
 		}
-		for (int i = 0; i < CardsConstants.DEFENSECARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_DEFENSE; i++) {
 			deck.add(new ItemDefense());
 		}
-		for (int i = 0; i < CardsConstants.SEDATIVESCARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_SEDATIVES; i++) {
 			deck.add(new ItemSedatives());
 		}
-		for (int i = 0; i < CardsConstants.SPOTLIGHTCARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_SPOTLIGHT; i++) {
 			deck.add(new ItemSpotlight());
 		}
-		for (int i = 0; i < CardsConstants.TELEPORTCARD; i++) {
+		for (int i = 0; i < CardsConstants.NUM_TELEPORT; i++) {
 			deck.add(new ItemTeleport());
 		}
 		shuffleDeck();

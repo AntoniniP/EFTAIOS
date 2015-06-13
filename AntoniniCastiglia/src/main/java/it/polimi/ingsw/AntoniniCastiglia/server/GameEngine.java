@@ -5,30 +5,35 @@ import java.rmi.RemoteException;
 
 public interface GameEngine extends Remote {
 
-	public String move(int playerID, int gameID, String sector) throws RemoteException;
+	String move(int playerID, int gameID, String sector) throws RemoteException;
 
-	public String attack(int playerID, int gameID) throws RemoteException;
+	String attack(int playerID, int gameID) throws RemoteException;
 
-	public void useCard(int playerID, int gameID, int posCard) throws RemoteException;
+	void useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
-	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
+	String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
-	public boolean isEnded(int gameID) throws RemoteException;
+	boolean isEnded(int gameID) throws RemoteException;
 
-	public String drawCard(int gameID, String deck) throws RemoteException;
+	String drawCard(int gameID, String deck) throws RemoteException;
 
-	public String getPlayer(int playerID, int gameID) throws RemoteException;
+	String getPlayer(int playerID, int gameID) throws RemoteException;
 
-	public String getMap(int gameID) throws RemoteException;
+	String getMap(int gameID) throws RemoteException;
 
-	public String getCards(int playerID, int gameID) throws RemoteException;
+	String getCards(int playerID, int gameID) throws RemoteException;
 
-	public boolean isStarted(int gameID) throws RemoteException;
+	boolean isStarted(int gameID) throws RemoteException;
 
-	public boolean isMyTurn(int playerID, int gameID) throws RemoteException;
+	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
 
-	public void endTurn(int playerID, int gameID) throws RemoteException;
+	void endTurn(int playerID, int gameID) throws RemoteException;
 
-	public void notifyWin(int gameID, int playerID) throws RemoteException;
+	void notifyWin(int gameID, int playerID) throws RemoteException;
+
+	boolean canAttack(int gameID, int playerID) throws RemoteException;
+
+	boolean isDead(int playerID, int gameID)throws RemoteException;
+
 
 }

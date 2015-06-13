@@ -13,8 +13,8 @@ public class CLI implements UserInterface {
 
 	@Override
 	public void connected(int gameID, int playerID) {
-		System.out.println("You are now connected to the game "+gameID+" as player number " + playerID + ".\n"
-				+ "Please wait for a game to begin. "
+		System.out.println("You are now connected to the game " + gameID + " as player number "
+				+ playerID + ".\n" + "Please wait for a game to begin. "
 				+ "Soon you will be provided with a character, and you will see the map.");
 	}
 
@@ -108,14 +108,16 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void drawDangerousSectorCard(String drawnCard) {
+	public String drawDangerousSectorCard(String drawnCard) {
 		System.out.println("Well, here is your card: " + (drawnCard.split("_"))[1]);
+		return null;
 	}
 
 	@Override
-	public void whereYouAre(String currentSector) {
-		System.out.println("You are now in " + (currentSector.split("_"))[0]
-				+ " sector, which is a XXXXXXXXX sector.");
+	public void whereYouAre(String currentSector, String sectorType, boolean mustDrawDSCard,
+			boolean mustDrawEHCard) {
+		System.out.println("You are now in " + currentSector + " sector, which is a " + sectorType
+				+ " sector.");
 	}
 
 	@Override
@@ -142,7 +144,7 @@ public class CLI implements UserInterface {
 				System.out.println(Constants.USE_CARD + " - Use your cards");
 			}
 			if (mustDraw && !hasAttacked) {
-				System.out.print(Constants.DRAW_CARD + " - Draw a Dangerous Sector card");
+				System.out.print(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
 				if (canAttack && !hasAttacked && !hasDrawn) {
 					System.out.println(" (please note that you won't be able"
 							+ " to attack during this turn)");
@@ -157,9 +159,22 @@ public class CLI implements UserInterface {
 		} while (!((!hasMoved && Constants.MOVE.equals(chosenAction))
 				|| (!hasAttacked && canAttack && Constants.ATTACK.equals(chosenAction))
 				|| (canUseCards && Constants.USE_CARD.equals(chosenAction))
-				|| (Constants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && Constants.DRAW_CARD
+				|| (Constants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && Constants.DRAW_DS_CARD
 				.equals(chosenAction))));
 		return chosenAction;
+	}
+
+	@Override
+	public void attackResult(String attackResult) {
+		String[] args=attackResult.split("_");
+		if ("KO".equals(args[0])) {
+			System.out.println("It appears that you can't attack.");
+		} else {
+			int humanKilled = Integer.parseInt(args[1]);
+			int alienKilled = Integer.parseInt(args[2]);
+			System.out.println("You attacked your sector and you killed " + humanKilled+
+					" humans and " + alienKilled + "aliens. Good for you!");
+		}
 	}
 
 }

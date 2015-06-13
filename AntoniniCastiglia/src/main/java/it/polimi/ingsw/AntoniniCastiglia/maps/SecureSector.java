@@ -18,6 +18,10 @@ public class SecureSector extends Sector {
 	public SecureSector(int x, int y) {
 		super(x, y);
 		this.setReachable(true);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.SECURE);
+
 	}
 
 	/**
@@ -29,6 +33,10 @@ public class SecureSector extends Sector {
 	public SecureSector(String name) {
 		super(name);
 		this.setReachable(true);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.SECURE);
+
 	}
 
 	@Override

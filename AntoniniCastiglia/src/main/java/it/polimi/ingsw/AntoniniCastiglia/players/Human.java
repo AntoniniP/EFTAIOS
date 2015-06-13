@@ -21,11 +21,12 @@ public class Human extends Player {
 	 * @param role the role in the crew, as stated in the game rules
 	 * @param c character to identify the player's nature (alien/human)
 	 */
-	public Human(String name, String role, int id) {
-		super(name, role, "H", id);
+	public Human(String name, String role) {
+		super(name, role, "H");
 		maxMoves = 1;
 		myBase = Table.getHumanBase();
 		currentSector = myBase;
+		canAttack=false;
 	}
 	
 	public boolean hasShield(){

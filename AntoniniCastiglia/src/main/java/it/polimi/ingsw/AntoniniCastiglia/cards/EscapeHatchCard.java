@@ -18,7 +18,7 @@ public class EscapeHatchCard extends Card {
 	 * @param useable the state of the Escape hatch
 	 */
 	public EscapeHatchCard(boolean useable) {
-		type = CardNames.ESCAPE_HATCH_CARD;
+		type = CardsConstants.ESCAPE_HATCH_CARD;
 		// TODO name parameter is left undefined?!
 		this.useable = useable;
 	}

@@ -17,7 +17,7 @@ public class ItemAdrenaline extends ItemCard {
 	 */
 	public ItemAdrenaline() {
 		super();
-		name = CardNames.ADRENALINE;
+		name = CardsConstants.ADRENALINE;
 	}
 
 	@Override

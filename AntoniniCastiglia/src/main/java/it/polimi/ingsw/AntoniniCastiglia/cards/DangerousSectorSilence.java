@@ -16,7 +16,7 @@ public class DangerousSectorSilence extends DangerousSectorCard {
 	 */
 	public DangerousSectorSilence() {
 		super();
-		name = CardNames.SILENCE;
+		name = CardsConstants.SILENCE;
 	}
 /*
 	@Override
@@ -25,8 +25,8 @@ public class DangerousSectorSilence extends DangerousSectorCard {
 	}
 */
 	@Override
-	public void action(Sector s) {
-		// TODO Notify Silence to all players
+	public String action(Sector s) {
+		return "Silence in all sectors.";
 	}
 
 }

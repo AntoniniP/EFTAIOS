@@ -47,12 +47,14 @@ public interface UserInterface {
 
 	String wantToAttack(String nature);
 
-	void drawDangerousSectorCard(String drawnCard);
+	String drawDangerousSectorCard(String drawnCard);
 
 	String move(int playerID, String adjacentSectors);
 
-	void whereYouAre(String currentSector);
+	void whereYouAre(String currentSector, String sectorType, boolean mustDrawDSCard, boolean mustDrawEHCard);
 
 	String chooseAction(boolean hasMoved, boolean canAttack, boolean hasAttacked, boolean canUseCards, boolean mustDraw, boolean hasDrawn);
+
+	void attackResult(String attackResult);
 
 }

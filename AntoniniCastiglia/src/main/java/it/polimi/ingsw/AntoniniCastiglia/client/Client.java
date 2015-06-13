@@ -2,6 +2,7 @@ package it.polimi.ingsw.AntoniniCastiglia.client;
 
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterfaceFactory;
+import it.polimi.ingsw.AntoniniCastiglia.cards.CardsConstants;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
 import java.io.IOException;
@@ -16,20 +17,29 @@ import java.util.concurrent.TimeUnit;
  */
 public class Client {
 
-	private String[] player;
+	private NetworkInterface ni;
+	private UserInterface ui;
+
 	private int playerID;
 	private int gameID;
-	private String nature;
-	private String[] cards; // item cards
-	private UserInterface ui;
+
+	private String playerName;
+	private String playerRole;
+	private String playerNature;
+	private int playerMaxMoves;
 	private String currentSector;
+	private boolean canAttack;
+	private String sectorType;
+
+	private String[] cards; // item cards
+
 	private boolean hasMoved;
 	private boolean hasAttacked;
-	private boolean mustDraw; // dangerous sector card
-	private boolean hasDrawn; // dangerous sector card
+	private boolean mustDrawDSCard; // dangerous sector card
+	private boolean hasDrawnDSCard; // dangerous sector card
+	private boolean mustDrawEHCard;
 	private boolean canUseCards; // item cards
-	
-	NetworkInterface ni;
+
 	/**
 	 * This is the <code>main</code> method of the class. It simply creates a network interface,
 	 * which is passed to the constructor of the class. The whole game is started in the
@@ -40,9 +50,9 @@ public class Client {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		try {
-			NetworkInterface tmp = NetworkInterfaceFactory.getInterface(chooseNetwork());
+			NetworkInterface tmpNi = NetworkInterfaceFactory.getInterface(chooseNetwork());
 			System.out.println();
-			Client application = new Client(tmp);
+			Client application = new Client(tmpNi);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,59 +66,47 @@ public class Client {
 	 * @throws IOException
 	 */
 	private Client(NetworkInterface ni) throws RemoteException {
-		this.ni=ni;
+		this.ni = ni;
 		ui = UserInterfaceFactory.getInterface(chooseUI());
 
 		String[] IDs = (ni.connect()).split("_");
-		gameID=Integer.parseInt(IDs[0]);
-		playerID=Integer.parseInt(IDs[1]);
-		
+		gameID = Integer.parseInt(IDs[0]);
+		playerID = Integer.parseInt(IDs[1]);
+
 		ui.connected(gameID, playerID);
-		
-		/**********************************************************
-		try {
-			TimeUnit.MILLISECONDS.sleep(5000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-		************************************************************/
-		
+
 		// Waiting for a game to begin
 		while (!ni.isStarted(gameID)) {
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-			}
+			CommonMethods.doMagic(500);
 		}
 
-		// It's: [0] name; [1] role; [2] nature; [3] playerID; [4] maxMoves.
-		player = (new String(ni.getPlayer(playerID, gameID))).split("_");
-		nature = player[2];
+		String[] player = (ni.getPlayer(playerID, gameID)).split("_");
+		playerName = player[0];
+		playerRole = player[1];
+		playerNature = player[2];
+		playerMaxMoves = Integer.parseInt(player[3]);
+		currentSector = player[4];
+		sectorType = "Base";
 
 		ui.whoYouAreComplete(player);
 
 		boolean endGame = false;
 		while (!endGame) {
-			
-			while (!ni.isMyTurn(playerID, gameID)){
+
+			while (!ni.isMyTurn(playerID, gameID)) {
 				try {
 					TimeUnit.MILLISECONDS.sleep(500);
 				} catch (InterruptedException e) {
 				}
 			}
-			
-			if (!ni.isEnded(gameID)) {
-				hasMoved = false;
-				hasAttacked = false;
-				mustDraw = false;
-				hasDrawn = false;
+
+			if (!ni.isEnded(gameID) && !ni.isDead(playerID, gameID)) {
 
 				// print map
 				ui.printMap(ni.getMap(playerID, gameID));
 
 				// print your current position
-				currentSector = ni.whereYouAre(playerID);
-				ui.whereYouAre(currentSector);
+				ui.whereYouAre(currentSector, sectorType, mustDrawDSCard, mustDrawEHCard);
 
 				// get cards
 				cards = ni.getCards(playerID, gameID).split(";");
@@ -119,41 +117,67 @@ public class Client {
 
 				this.play();
 
+				ni.endTurn(playerID, gameID);
+				
+				
+				System.out.println("TURN ENDED CORRECTLY");
 				
 
 			} else {
+				if (ni.isDead(playerID, gameID)) {
+					System.out.println("You are now dead!");
+				}
+
 				endGame = true;
-				//System.out.println("THE WINNER IS " + ni.getWinner());
+
+				// System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
 	}
 
 	private void play() throws RemoteException {
 		String chosenAction = null;
+		hasMoved = false;
+		hasAttacked = false;
+		mustDrawDSCard = false;
+		hasDrawnDSCard = false;
+		mustDrawEHCard = false;
+		canAttack = ni.canAttack(gameID, playerID);
 		do {
-			chosenAction = ui.chooseAction(hasMoved, canAttack(), hasAttacked, canUseCards,
-					mustDraw, hasDrawn);
+			chosenAction = ui.chooseAction
+					(hasMoved, canAttack, hasAttacked, canUseCards, mustDrawDSCard, hasDrawnDSCard);
+
 			switch (chosenAction) {
+
+				case Constants.MOVE: {
+					this.clientMove();
+					break;
+				}
+
+				case Constants.ATTACK: {
+					this.clientAttack();
+					break;
+				}
+
+				case Constants.DRAW_DS_CARD: { 
+					this.clientDrawDSCard();
+					break;
+				}
+				
+				
+				
+				
+				
+				
+				
+				
 				case Constants.USE_CARD: { // ITEM CARDS
 					this.clientUseCards();
 					break;
 				}
-				case Constants.MOVE: {
-					this.clientMove(); // updates mustDraw
-					hasMoved = true;
-					break;
-				}
-				case Constants.ATTACK: {
-					ni.attack(playerID, gameID);
-					hasAttacked = true;
-					break;
-				}
-				case Constants.DRAW_CARD: { // DANGEROUS SECTOR CARDS
-					ui.drawDangerousSectorCard(ni.drawCard(gameID, "DS"));
-					hasDrawn = true;
-					mustDraw = false;
-					break;
-				}
+				
+				
+				
 				case Constants.QUIT: {
 					// TODO endTurn()
 					break;
@@ -169,9 +193,7 @@ public class Client {
 	/**
 	 * The method checks whether the player can use cards, and returns a boolean.
 	 * 
-	 * @param ni instantiation of the network interface
 	 * @return the result of the check
-	 * @throws RemoteException
 	 */
 	private boolean canUseCards() {
 		for (String card : cards) {
@@ -182,50 +204,69 @@ public class Client {
 		return false;
 	}
 
-	private void clientUseCards() throws RemoteException {
-		String cardToUse = ui.selectCard(cards);
-		if (!("noCard".equals(cardToUse))) {
-			//ni.useCard(cardToUse, playerID);
-		}
-	}
-
 	/**
 	 * Calls the proper methods in UI and NI package to let the player move to a new sector.
 	 * 
-	 * @param ni instantiation of the network interface
 	 * @throws RemoteException
 	 */
 	private void clientMove() throws RemoteException {
-		String adjacentSectors = new String(ni.getAdjacentSectors(playerID, gameID));
-		String chosenSector = ui.move(playerID, adjacentSectors);
-		ni.move(playerID, gameID, chosenSector);
-		currentSector = ni.whereYouAre(playerID); // update the global variable
-		ui.whereYouAre(currentSector);
+		String[] moveResult;
+		do {
+	
+			String adjacentSectors = ni.getAdjacentSectors(playerID, gameID);
+			String chosenSector = ui.move(playerID, adjacentSectors);
+			moveResult = (ni.move(playerID, gameID, chosenSector)).split("_");
+	
+		} while ("KO".equals(moveResult[0]));
+	
+		currentSector = moveResult[1];
+		sectorType = moveResult[2];
+		mustDrawDSCard = Boolean.parseBoolean(moveResult[3]);
+		mustDrawEHCard = Boolean.parseBoolean(moveResult[4]);
+	
+		ui.whereYouAre(currentSector, sectorType, mustDrawDSCard, mustDrawEHCard);
+	
+		hasMoved = true;
+	
 	}
 
-	/**
-	 * The method checks whether the player can attack, and returns a boolean.
-	 * 
-	 * @param ni instantiation of the network interface
-	 * @return the result of the check
-	 * @throws RemoteException
-	 */
-	private boolean canAttack() throws RemoteException {
-		// if player is alien
-		if ("A".equals(nature)) {
-			return true;
+	private void clientDrawDSCard() throws RemoteException {
+		String[] dsCard = (ni.drawCard(gameID, "DS")).split("_");
+
+		String type = dsCard[1];
+		String toUI = new String (type);
+		if (CardsConstants.NOISE.equals(type)) {
+			boolean yourSector = Boolean.parseBoolean(dsCard[2]);
+			boolean withObject = Boolean.parseBoolean(dsCard[3]);
+
 		}
-		// if player is human and has Attack card
-		if (canUseCards) {
-			for (String card : cards) {
-				// TODO there is a constant for the name of the card!
-				if ("Attack".equals((card.split("_"))[1])) {
-					return true;
-				}
-			}
+
+		String where = ui.drawDangerousSectorCard(toUI);
+		boolean validNoise;
+		/*do{
+			validNoise= ni.noise(where);
+		} while (!validNoise);*/
+		hasDrawnDSCard = true;
+		mustDrawDSCard = false;
+
+	}
+	
+	private void clientAttack() throws RemoteException {
+		String attackResult = null;
+		if (canAttack) {
+			attackResult = ni.attack(playerID, gameID);
 		}
-		// if player if human but has no Attack card
-		return false;
+		if ("OK".equals((attackResult.split("_"))[0])){
+			hasAttacked=true;
+		}
+		ui.attackResult(attackResult);
+	}
+
+	private void clientUseCards() {
+		String cardToUse = ui.selectCard(cards);
+		if (!("noCard".equals(cardToUse))) {
+			// ni.useCard(cardToUse, playerID);
+		}
 	}
 
 	/**

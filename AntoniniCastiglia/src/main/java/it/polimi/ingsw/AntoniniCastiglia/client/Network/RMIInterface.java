@@ -90,12 +90,6 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String whereYouAre(int playerID) throws RemoteException {
-		//return remoteEFTAIOS.whereYouAre(playerID);
-		return "A_BC";
-	}
-
-	@Override
 	public String getPlayer(int playerID, int gameID) throws RemoteException {
 		return remoteEFTAIOS.getPlayer(playerID, gameID);
 	}
@@ -114,5 +108,17 @@ public class RMIInterface implements NetworkInterface {
 	public void endTurn(int playerID, int gameID) throws RemoteException {
 		remoteEFTAIOS.endTurn(playerID, gameID);
 	}
+
+	@Override
+	public boolean canAttack(int gameID, int playerID) throws RemoteException {
+		return remoteEFTAIOS.canAttack(gameID, playerID);
+	}
+
+	@Override
+	public boolean isDead(int playerID, int gameID) throws RemoteException{
+		return remoteEFTAIOS.isDead(playerID, gameID);
+	}
+
+	
 
 }

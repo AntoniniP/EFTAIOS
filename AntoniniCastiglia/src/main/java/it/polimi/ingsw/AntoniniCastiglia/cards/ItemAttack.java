@@ -17,7 +17,7 @@ public class ItemAttack extends ItemCard {
 	 */
 	public ItemAttack() {
 		super();
-		name = CardNames.ATTACK;
+		name = CardsConstants.ATTACK;
 	}
 
 	@Override

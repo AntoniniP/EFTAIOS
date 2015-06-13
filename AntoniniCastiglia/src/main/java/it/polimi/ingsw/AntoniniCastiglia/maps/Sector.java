@@ -18,7 +18,12 @@ public abstract class Sector {
 	private String number;
 	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVW".toCharArray();
 	private boolean reachable;
+	private boolean mustDrawDSCard; // Dangerous Sector
+	private boolean mustDrawEHCard; // Escape Hatch
+	private String type;
+	
 
+	
 	/**
 	 * Standard constructor: receives the coordinates in numeric (integer) format only, and calls
 	 * method convert() to give a proper value to variables letter and number.
@@ -41,6 +46,44 @@ public abstract class Sector {
 	public Sector(String coord) {
 		inverseConvertion(coord);
 
+	}
+
+	/**
+	 * @return the mustDrawDSCard
+	 */
+	public boolean getMustDrawDSCard() {
+		return mustDrawDSCard;
+	}
+
+
+
+
+
+	/**
+	 * @return the mustDrawEHCard
+	 */
+	public boolean getMustDrawEHCard() {
+		return mustDrawEHCard;
+	}
+
+
+
+
+
+	
+	/**
+	 * @param mustDrawDSCard the mustDrawDSCard to set
+	 */
+	void setMustDrawDSCard(boolean mustDrawDSCard) {
+		this.mustDrawDSCard = mustDrawDSCard;
+	}
+
+	
+	/**
+	 * @param mustDrawEHCard the mustDrawEHCard to set
+	 */
+	void setMustDrawEHCard(boolean mustDrawEHCard) {
+		this.mustDrawEHCard = mustDrawEHCard;
 	}
 
 	/**
@@ -105,6 +148,22 @@ public abstract class Sector {
 			}
 		}
 		y = Integer.parseInt(number) - 1; // converting string number to integer
+	}
+
+	
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	
+	/**
+	 * @param type the type to set
+	 */
+	void setType(String type) {
+		this.type = type;
 	}
 
 	@Override

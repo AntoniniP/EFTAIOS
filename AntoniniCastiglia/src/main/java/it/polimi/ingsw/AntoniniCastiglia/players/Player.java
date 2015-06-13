@@ -1,8 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
+import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
+import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 
 /**
  * Every instance of this class is a Player. The class is extended by Alien and Human, which
@@ -16,7 +18,6 @@ public abstract class Player {
 
 	private String name;
 	private String role;
-	private int id;
 	private String nature;
 	protected int maxMoves;
 	protected Sector myBase;
@@ -26,6 +27,23 @@ public abstract class Player {
 	private boolean dead;
 	private boolean suspended;
 	private boolean active;
+	protected boolean canAttack;
+	
+	private boolean hasCards; // TODO
+
+	/**
+	 * @return the canAttack
+	 */
+	public boolean getCanAttack() {
+		return canAttack;
+	}
+
+	/**
+	 * @param canAttack the canAttack to set
+	 */
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
+	}
 
 	/**
 	 * Constructor for the class. It sets some parameters, such as the name, role, nature and ID of
@@ -36,16 +54,16 @@ public abstract class Player {
 	 * @param nature player's nature (alien/human)
 	 * @param id integer value to identify the player
 	 */
-	protected Player(String name, String role, String nature, int id) {
+	protected Player(String name, String role, String nature) {
 		this.name = name;
 		this.role = role;
-		this.id = id;
 		this.nature = nature;
 	}
 
 	@Override
 	public String toString() {
-		return name + "_" + role + "_" + nature + "_" + id + "_" + maxMoves;
+		return name + "_" + role + "_" + nature + "_" + maxMoves + "_" + currentSector + "_"
+				+ canAttack;
 	}
 
 	/**
@@ -55,10 +73,6 @@ public abstract class Player {
 	 */
 	public int getMoves() {
 		return maxMoves;
-	}
-
-	public int getPlayerID() {
-		return id;
 	}
 
 	public boolean isDead() {
@@ -97,16 +111,6 @@ public abstract class Player {
 	}
 
 	/**
-	 * Setter for <code>currentSector</code>.
-	 * 
-	 * @param the new value for <code>currentSector</code> variable
-	 */
-	public void setCurrentSector(Sector currentSector) {
-		this.currentSector = currentSector;
-		path.add(currentSector);
-	}
-
-	/**
 	 * Getter for the cards a player owns. It's returned as a string, separated by <code>;</code>
 	 * character.
 	 * 
@@ -119,14 +123,7 @@ public abstract class Player {
 		}
 		return toReturn;
 	}
-/*
-	@Override
-	public boolean equals(Object arg0) {
-		if (!(arg0 instanceof Player))
-			return false;
-		return ((Player) arg0).getPlayerID() == this.getPlayerID();
-	}
-*/
+
 	public ItemCard removeCard(int i) {
 		ItemCard c = items[i];
 		items[i] = null;
@@ -166,7 +163,15 @@ public abstract class Player {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	
-	
+
+	public String move(Table t, Sector newCurrentSector) {
+		if ((t.adjacent(currentSector, maxMoves)).contains(newCurrentSector)) {
+			this.currentSector = newCurrentSector;
+			path.add(currentSector);
+			return "OK" + "_" + this.currentSector + "_" + this.currentSector.getType() + "_" + this.currentSector.getMustDrawDSCard()
+					+ "_" + this.currentSector.getMustDrawEHCard();
+		}
+		return "KO";
+	}
+
 }

@@ -18,7 +18,7 @@ public class ItemSpotlight extends ItemCard {
 	 */
 	public ItemSpotlight() {
 		super();
-		name = CardNames.SPOTLIGHT;
+		name = CardsConstants.SPOTLIGHT;
 	}
 
 	@Override

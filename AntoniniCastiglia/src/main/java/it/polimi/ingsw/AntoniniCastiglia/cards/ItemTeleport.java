@@ -17,12 +17,12 @@ public class ItemTeleport extends ItemCard {
 	 */
 	public ItemTeleport() {
 		super();
-		name = CardNames.TELEPORT;
+		name = CardsConstants.TELEPORT;
 	}
 
 	@Override
 	public void action(Player p) {
-		p.setCurrentSector(p.getMyBase());
+		//p.setCurrentSector(p.getMyBase()); TODO
 	}
 
 }

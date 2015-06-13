@@ -22,6 +22,10 @@ public class EscapeHatch extends Sector {
 	public EscapeHatch(int x, int y) {
 		super(x, y);
 		this.setReachable(true);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(true);
+		this.setType(MapConstants.ESCAPEHATCH);
+
 	}
 
 	/**
@@ -33,6 +37,10 @@ public class EscapeHatch extends Sector {
 	public EscapeHatch(String name) {
 		super(name);
 		this.setReachable(true);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(true);
+		this.setType(MapConstants.ESCAPEHATCH);
+
 	}
 
 	@Override

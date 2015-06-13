@@ -17,7 +17,7 @@ public class ItemDefense extends ItemCard {
 	 */
 	public ItemDefense() {
 		super();
-		name = CardNames.DEFENSE;
+		name = CardsConstants.DEFENSE;
 	}
 
 	@Override

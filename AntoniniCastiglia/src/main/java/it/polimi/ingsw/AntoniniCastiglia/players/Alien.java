@@ -18,11 +18,12 @@ public class Alien extends Player {
 	 * @param role the role in the crew, as stated in the game rules
 	 * @param c character to identify the player's nature (alien/human)
 	 */
-	public Alien(String name, String role, int id) {
-		super(name, role, "A", id);
+	public Alien(String name, String role) {
+		super(name, role, "A");
 		maxMoves = 2;
 		myBase = Table.getAlienBase();
 		currentSector = myBase;
+		canAttack=true;
 	}
 
 }

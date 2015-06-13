@@ -15,7 +15,7 @@ public abstract class ItemCard extends Card {
 	 * Constructor for the class. The <code>type</code> parameter is set.
 	 */
 	protected ItemCard() {
-		type = CardNames.ITEM_CARD;
+		type = CardsConstants.ITEM_CARD;
 	}
 
 	// TODO write JavaDoc, or delete it!

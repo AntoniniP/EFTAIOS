@@ -67,11 +67,14 @@ public interface NetworkInterface {
 
 	String drawCard(int gameID, String deck) throws RemoteException;
 
-	String whereYouAre(int playerID) throws RemoteException;
-
 	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
 
 	void endTurn(int playerID, int gameID) throws RemoteException;
+	
+	boolean canAttack(int gameID, int playerID) throws RemoteException;
+
+	boolean isDead(int playerID, int gameID)throws RemoteException;
+
 
 
 }

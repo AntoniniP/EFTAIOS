@@ -19,6 +19,10 @@ public class DangerousSector extends Sector {
 	public DangerousSector(int x, int y) {
 		super(x, y);
 		this.setReachable(true);
+		this.setMustDrawDSCard(true);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.DANGEROUS);
+
 	}
 
 	/**
@@ -30,6 +34,10 @@ public class DangerousSector extends Sector {
 	public DangerousSector(String name) {
 		super(name);
 		this.setReachable(true);
+		this.setMustDrawDSCard(true);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.DANGEROUS);
+
 	}
 
 	@Override

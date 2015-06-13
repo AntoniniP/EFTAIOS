@@ -11,9 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
  */
 public class DangerousSectorNoise extends DangerousSectorCard {
 
-	@SuppressWarnings("unused")
 	private boolean yourSector;
-	@SuppressWarnings("unused")
 	private boolean withObject;
 
 	/**
@@ -26,7 +24,7 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 	 */
 	public DangerousSectorNoise(boolean yourSector, boolean withObject) {
 		super();
-		name = CardNames.NOISE;
+		name = CardsConstants.NOISE;
 		this.yourSector = yourSector;
 		this.withObject = withObject;
 	}
@@ -44,8 +42,12 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 	}
 */
 	@Override
-	public void action(Sector s) {
-		// TODO Notify noise to all players
+	public String action(Sector s) {
+		return "Noise in "+ s + "sector.";
 	}
 
+	@Override
+	public String getCard(){
+		return super.getCard()+"_"+yourSector+"_"+withObject;
+	}
 }

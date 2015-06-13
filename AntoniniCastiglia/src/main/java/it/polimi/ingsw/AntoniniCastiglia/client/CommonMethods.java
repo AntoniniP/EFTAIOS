@@ -3,6 +3,7 @@ package it.polimi.ingsw.AntoniniCastiglia.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class contains some methods that may be useful in the whole <code>client</code> package.
@@ -45,6 +46,15 @@ public class CommonMethods {
 			e.printStackTrace();
 		}
 		return read;
+	}
+	
+	public static void doMagic(int time){
+		try {
+			TimeUnit.MILLISECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			// nothing to do; the sleep is fundamental to let everything work
+		}
+		
 	}
 
 }

@@ -14,9 +14,10 @@ public abstract class DangerousSectorCard extends Card {
 	 * Constructor for the class. The <code>type</code> parameter is set.
 	 */
 	protected DangerousSectorCard() {
-		type = CardNames.DANGEROUS_SECTOR_CARD;
+		type = CardsConstants.DANGEROUS_SECTOR_CARD;
 	}
 
-	// TODO write JavaDoc, or delete it!
-	public abstract void action(Sector s);
+	public abstract String  action(Sector s);
+	
+	
 }

@@ -19,6 +19,9 @@ public class AlienBase extends Sector {
 	public AlienBase(int x, int y) {
 		super(x, y);
 		this.setReachable(false);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.ALIENBASE);
 	}
 
 	/**
@@ -30,6 +33,9 @@ public class AlienBase extends Sector {
 	public AlienBase(String name) {
 		super(name);
 		this.setReachable(false);
+		this.setMustDrawDSCard(false);
+		this.setMustDrawEHCard(false);
+		this.setType(MapConstants.ALIENBASE);
 	}
 
 	@Override

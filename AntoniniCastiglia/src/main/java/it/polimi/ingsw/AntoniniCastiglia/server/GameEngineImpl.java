@@ -2,6 +2,7 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
+import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
@@ -48,36 +49,33 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public String move(int playerID, int gameID, String sector) throws RemoteException {
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		Sector s = CommonMethods.toSector(sector, gameHandlerList.get(gameID).getTable());
-		p.setCurrentSector(s);
-		return "You are now in Sector" + p.getCurrentSector();
-	}
-
-	@Override
 	public String attack(int playerID, int gameID) throws RemoteException {
-		boolean humanKilled = false;
+		int humanKilled=0;
+		int alienKilled=0;
+		
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		for (int i = 0; i < gameHandlerList.get(gameID).getPlayerList().size(); i++) {
-			Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
-			if (!(p.equals(p1)) && !p1.isSuspended()) {
-				if ((p.getCurrentSector()).equals(p1.getCurrentSector())) {
-					if (p1 instanceof Human) {
-						if (!((Human) p1).hasShield()) {
-							humanKilled = true;
-							p1.isDead();
+		if (p.getCanAttack()) {
+			for (int i = 0; i < gameHandlerList.get(gameID).getPlayerList().size(); i++) {
+				Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
+				if (!(p.equals(p1)) && !p1.isSuspended()) {
+					if ((p.getCurrentSector()).equals(p1.getCurrentSector())) {
+						if (p1 instanceof Human) {
+							if (!((Human) p1).hasShield()) {
+								humanKilled++;
+							}
 						} else {
-							;
+							alienKilled++;
 						}
+						p1.setDead(true);
 					}
 				}
 			}
+			if (p instanceof Alien && (humanKilled>0)) {
+				p.setMoves(3);
+			}
+			return "OK"+"_"+ humanKilled +"_"+ alienKilled;
 		}
-		if (p instanceof Alien && humanKilled) {
-			p.setMoves(3);
-		}
-		return "Attack in " + p.getCurrentSector();
+		return "KO";
 	}
 
 	@Override
@@ -88,11 +86,9 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	// Returns the item cards a player owns.
-	public String getCards(int playerID, int gameID) throws RemoteException {
+	public String getCards(int playerID, int gameID) throws RemoteException { // ITEM CARDS
 		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		String cards = p.getPlayerCards();
-		return cards;
+		return p.getPlayerCards();
 	}
 
 	@Override
@@ -144,4 +140,27 @@ public class GameEngineImpl implements GameEngine {
 		}
 
 	}
+
+	@Override
+	public boolean canAttack(int gameID, int playerID) throws RemoteException {
+		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
+		return p.getCanAttack();
+	}
+
+	@Override
+	public String move(int playerID, int gameID, String sector) throws RemoteException {
+
+		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
+		Table t = gameHandlerList.get(gameID).getTable();
+		Sector s = CommonMethods.toSector(sector, t);
+
+		return p.move(t, s);
+	}
+
+	@Override
+	public boolean isDead(int playerID, int gameID) throws RemoteException{
+		return gameHandlerList.get(gameID).getPlayerList().get(playerID).isDead();
+	}
+
+	
 }

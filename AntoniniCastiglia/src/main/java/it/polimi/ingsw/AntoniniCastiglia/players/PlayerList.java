@@ -47,18 +47,18 @@ public class PlayerList {
 
 			if (c.nature == 'H') {
 				if (humanNumber > 0) {
-					p = new Human(c.name, c.role, i);
+					p = new Human(c.name, c.role);
 					humanNumber--;
 				} else {
-					p = new Alien(c.name, c.role, i);
+					p = new Alien(c.name, c.role);
 					alienNumber--;
 				}
 			} else {
 				if (alienNumber > 0) {
-					p = new Alien(c.name, c.role, i);
+					p = new Alien(c.name, c.role);
 					alienNumber--;
 				} else {
-					p = new Human(c.name, c.role, i);
+					p = new Human(c.name, c.role);
 					humanNumber--;
 				}
 			}
@@ -67,7 +67,7 @@ public class PlayerList {
 
 		}
 	}
-
+/************************ REMOVE *********************************/
 	@Override
 	public String toString() {
 		String playerList = "";
@@ -76,7 +76,7 @@ public class PlayerList {
 		}
 		return playerList;
 	}
-
+/*****************************************************************/
 	/**
 	 * Returns the size of the list of players.
 	 * 
