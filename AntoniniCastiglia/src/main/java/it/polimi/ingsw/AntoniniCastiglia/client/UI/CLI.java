@@ -1,7 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.client.Constants;
+import it.polimi.ingsw.AntoniniCastiglia.client.ClientConstants;
 
 /**
  * CLI implementation of <code>UserInterface</code>.
@@ -129,10 +129,10 @@ public class CLI implements UserInterface {
 			System.out.println("Now choose your next action:");
 
 			if (!hasMoved) {
-				System.out.println(Constants.MOVE + " - Move to a new sector");
+				System.out.println(ClientConstants.MOVE + " - Move to a new sector");
 			}
 			if (canAttack && !hasAttacked && !hasDrawn) {
-				System.out.print(Constants.ATTACK + " - Attack the sector you are in now");
+				System.out.print(ClientConstants.ATTACK + " - Attack the sector you are in now");
 				if (mustDraw && !hasAttacked) {
 					System.out.println(" (please note that you won't be able"
 							+ " to draw a Dangerous Sector card during this turn)");
@@ -141,10 +141,10 @@ public class CLI implements UserInterface {
 				}
 			}
 			if (canUseCards) {
-				System.out.println(Constants.USE_CARD + " - Use your cards");
+				System.out.println(ClientConstants.USE_CARD + " - Use your cards");
 			}
 			if (mustDraw && !hasAttacked) {
-				System.out.print(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
+				System.out.print(ClientConstants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
 				if (canAttack && !hasAttacked && !hasDrawn) {
 					System.out.println(" (please note that you won't be able"
 							+ " to attack during this turn)");
@@ -152,14 +152,14 @@ public class CLI implements UserInterface {
 					System.out.println();
 				}
 			}
-			System.out.println(Constants.QUIT + " - End your turn");
+			System.out.println(ClientConstants.QUIT + " - End your turn");
 
 			chosenAction = (CommonMethods.readLine()).toUpperCase();
 
-		} while (!((!hasMoved && Constants.MOVE.equals(chosenAction))
-				|| (!hasAttacked && canAttack && Constants.ATTACK.equals(chosenAction))
-				|| (canUseCards && Constants.USE_CARD.equals(chosenAction))
-				|| (Constants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && Constants.DRAW_DS_CARD
+		} while (!((!hasMoved && ClientConstants.MOVE.equals(chosenAction))
+				|| (!hasAttacked && canAttack && ClientConstants.ATTACK.equals(chosenAction))
+				|| (canUseCards && ClientConstants.USE_CARD.equals(chosenAction))
+				|| (ClientConstants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && ClientConstants.DRAW_DS_CARD
 				.equals(chosenAction))));
 		return chosenAction;
 	}

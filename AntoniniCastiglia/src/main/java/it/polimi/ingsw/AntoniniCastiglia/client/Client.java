@@ -149,41 +149,36 @@ public class Client {
 
 			switch (chosenAction) {
 
-				case Constants.MOVE: {
+				case ClientConstants.MOVE: {
 					this.clientMove();
 					break;
 				}
 
-				case Constants.ATTACK: {
+				case ClientConstants.ATTACK: {
 					this.clientAttack();
 					break;
 				}
 
-				case Constants.DRAW_DS_CARD: { 
+				
+				
+				
+				
+				
+				
+				
+				/********************************************************************/
+				case ClientConstants.DRAW_DS_CARD: { 
 					this.clientDrawDSCard();
 					break;
 				}
 				
-				
-				
-				
-				
-				
-				
-				
-				case Constants.USE_CARD: { // ITEM CARDS
+				case ClientConstants.USE_CARD: { // ITEM CARDS
 					this.clientUseCards();
 					break;
 				}
 				
-				
-				
-				case Constants.QUIT: {
-					// TODO endTurn()
-					break;
-				}
 				default: {
-					// Will never execute this
+					// also QUIT
 					break;
 				}
 			}
@@ -230,6 +225,8 @@ public class Client {
 	
 	}
 
+	
+	@Deprecated
 	private void clientDrawDSCard() throws RemoteException {
 		String[] dsCard = (ni.drawCard(gameID, "DS")).split("_");
 

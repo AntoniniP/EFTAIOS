@@ -25,7 +25,7 @@ import org.junit.FixMethodOrder;
 // TODO execution order NOT guaranteed
 
 @RunWith(value = Parameterized.class)
-public class SISTEMADeckTest {
+public class DeckTest {
 
 	Deck deck;
 	Card c;
@@ -36,7 +36,7 @@ public class SISTEMADeckTest {
 		return Arrays.asList(new EscapeHatchDeck(), new DangerousSectorDeck(), new ItemCardDeck());
 	}
 
-	public SISTEMADeckTest(Deck concreteDeck) {
+	public DeckTest(Deck concreteDeck) {
 		this.deck = concreteDeck;
 		originalSize = deck.deckSize();
 	}

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
+import java.util.List;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
@@ -22,7 +23,7 @@ public abstract class Player {
 	protected int maxMoves;
 	protected Sector myBase;
 	protected Sector currentSector;
-	protected ArrayList<Sector> path = new ArrayList<Sector>();
+	private List<Sector> path = new ArrayList<Sector>();
 	private ItemCard[] items = new ItemCard[3];
 	private boolean dead;
 	private boolean suspended;
@@ -172,6 +173,14 @@ public abstract class Player {
 					+ "_" + this.currentSector.getMustDrawEHCard();
 		}
 		return "KO";
+	}
+
+	
+	/**
+	 * @return the path
+	 */
+	public List<Sector> getPath() {
+		return path;
 	}
 
 }

@@ -69,6 +69,7 @@ public class PlayerList {
 	}
 /************************ REMOVE *********************************/
 	@Override
+	@Deprecated
 	public String toString() {
 		String playerList = "";
 		for (int i = 0; i < players.size(); i++) {
