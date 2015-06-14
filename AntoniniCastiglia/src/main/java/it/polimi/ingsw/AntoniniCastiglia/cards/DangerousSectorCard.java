@@ -9,6 +9,9 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
  *
  */
 public abstract class DangerousSectorCard extends Card {
+	
+	protected boolean yourSector;
+	protected boolean withObject;
 
 	/**
 	 * Constructor for the class. The <code>type</code> parameter is set.
@@ -18,6 +21,12 @@ public abstract class DangerousSectorCard extends Card {
 	}
 
 	public abstract String  action(Sector s);
+	
+	@Override
+	public  String getCard(){
+		return super.getCard()+"_"+yourSector+"_"+withObject;
+	}
+	
 	
 	
 }

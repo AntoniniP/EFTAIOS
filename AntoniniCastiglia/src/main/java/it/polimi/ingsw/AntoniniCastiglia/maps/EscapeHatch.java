@@ -48,11 +48,6 @@ public class EscapeHatch extends Sector {
 		return " E ";
 	}
 
-	@Override
-	public void action() {
-		this.useable = false;
-	}
-
 	// Only Human players can end their move on an Escape Hatch Sector.
 
 }

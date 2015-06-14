@@ -27,7 +27,7 @@ public class RMIInterfaceImpl implements RMIInterface {
 		}
 
 		System.out.println("New player connected. " + "gameID: " + server.getGameID()
-				+ " playerID: " + server.getNumPlayer());
+				+ " playerID: " + (server.getNumPlayer()-1));
 
 		return server.getGameID() + "_" + (server.getNumPlayer() - 1);
 	}

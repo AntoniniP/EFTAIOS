@@ -36,25 +36,26 @@ public interface UserInterface {
 	 * @param canUseCards TODO
 	 * @param card
 	 */
-	void printCards(boolean canUseCards, String... card);
+	void printItemCards(boolean canUseCards, String... card);
 
 	/**
 	 * Prints a simple message, informing the player that it's his turn.
 	 */
 	void yourTurn();
 
-	String selectCard(String[] cards);
+	int selectItemCard(String[] cards);
 
-	String wantToAttack(String nature);
+	//String wantToAttack(String nature);
 
-	String drawDangerousSectorCard(String drawnCard);
+	void drawDangerousSectorCard(String drawnCard);
 
 	String move(int playerID, String adjacentSectors);
 
-	void whereYouAre(String currentSector, String sectorType, boolean mustDrawDSCard, boolean mustDrawEHCard);
+	void whereYouAre(String currentSector, String sectorType);
 
-	String chooseAction(boolean hasMoved, boolean canAttack, boolean hasAttacked, boolean canUseCards, boolean mustDraw, boolean hasDrawn);
+	String chooseAction(String possibleActions);
 
 	void attackResult(String attackResult);
 
+	String declareNoise(boolean yourSector);
 }

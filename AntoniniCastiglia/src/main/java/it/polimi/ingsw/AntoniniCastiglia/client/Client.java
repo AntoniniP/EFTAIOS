@@ -1,10 +1,12 @@
 package it.polimi.ingsw.AntoniniCastiglia.client;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterfaceFactory;
 import it.polimi.ingsw.AntoniniCastiglia.cards.CardsConstants;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
+import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
@@ -33,11 +35,7 @@ public class Client {
 
 	private String[] cards; // item cards
 
-	private boolean hasMoved;
-	private boolean hasAttacked;
-	private boolean mustDrawDSCard; // dangerous sector card
-	private boolean hasDrawnDSCard; // dangerous sector card
-	private boolean mustDrawEHCard;
+	
 	private boolean canUseCards; // item cards
 
 	/**
@@ -106,83 +104,145 @@ public class Client {
 				ui.printMap(ni.getMap(playerID, gameID));
 
 				// print your current position
-				ui.whereYouAre(currentSector, sectorType, mustDrawDSCard, mustDrawEHCard);
+				ui.whereYouAre(currentSector, sectorType);
 
 				// get cards
 				cards = ni.getCards(playerID, gameID).split(";");
 				canUseCards = this.canUseCards();
-				ui.printCards(canUseCards, cards);
+				ui.printItemCards(canUseCards, cards);
 
 				ui.yourTurn();
 
 				this.play();
-
-				ni.endTurn(playerID, gameID);
 				
-				
-				System.out.println("TURN ENDED CORRECTLY");
-				
-
 			} else {
 				if (ni.isDead(playerID, gameID)) {
 					System.out.println("You are now dead!");
+				} else {
+					System.out.println("The game is ended!");
 				}
-
 				endGame = true;
-
-				// System.out.println("THE WINNER IS " + ni.getWinner());
 			}
 		}
 	}
 
 	private void play() throws RemoteException {
 		String chosenAction = null;
-		hasMoved = false;
-		hasAttacked = false;
-		mustDrawDSCard = false;
-		hasDrawnDSCard = false;
-		mustDrawEHCard = false;
-		canAttack = ni.canAttack(gameID, playerID);
+		String possibleActions;
+		
 		do {
-			chosenAction = ui.chooseAction
-					(hasMoved, canAttack, hasAttacked, canUseCards, mustDrawDSCard, hasDrawnDSCard);
+			possibleActions = ni.possibleActions(playerID, gameID);
+			chosenAction = ui.chooseAction(possibleActions);
+			
+			
 
 			switch (chosenAction) {
 
-				case ClientConstants.MOVE: {
+				case Constants.MOVE: {
 					this.clientMove();
 					break;
 				}
 
-				case ClientConstants.ATTACK: {
+				case Constants.ATTACK: {
 					this.clientAttack();
 					break;
 				}
 
-				
-				
-				
-				
-				
-				
-				
-				/********************************************************************/
-				case ClientConstants.DRAW_DS_CARD: { 
+				case Constants.DRAW_DS_CARD: { 
 					this.clientDrawDSCard();
 					break;
 				}
 				
-				case ClientConstants.USE_CARD: { // ITEM CARDS
+				case Constants.DECLARE_NOISE: {
+					this.clientDeclareNoise();
+					break;
+				}
+				
+				case Constants.DRAW_I_CARD:{
+					this.clientDrawICard();
+					break;
+				}
+				
+				
+				/********************************************************************/
+				
+				
+				
+				
+				case Constants.USE_CARDS: { // ITEM CARDS
 					this.clientUseCards();
 					break;
 				}
 				
 				default: {
-					// also QUIT
+					ni.endTurn(playerID, gameID);				
 					break;
 				}
 			}
-		} while (!("Q".equals(chosenAction)));
+		} while (!(ClientConstants.QUIT.equals(chosenAction)));
+	}
+
+	
+	private void clientDeclareNoise() throws RemoteException{
+		String noise = ui.declareNoise(true);
+		ni.declareNoise(noise);
+	}
+	
+	private void clientDrawICard() throws RemoteException{
+		
+	}
+	
+	/**
+	 * Calls the proper methods in UI and NI package to let the player move to a new sector.
+	 * 
+	 * @throws RemoteException
+	 */
+	private void clientMove() throws RemoteException {
+		String[] args;
+		do {
+			String adjacentSectors = ni.getAdjacentSectors(playerID, gameID);
+			String chosenSector = ui.move(playerID, adjacentSectors);
+			args = (ni.move(playerID, gameID, chosenSector)).split(";");
+		} while (args[0].startsWith("KO"));
+		
+		String[] moveResult = args[0].split("_");
+		currentSector = moveResult[1];
+		sectorType = moveResult[2];
+		
+		
+		
+		
+		/*
+		
+		
+		if (MapConstants.DANGEROUS.equals(sectorType)){
+			String[] dsORehCard = args[1].split("_");
+			if (CardsConstants.NOISE.equals(dsORehCard[1])){
+				// askNoise
+				// makeNoise
+				String[] iCard = args[2].split("_");
+				// draw IHcard
+			} else {
+				// makeSilence
+			}
+			
+		}
+		
+		*/
+	
+		ui.whereYouAre(currentSector, sectorType);
+	
+		
+	
+	}
+
+	private void clientAttack() throws RemoteException {
+		String attackResult = null;
+		if (canAttack) {
+			attackResult = ni.attack(playerID, gameID);
+		}
+		
+		ui.attackResult(attackResult);
 	}
 
 	/**
@@ -199,68 +259,14 @@ public class Client {
 		return false;
 	}
 
-	/**
-	 * Calls the proper methods in UI and NI package to let the player move to a new sector.
-	 * 
-	 * @throws RemoteException
-	 */
-	private void clientMove() throws RemoteException {
-		String[] moveResult;
-		do {
-	
-			String adjacentSectors = ni.getAdjacentSectors(playerID, gameID);
-			String chosenSector = ui.move(playerID, adjacentSectors);
-			moveResult = (ni.move(playerID, gameID, chosenSector)).split("_");
-	
-		} while ("KO".equals(moveResult[0]));
-	
-		currentSector = moveResult[1];
-		sectorType = moveResult[2];
-		mustDrawDSCard = Boolean.parseBoolean(moveResult[3]);
-		mustDrawEHCard = Boolean.parseBoolean(moveResult[4]);
-	
-		ui.whereYouAre(currentSector, sectorType, mustDrawDSCard, mustDrawEHCard);
-	
-		hasMoved = true;
-	
+	private void clientDrawDSCard() throws RemoteException {
+		String dsCard = ni.drawCard(gameID, playerID, "DS");
+		ui.drawDangerousSectorCard(dsCard);
 	}
-
 	
 	@Deprecated
-	private void clientDrawDSCard() throws RemoteException {
-		String[] dsCard = (ni.drawCard(gameID, "DS")).split("_");
-
-		String type = dsCard[1];
-		String toUI = new String (type);
-		if (CardsConstants.NOISE.equals(type)) {
-			boolean yourSector = Boolean.parseBoolean(dsCard[2]);
-			boolean withObject = Boolean.parseBoolean(dsCard[3]);
-
-		}
-
-		String where = ui.drawDangerousSectorCard(toUI);
-		boolean validNoise;
-		/*do{
-			validNoise= ni.noise(where);
-		} while (!validNoise);*/
-		hasDrawnDSCard = true;
-		mustDrawDSCard = false;
-
-	}
-	
-	private void clientAttack() throws RemoteException {
-		String attackResult = null;
-		if (canAttack) {
-			attackResult = ni.attack(playerID, gameID);
-		}
-		if ("OK".equals((attackResult.split("_"))[0])){
-			hasAttacked=true;
-		}
-		ui.attackResult(attackResult);
-	}
-
 	private void clientUseCards() {
-		String cardToUse = ui.selectCard(cards);
+		int cardToUse = ui.selectItemCard(cards);
 		if (!("noCard".equals(cardToUse))) {
 			// ni.useCard(cardToUse, playerID);
 		}

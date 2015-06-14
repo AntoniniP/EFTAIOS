@@ -2,7 +2,11 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
 import java.util.List;
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorCard;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
+import it.polimi.ingsw.AntoniniCastiglia.client.ClientConstants;
+import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 
@@ -28,23 +32,37 @@ public abstract class Player {
 	private boolean suspended;
 	private boolean active;
 	protected boolean canAttack;
+	private boolean hasMoved=false;
+	private boolean  hasAttacked=false;
+	private boolean mustDrawDSCard=false;
+	private boolean hasDrawnDSCard=false;
+	private boolean mustDrawEHCard=false;
+	private boolean mustDeclareNoise=false;
+	private boolean mustDrawICard=false;
 	
-	private boolean hasCards; // TODO
-
-	/**
-	 * @return the canAttack
-	 */
-	public boolean getCanAttack() {
-		return canAttack;
+	
+	private DangerousSectorCard dsc;
+	private ItemCard ic;
+	
+	
+	private boolean canUseCards(){
+		for (ItemCard card:items) {
+			if (card!=null){
+				return true;
+			}
+		}
+		return false;
 	}
-
-	/**
-	 * @param canAttack the canAttack to set
-	 */
-	public void setCanAttack(boolean canAttack) {
-		this.canAttack = canAttack;
+	
+	
+	public void resetPlayer(){
+		hasMoved=false;
+		hasAttacked=false;
+		mustDrawDSCard=false;
+		hasDrawnDSCard=false;
+		mustDrawEHCard=false;
 	}
-
+	
 	/**
 	 * Constructor for the class. It sets some parameters, such as the name, role, nature and ID of
 	 * the player. It will always be called by the constructors of concrete classes Alien and Human.
@@ -168,12 +186,65 @@ public abstract class Player {
 		if ((t.adjacent(currentSector, maxMoves)).contains(newCurrentSector)) {
 			this.currentSector = newCurrentSector;
 			path.add(currentSector);
-			return "OK" + "_" + this.currentSector + "_" + this.currentSector.getType() + "_" + this.currentSector.getMustDrawDSCard()
-					+ "_" + this.currentSector.getMustDrawEHCard();
+			
+			hasMoved=true;
+			mustDrawDSCard= this.currentSector.getMustDrawDSCard();
+			mustDrawEHCard = this.currentSector.getMustDrawEHCard();
+			return "OK" + "_" + this.currentSector + "_" + this.currentSector.getType() 
+					//+ "_" + this.currentSector.getMustDrawDSCard()
+					//+ "_" + this.currentSector.getMustDrawEHCard()
+					;
 		}
 		return "KO";
 	}
 
+	public void setMustDrawDSCard(boolean mustDrawDSCard){
+		this.mustDrawDSCard=mustDrawDSCard;
+	}
+	public void setHasDrawnDSCard(boolean hasDrawnDSCard){
+		this.hasDrawnDSCard=hasDrawnDSCard;
+	}
+	public void setMustDrawICard(boolean mustDrawICard){
+		this.mustDrawICard=mustDrawICard;
+	}
+	public void setMustDrawEHCard(boolean mustDrawEHCard){
+		this.mustDrawEHCard=mustDrawEHCard;
+	}
+	
+	public String attack(PlayerList playerList){
+		
+		if (canAttack) {
+			int humanKilled=0;
+			int alienKilled=0;
+			for (int i = 0; i < playerList.size(); i++) {
+				Player p1 = playerList.get(i);
+				if (!(this.equals(p1)) && !p1.isSuspended()) {
+					if ((this.currentSector).equals(p1.getCurrentSector())) {
+						if (p1 instanceof Human) {
+							if (!((Human) p1).hasShield()) {
+								humanKilled++;
+							} else {
+								// TODO remove DefenseCard!!!
+							}
+						} else {
+							alienKilled++;
+						}
+						p1.setDead(true);
+					}
+				}
+			}
+			if (this instanceof Alien && (humanKilled>0)) {
+				maxMoves=3;
+			}
+			hasAttacked=true;
+			return "OK"+"_"+ humanKilled +"_"+ alienKilled;
+		}
+		return "KO";
+	}
+	
+	public boolean getCanAttack(){
+		return canAttack;
+	}
 	
 	/**
 	 * @return the path
@@ -182,4 +253,44 @@ public abstract class Player {
 		return path;
 	}
 
+	public String chooseAction() {
+		
+		String toReturn = "";
+
+		if (!hasMoved) {
+			toReturn=toReturn.concat(Constants.MOVE +"_");
+		}
+		if (mustDrawDSCard && !hasAttacked) {
+			toReturn=toReturn.concat(Constants.DRAW_DS_CARD+"_" );
+		}
+		if (mustDeclareNoise){
+			toReturn=toReturn.concat(Constants.DECLARE_NOISE+"_");
+		}
+		if (mustDrawICard){
+			toReturn = toReturn.concat(Constants.DRAW_I_CARD+"_");
+		}
+		if (canAttack && !hasAttacked && !hasDrawnDSCard) {
+			toReturn=toReturn.concat(Constants.ATTACK +"_");
+		}
+		if (canUseCards()) {
+			toReturn=toReturn.concat(Constants.USE_CARDS+"_" );
+		}
+		if (mustDrawEHCard){
+			toReturn=toReturn.concat(Constants.DRAW_EH_CARD+"_");
+		}
+		if (hasMoved && true ) {
+			toReturn=toReturn.concat(Constants.QUIT);
+		}
+
+		// TODO COMPLETARE!!!!
+
+		return toReturn;
+
+	}
+
+
+	public void setMustDeclareNoise(boolean mustDeclareNoise) {
+		this.mustDeclareNoise=mustDeclareNoise;
+		
+	}
 }

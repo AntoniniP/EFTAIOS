@@ -29,6 +29,16 @@ public final class Constants {
 	public static final String ANSI_CYAN_BRIGHT = "\u001b[96m";
 	public static final String ANSI_GRAY = "\u001b[37m";
 	public static final String ANSI_WHITE = "\u001b[97m";
+	
+	// Actions
+	public static final String MOVE = "M";
+	public static final String ATTACK = "A";
+	public static final String USE_CARDS = "U";
+	public static final String DRAW_DS_CARD = "D";
+	public static final String QUIT = "Q";
+	public static final String DECLARE_NOISE = "N";
+	public static final String DRAW_I_CARD = "I";
+	public static final String DRAW_EH_CARD = "E";
 
 	/**
 	 * Private constructor to hide the implicit one.

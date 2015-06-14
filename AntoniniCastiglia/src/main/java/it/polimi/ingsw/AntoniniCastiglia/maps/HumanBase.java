@@ -47,8 +47,4 @@ public class HumanBase extends Sector {
 		return Constants.ANSI_BOLD + Constants.ANSI_RED_BRIGHT + " H " + Constants.ANSI_RESET;
 	}
 
-	@Override
-	public void action() {
-	}
-
 }

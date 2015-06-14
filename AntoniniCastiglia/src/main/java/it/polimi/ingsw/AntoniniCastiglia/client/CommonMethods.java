@@ -27,8 +27,16 @@ public class CommonMethods {
 	 * @param chosenSector sector chosen by the player
 	 * @return true/false
 	 */
-	public static boolean validSector(String adjacentSectors, String chosenSector) {
-		return adjacentSectors.contains(chosenSector);
+	public static boolean validSector(String chosenSector) {
+		String number=chosenSector.substring(1, 3);
+		try{
+		Integer.parseInt(number);
+		}
+		catch (NumberFormatException e){
+			return false;
+		}
+		return true;
+				
 	}
 
 	/**

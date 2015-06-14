@@ -2,11 +2,15 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import java.util.List;
 import java.util.Timer;
-
+import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
+import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorCard;
 import it.polimi.ingsw.AntoniniCastiglia.cards.DangerousSectorDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchCard;
 import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
+import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCardDeck;
+import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
@@ -44,7 +48,8 @@ public class GameHandler implements Runnable, TimerInterface {
 			}
 		}
 		if (started) {
-			playerTurn=(int)(Math.random()*numPlayers);
+			//playerTurn=(int)(Math.random()*(numPlayers+1));
+			playerTurn=0;
 			rounds=0;
 			turn();
 		} 
@@ -75,6 +80,12 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	}
 
+	public String getPlayerCards(int playerID){
+		Player p = CommonMethods.toPlayer(playerID, playerList);
+		return p.getPlayerCards();
+				
+	}
+	
 	public boolean isMyTurn(int playerID) {
 		return playerID == playerTurn;
 	}
@@ -128,6 +139,7 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 		playerList.get(playerTurn).setActive(false);
 		playerTurn++;
+		playerList.get(playerTurn).resetPlayer();
 		if (playerTurn > numPlayers - 1) {
 			playerTurn = 0;
 			rounds++;
@@ -232,4 +244,36 @@ public class GameHandler implements Runnable, TimerInterface {
 		timer = new Timer();
 	
 	}
+	
+	public String move(int playerID, String sector) {
+		Player p = playerList.get(playerID);
+		Sector s = CommonMethods.toSector(sector, table);
+		
+		String toReturn = p.move(table , s)+";";
+		/*
+		if (toReturn.startsWith("OK")) {
+			if (s.getMustDrawDSCard()) {
+				DangerousSectorCard dsc = (DangerousSectorCard)dangerousSectorDeck.drawCard();
+				toReturn.concat(dsc.getCard()+";");
+				dangerousSectorDeck.discardCard(dsc);
+				if (Boolean.parseBoolean(dsc.getCard().split("_")[3])){
+					ItemCard ic = (ItemCard)itemCardDeck.drawCard();
+					toReturn.concat(ic.getCard());
+				}
+			} else if (s.getMustDrawEHCard()){
+				EscapeHatchCard ehc = (EscapeHatchCard)escapeHatchDeck.drawCard();
+				toReturn.concat(ehc.getCard());
+				dangerousSectorDeck.discardCard(ehc);
+			}
+		}
+		*/
+		return toReturn;
+	}
+	
+	public String attack( int playerID){
+		Player p = playerList.get(playerID);
+		return p.attack(playerList);
+	}
+	
+	
 }

@@ -65,7 +65,7 @@ public interface NetworkInterface {
 
 	String attack(int playerID, int gameID) throws RemoteException;
 
-	String drawCard(int gameID, String deck) throws RemoteException;
+	String drawCard(int gameID, int playerID, String deck) throws RemoteException;
 
 	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
 
@@ -74,6 +74,12 @@ public interface NetworkInterface {
 	boolean canAttack(int gameID, int playerID) throws RemoteException;
 
 	boolean isDead(int playerID, int gameID)throws RemoteException;
+	
+	 String useDangerousSectorCard(int playerID, int gameID) throws RemoteException;
+
+	String possibleActions(int playerID, int gameID) throws RemoteException;
+
+	String declareNoise(String noise) throws RemoteException;
 
 
 

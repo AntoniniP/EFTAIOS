@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+import it.polimi.ingsw.AntoniniCastiglia.cards.CardsConstants;
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
 import it.polimi.ingsw.AntoniniCastiglia.client.ClientConstants;
 
@@ -39,8 +41,7 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	// TODO make suitable for DangerousSectorCards too!
-	public void printCards(boolean canUseCards, String... cards) {
+	public void printItemCards(boolean canUseCards, String... cards) {
 		if (canUseCards) {
 			System.out.println("0. Don't use any card");
 			for (int i = 0; i < cards.length; i++) {
@@ -59,9 +60,9 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public String selectCard(String[] cards) {
+	public int selectItemCard(String[] cards) {
 		System.out.println("You can take advantage of the card(s) you own, which are:");
-		this.printCards(true, cards);
+		this.printItemCards(true, cards);
 		int cardIndex;
 		do {
 			String choice = CommonMethods.readLine();
@@ -70,12 +71,9 @@ public class CLI implements UserInterface {
 			} catch (NumberFormatException e) {
 				cardIndex = -1;
 			}
-		} while ((cardIndex >= 0 && cardIndex <= cards.length) && "null".equals(cards[cardIndex]));
+		} while (!(cardIndex >= 0 && cardIndex <= cards.length) );
 
-		if (cardIndex == 0) {
-			return "noCard";
-		}
-		return cards[cardIndex];
+		return cardIndex;
 	}
 
 	@Override
@@ -84,14 +82,15 @@ public class CLI implements UserInterface {
 				+ adjacentSectors.replace(';', ' '));
 		String chosenSector = null;
 		do {
-			System.out.println("Please, choose where you want to go: ");
+			System.out.print("Please, choose a valid sector: ");
 			chosenSector = (CommonMethods.readLine()).toUpperCase();
-		} while (!CommonMethods.validSector(adjacentSectors, chosenSector));
+		} while (!CommonMethods.validSector(chosenSector));
 
 		return chosenSector;
 	}
-
+/*
 	@Override
+	@Deprecated
 	public String wantToAttack(String nature) {
 		System.out.println("It seems that you can attack the sector you are in!");
 		if ("H".equals(nature)) {
@@ -106,75 +105,106 @@ public class CLI implements UserInterface {
 		} while (!("A".equals(chosenAction) || "B".equals(chosenAction)));
 		return chosenAction;
 	}
-
+*/
 	@Override
-	public String drawDangerousSectorCard(String drawnCard) {
-		System.out.println("Well, here is your card: " + (drawnCard.split("_"))[1]);
-		return null;
+	public void drawDangerousSectorCard(String drawnCard) {
+		String[] card = drawnCard.split("_");
+		String name = card[1];	
+		boolean yourSector = Boolean.parseBoolean(card[2]);
+		boolean withObject = Boolean.parseBoolean(card[3]);
+		
+		System.out.print("Well, here is your Dangerous Sector card: " + name + " ");
+		if (name.equals(CardsConstants.NOISE)){
+			if (yourSector){
+				System.out.print("in your sector. ");
+			} else {
+				System.out.print("in a sector of your choice. ");
+			}
+			System.out.println("Soon you will be prompted to declare it. ");
+			if (withObject){
+				System.out.println("You are lucky, though! You can draw an Item Card.");
+			}
+		}
 	}
 
 	@Override
-	public void whereYouAre(String currentSector, String sectorType, boolean mustDrawDSCard,
-			boolean mustDrawEHCard) {
+	public void whereYouAre(String currentSector, String sectorType) {
 		System.out.println("You are now in " + currentSector + " sector, which is a " + sectorType
 				+ " sector.");
 	}
 
 	@Override
-	public String chooseAction(boolean hasMoved, boolean canAttack, boolean hasAttacked,
-			boolean canUseCards, boolean mustDraw, boolean hasDrawn) {
+	public String chooseAction(String possibleActions) {
 		String chosenAction = null;
 		do {
 
 			System.out.println("Now choose your next action:");
 
-			if (!hasMoved) {
-				System.out.println(ClientConstants.MOVE + " - Move to a new sector");
+			if (possibleActions.contains(Constants.MOVE)) {
+				System.out.println(Constants.MOVE + " - Move to a new sector");
 			}
-			if (canAttack && !hasAttacked && !hasDrawn) {
-				System.out.print(ClientConstants.ATTACK + " - Attack the sector you are in now");
-				if (mustDraw && !hasAttacked) {
+			if (possibleActions.contains(Constants.ATTACK)) {
+				System.out.print(Constants.ATTACK + " - Attack the sector you are in now");
+				if (true /*TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/) {
 					System.out.println(" (please note that you won't be able"
 							+ " to draw a Dangerous Sector card during this turn)");
 				} else {
 					System.out.println();
 				}
 			}
-			if (canUseCards) {
-				System.out.println(ClientConstants.USE_CARD + " - Use your cards");
+			if (possibleActions.contains(Constants.USE_CARDS)) {
+				System.out.println(Constants.USE_CARDS + " - Use your cards");
 			}
-			if (mustDraw && !hasAttacked) {
-				System.out.print(ClientConstants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
-				if (canAttack && !hasAttacked && !hasDrawn) {
+			if (possibleActions.contains(Constants.DRAW_DS_CARD)) {
+				System.out.print(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
+				if (true /*TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/) {
 					System.out.println(" (please note that you won't be able"
 							+ " to attack during this turn)");
 				} else {
 					System.out.println();
 				}
 			}
-			System.out.println(ClientConstants.QUIT + " - End your turn");
-
+			if (possibleActions.contains(Constants.QUIT)){
+				System.out.println(Constants.QUIT + " - End your turn");
+			}
+			// TODO other constants!!!!!
 			chosenAction = (CommonMethods.readLine()).toUpperCase();
 
-		} while (!((!hasMoved && ClientConstants.MOVE.equals(chosenAction))
-				|| (!hasAttacked && canAttack && ClientConstants.ATTACK.equals(chosenAction))
-				|| (canUseCards && ClientConstants.USE_CARD.equals(chosenAction))
-				|| (ClientConstants.QUIT.equals(chosenAction)) || (mustDraw && !hasAttacked && ClientConstants.DRAW_DS_CARD
-				.equals(chosenAction))));
+		} while (!(possibleActions.contains(chosenAction)));
 		return chosenAction;
 	}
 
 	@Override
 	public void attackResult(String attackResult) {
-		String[] args=attackResult.split("_");
-		if ("KO".equals(args[0])) {
+		if (attackResult.startsWith("KO")) {
 			System.out.println("It appears that you can't attack.");
 		} else {
+			String[] args=attackResult.split("_");
 			int humanKilled = Integer.parseInt(args[1]);
 			int alienKilled = Integer.parseInt(args[2]);
 			System.out.println("You attacked your sector and you killed " + humanKilled+
 					" humans and " + alienKilled + "aliens. Good for you!");
 		}
+	}
+
+	@Override
+	public String declareNoise(boolean yourSector) {
+		if (yourSector) {
+			System.out
+					.println("You must declare a noise in your sector. "
+							+ "Please, confirm to let the other players know (you have no choice, actually!).");
+			CommonMethods.readLine();
+			return "OK";
+		} else {
+			System.out.print("You must declare a noise in a sector of your choice. "
+					+ "Please, declare your chosen sector: ");
+			String chosenSector = null;
+			do {
+				chosenSector = CommonMethods.readLine();
+			} while (CommonMethods.validSector(chosenSector));
+			return chosenSector;
+		}
+		
 	}
 
 }

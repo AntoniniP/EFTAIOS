@@ -194,6 +194,4 @@ public abstract class Sector {
 		return ((this.y * MapConstants.WIDTH) + (this.x * MapConstants.HEIGHT));
 	}
 
-	public abstract void action();
-
 }

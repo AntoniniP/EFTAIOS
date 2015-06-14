@@ -39,8 +39,4 @@ public class SecureSector extends Sector {
 
 	}
 
-	@Override
-	public void action() {
-	}
-
 }

@@ -18,15 +18,11 @@ public class DangerousSectorSilence extends DangerousSectorCard {
 		super();
 		name = CardsConstants.SILENCE;
 	}
-/*
-	@Override
-	public String toString() {
-		return "Silence in all sectors.";
-	}
-*/
+
+
 	@Override
 	public String action(Sector s) {
 		return "Silence in all sectors.";
 	}
-
+	
 }

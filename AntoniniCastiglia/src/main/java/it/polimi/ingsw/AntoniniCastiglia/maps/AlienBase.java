@@ -43,9 +43,4 @@ public class AlienBase extends Sector {
 		return " A ";
 	}
 
-	@Override
-	public void action() {
-		// TODO nextTurn();
-	}
-
 }

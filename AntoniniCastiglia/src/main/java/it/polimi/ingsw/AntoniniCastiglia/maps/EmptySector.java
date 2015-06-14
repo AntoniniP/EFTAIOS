@@ -36,8 +36,4 @@ public class EmptySector extends Sector {
 		return "";
 	}
 
-	@Override
-	public void action() {
-	}
-
 }

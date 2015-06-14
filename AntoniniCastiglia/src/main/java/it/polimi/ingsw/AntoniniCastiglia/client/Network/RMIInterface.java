@@ -55,7 +55,6 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String move(int playerID, int gameID, String sector) throws RemoteException {
-		// TODO returns whether the player must draw a DSC
 		return remoteEFTAIOS.move(playerID, gameID, sector);
 	}
 
@@ -95,8 +94,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String drawCard(int gameID, String deck) throws RemoteException {
-		return remoteEFTAIOS.drawCard(gameID, deck);
+	public String drawCard(int gameID, int playerID, String deck) throws RemoteException {
+		return remoteEFTAIOS.drawCard(gameID, playerID, deck);
 	}
 
 	@Override
@@ -119,6 +118,21 @@ public class RMIInterface implements NetworkInterface {
 		return remoteEFTAIOS.isDead(playerID, gameID);
 	}
 
-	
+	@Override
+	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String possibleActions(int playerID, int gameID) throws RemoteException {
+		return remoteEFTAIOS.possibleActions(playerID, gameID);
+	}
+
+	@Override
+	public String  declareNoise(String noise) throws RemoteException{
+		return remoteEFTAIOS.declareNoise(noise);
+	}
+
 
 }

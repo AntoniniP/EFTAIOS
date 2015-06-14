@@ -40,8 +40,4 @@ public class DangerousSector extends Sector {
 
 	}
 
-	@Override
-	public void action() {
-	}
-
 }

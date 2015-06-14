@@ -11,8 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
  */
 public class DangerousSectorNoise extends DangerousSectorCard {
 
-	private boolean yourSector;
-	private boolean withObject;
+	
 
 	/**
 	 * Constructor for the class. You are able to set whether the noise is in your sector or in any
@@ -55,9 +54,6 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 		return "Noise in "+ s + "sector.";
 	}
 
-	@Override
-	public String getCard(){
-		return super.getCard()+"_"+yourSector+"_"+withObject;
-	}
+	
 	
 }

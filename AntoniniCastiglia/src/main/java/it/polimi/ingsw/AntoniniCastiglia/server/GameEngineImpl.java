@@ -1,6 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
+import it.polimi.ingsw.AntoniniCastiglia.maps.DangerousSector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
+import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
@@ -50,32 +52,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public String attack(int playerID, int gameID) throws RemoteException {
-		int humanKilled=0;
-		int alienKilled=0;
-		
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		if (p.getCanAttack()) {
-			for (int i = 0; i < gameHandlerList.get(gameID).getPlayerList().size(); i++) {
-				Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
-				if (!(p.equals(p1)) && !p1.isSuspended()) {
-					if ((p.getCurrentSector()).equals(p1.getCurrentSector())) {
-						if (p1 instanceof Human) {
-							if (!((Human) p1).hasShield()) {
-								humanKilled++;
-							}
-						} else {
-							alienKilled++;
-						}
-						p1.setDead(true);
-					}
-				}
-			}
-			if (p instanceof Alien && (humanKilled>0)) {
-				p.setMoves(3);
-			}
-			return "OK"+"_"+ humanKilled +"_"+ alienKilled;
-		}
-		return "KO";
+		return gameHandlerList.get(gameID).attack(playerID);
 	}
 
 	@Override
@@ -97,11 +74,18 @@ public class GameEngineImpl implements GameEngine {
 		}
 		return null;
 	}
+	
+	
+	@Override
+	public String possibleActions(int playerID, int gameID) throws RemoteException {
+		String s = gameHandlerList.get(gameID).getPlayerList().get(playerID).chooseAction();		
+		return s;
+	}
 
 	@Override
 	public String getCards(int playerID, int gameID) throws RemoteException { // ITEM CARDS
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		return p.getPlayerCards();
+		
+		return gameHandlerList.get(gameID).getPlayerCards(playerID);
 	}
 
 	@Override
@@ -122,16 +106,19 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public String drawCard(int gameID, String deck) throws RemoteException {
-		String s;
+	public String drawCard(int gameID, int playerID, String deck) throws RemoteException {
 		if ("DS".equals(deck)) {
-			return s = (gameHandlerList.get(gameID).getDangerousSectorDeck().drawCard()).getCard();
+			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDrawDSCard(false);
+			gameHandlerList.get(gameID).getPlayerList().get(playerID).setHasDrawnDSCard(true);
+			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDeclareNoise(true);
+			return ((DangerousSectorCard)gameHandlerList.get(gameID).getDangerousSectorDeck().drawCard()).getCard();
 		}
 		if ("IC".equals(deck)) {
-			return s = (gameHandlerList.get(gameID).getItemCardDeck().drawCard()).getCard();
+			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDrawICard(false);
+			return (gameHandlerList.get(gameID).getItemCardDeck().drawCard()).getCard();
 		}
 		if ("EH".equals(deck)) {
-			return s = (gameHandlerList.get(gameID).getEscapeHatchDeck().drawCard()).getCard();
+			return (gameHandlerList.get(gameID).getEscapeHatchDeck().drawCard()).getCard();
 		}
 		return null;
 	}
@@ -163,12 +150,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public String move(int playerID, int gameID, String sector) throws RemoteException {
-
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		Table t = gameHandlerList.get(gameID).getTable();
-		Sector s = CommonMethods.toSector(sector, t);
-
-		return p.move(t, s);
+		return gameHandlerList.get(gameID).move(playerID, sector);
 	}
 
 	@Override
@@ -177,14 +159,15 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
+	@Deprecated
 	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException {
 		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
-		String[] s= drawCard(gameID,"DS").split("_");
+		String[] s= drawCard(gameID,playerID,"DS").split("_");
 		String type = s[2];
 		Boolean yourSector = Boolean.parseBoolean(s[3]);
 		Boolean withObject = Boolean.parseBoolean(s[4]);
 		if(withObject){
-			drawCard(gameID,"IC");
+			drawCard(gameID,playerID,"IC");
 			if(type.equals(CardsConstants.SILENCE))
 				return "Silence in al sectors";
 			if(type.equals(CardsConstants.NOISE)){
@@ -196,6 +179,13 @@ public class GameEngineImpl implements GameEngine {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String declareNoise(String noise) throws RemoteException{
+		// TODO Auto-generated method stub
+		return "OK";
+		
 	}
 	
 }

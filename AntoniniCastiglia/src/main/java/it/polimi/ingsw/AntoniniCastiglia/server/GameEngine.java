@@ -15,7 +15,7 @@ public interface GameEngine extends Remote {
 
 	boolean isEnded(int gameID) throws RemoteException;
 
-	String drawCard(int gameID, String deck) throws RemoteException;
+	String drawCard(int gameID, int playerID, String deck) throws RemoteException;
 
 	String getPlayer(int playerID, int gameID) throws RemoteException;
 
@@ -35,7 +35,11 @@ public interface GameEngine extends Remote {
 
 	boolean isDead(int playerID, int gameID)throws RemoteException;
 	
-	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException;
+	 String useDangerousSectorCard(int playerID, int gameID) throws RemoteException;
+	 
+	 String possibleActions(int playerID, int gameID) throws RemoteException;
+
+	String declareNoise(String noise) throws RemoteException;
 
 
 }
