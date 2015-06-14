@@ -9,7 +9,7 @@ public interface GameEngine extends Remote {
 
 	String attack(int playerID, int gameID) throws RemoteException;
 
-	void useCard(int playerID, int gameID, int posCard) throws RemoteException;
+	String useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
 	String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
@@ -34,6 +34,8 @@ public interface GameEngine extends Remote {
 	boolean canAttack(int gameID, int playerID) throws RemoteException;
 
 	boolean isDead(int playerID, int gameID)throws RemoteException;
+	
+	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException;
 
 
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 
 import java.util.ArrayList;
 import java.util.List;
-import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
 import it.polimi.ingsw.AntoniniCastiglia.players.Human;
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.cards.*;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -79,10 +79,23 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public void useCard(int playerID, int gameID, int posCard) throws RemoteException {
+	public String useCard(int playerID, int gameID, int posCard) throws RemoteException {
 		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
 		ItemCard c = p.removeCard(posCard);
-		c.action(p);
+		if (c instanceof ItemSpotlight){
+			List<Sector> adjacentSector = gameHandlerList.get(gameID).getTable()
+					.adjacent(p.getCurrentSector(), p.getMoves()); //get adjacent Sectors
+			for (int i=0; i<gameHandlerList.get(gameID).getPlayerList().size(); i++){ //taking all the players in the game
+				Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
+				if ((p.getCurrentSector()).equals(p1.getCurrentSector()) || adjacentSector.contains(p1.getCurrentSector())){
+					String s = "player" + gameHandlerList.get(gameID).getPlayerList().get(i) + "is in sector" + p1.getCurrentSector();
+					return s;
+				}
+					
+			}
+			
+		}
+		return null;
 	}
 
 	@Override
@@ -110,14 +123,15 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public String drawCard(int gameID, String deck) throws RemoteException {
+		String s;
 		if ("DS".equals(deck)) {
-			return (gameHandlerList.get(gameID).getDangerousSectorDeck().drawCard()).getCard();
+			return s = (gameHandlerList.get(gameID).getDangerousSectorDeck().drawCard()).getCard();
 		}
 		if ("IC".equals(deck)) {
-			return (gameHandlerList.get(gameID).getItemCardDeck().drawCard()).getCard();
+			return s = (gameHandlerList.get(gameID).getItemCardDeck().drawCard()).getCard();
 		}
 		if ("EH".equals(deck)) {
-			return (gameHandlerList.get(gameID).getEscapeHatchDeck().drawCard()).getCard();
+			return s = (gameHandlerList.get(gameID).getEscapeHatchDeck().drawCard()).getCard();
 		}
 		return null;
 	}
@@ -162,5 +176,26 @@ public class GameEngineImpl implements GameEngine {
 		return gameHandlerList.get(gameID).getPlayerList().get(playerID).isDead();
 	}
 
+	@Override
+	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException {
+		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
+		String[] s= drawCard(gameID,"DS").split("_");
+		String type = s[2];
+		Boolean yourSector = Boolean.parseBoolean(s[3]);
+		Boolean withObject = Boolean.parseBoolean(s[4]);
+		if(withObject){
+			drawCard(gameID,"IC");
+			if(type.equals(CardsConstants.SILENCE))
+				return "Silence in al sectors";
+			if(type.equals(CardsConstants.NOISE)){
+				if(yourSector)
+					return "Noise in sector" + p.getCurrentSector();
+				else
+					return "Noise in sector"; //the player chooses the sector to make noise i	
+			
+			}
+		}
+		return null;
+	}
 	
 }

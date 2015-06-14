@@ -28,7 +28,16 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 		this.yourSector = yourSector;
 		this.withObject = withObject;
 	}
-/*
+	
+	public boolean isWithObject() {
+		return withObject;
+	}
+
+	public boolean isYourSector() {
+		return yourSector;
+	}
+
+	/*
 	@Override
 	public String toString() {
 		String message;
@@ -50,4 +59,5 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 	public String getCard(){
 		return super.getCard()+"_"+yourSector+"_"+withObject;
 	}
+	
 }
