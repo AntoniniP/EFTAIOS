@@ -2,6 +2,12 @@ package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import java.rmi.RemoteException;
 
+/**
+ * Implementation of the interface <code>RMIInterface<code>.
+ *
+ * @author Laura Castiglia
+ *
+ */
 public class RMIInterfaceImpl implements RMIInterface {
 
 	private Server server;
@@ -11,7 +17,7 @@ public class RMIInterfaceImpl implements RMIInterface {
 	}
 
 	@Override
-	public int connect() throws RemoteException {
+	public String connect() throws RemoteException {
 
 		synchronized (server) {
 			if (!server.isFirstConn()) {
@@ -20,14 +26,9 @@ public class RMIInterfaceImpl implements RMIInterface {
 			server.incrementNumPlayer();
 		}
 
-		System.out.println("New player connected. " + server.getNumPlayer());
+		System.out.println("New player connected. " + "gameID: " + server.getGameID()
+				+ " playerID: " + (server.getNumPlayer()-1));
 
-		return server.getNumPlayer() - 1;
+		return server.getGameID() + "_" + (server.getNumPlayer() - 1);
 	}
-
-	@Override
-	public boolean isStarted() throws RemoteException {
-		return server.isStarted();
-	}
-
 }

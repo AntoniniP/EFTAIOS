@@ -1,9 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 /**
- * Public interface for cards. Completely empty now.
- * 
- * @author Paolo Antonini
+ * Abstract class for cards. It contains two parameters to identify a card (<code>type</code> and
+ * <code>name</code> variables), and a <code>toString</code> method to return them.
+ *
+ * @author Laura Castiglia
  *
  */
 public abstract class Card {
@@ -11,7 +12,8 @@ public abstract class Card {
 	protected String type;
 	protected String name;
 
-	public String getCard() {
+	@Override
+	public String toString() {
 		return type + "_" + name;
 	}
 

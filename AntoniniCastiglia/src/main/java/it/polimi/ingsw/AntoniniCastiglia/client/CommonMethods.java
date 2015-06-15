@@ -1,12 +1,14 @@
 package it.polimi.ingsw.AntoniniCastiglia.client;
 
+import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class contains some methods that may be useful in the whole <code>client</code> package.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -18,33 +20,32 @@ public class CommonMethods {
 	private CommonMethods() {
 	}
 
-	// TODO check + JavaDoc
-	public static int[] validCard(String choice, int len) {
-		int count = 0;
-		int[] cardsToUse = new int[3];
-
-		for (int i = 0; i < choice.length(); i++) {
-			String ch = choice.substring(i, i + 1);
-
-			if ("0".compareTo(ch)>0 || "1".compareTo(ch)>0 || "2".compareTo(ch)>0 || "3".compareTo(ch)>0) {
-				int n = Integer.parseInt(ch);
-				if (n >= 0 && n <= len) {
-					cardsToUse[count] = n;
-					count++;
-				}
-			}
+	/**
+	 * Checks whether <code>chosenSector</code> is a valid sector (i.e. a letter and two numbers).
+	 *
+	 * @param chosenSector sector chosen by the player
+	 * @return true/false
+	 */
+	public static boolean validSector(String chosenSector) {
+		String number;
+		try {
+			number = chosenSector.substring(1, 3);
+		} catch (StringIndexOutOfBoundsException e) {
+			return false;
 		}
-		return cardsToUse;
-	}
-
-	public static boolean validSector(String adjacents, String sector) {
-		return adjacents.contains(sector);
+		int n;
+		try {
+			n = Integer.parseInt(number);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return n <= MapConstants.HEIGHT;
 
 	}
 
 	/**
 	 * Simplifies the acquisition of a string.
-	 * 
+	 *
 	 * @return the acquired string
 	 */
 	public static String readLine() {
@@ -59,25 +60,19 @@ public class CommonMethods {
 		return read;
 	}
 
-	/*
-	private static String readWriteLine(String format, Object... args) {
-		if (System.console() != null) {
-			return System.console().readLine(format, args);
-		}
-
-		System.out.print(String.format(format, args));
-
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(isr);
-		String read = null;
-
+	/**
+	 * Magical method which allows some things to work flawlessly. Simply, it makes the thread sleep
+	 * for a while.
+	 *
+	 * @param time milliseconds to sleep
+	 */
+	public static void sleep(int time) {
 		try {
-			read = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
+			TimeUnit.MILLISECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			// nothing to do; the sleep is fundamental to let everything work
 		}
 
-		return read;
 	}
-	*/
+
 }

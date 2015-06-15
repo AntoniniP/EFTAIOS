@@ -1,10 +1,16 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+/**
+ * It's a non-existing sector in the map. The class was created for an easier handling of the map.
+ *
+ * @author Laura Castiglia
+ *
+ */
 public class EmptySector extends Sector {
 
 	/**
 	 * Standard constructor.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @see Sector#Sector(String coord)
@@ -16,7 +22,7 @@ public class EmptySector extends Sector {
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * @param name
 	 * @see Sector#Sector(String coord)
 	 */
@@ -27,12 +33,7 @@ public class EmptySector extends Sector {
 
 	@Override
 	public String toString() {
-		return "";
-	}
-
-	@Override
-	public void action() {
-		
+		return "     ";
 	}
 
 }

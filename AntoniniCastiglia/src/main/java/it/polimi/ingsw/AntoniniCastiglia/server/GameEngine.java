@@ -1,29 +1,48 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.cards.Card;
-import it.polimi.ingsw.AntoniniCastiglia.cards.Deck;
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-import java.rmi.*;
-import java.util.ArrayList;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface GameEngine extends Remote {
 
-	public String getMap() throws RemoteException;
+	String move(int playerID, int gameID, String sector) throws RemoteException;
 
-	public String move(int playerID, String sector) throws RemoteException;
+	String attack(int playerID, int gameID) throws RemoteException;
 
-	public String attack(int playerID) throws RemoteException;
+	String useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
-	public String getCards(int playerID) throws RemoteException;
+	String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
-	public Card useCard(String s, int playerID) throws RemoteException;
+	boolean isEnded(int gameID) throws RemoteException;
 
-	public String getPlayerString(int playerID) throws RemoteException;
+	String drawCard(int gameID, int playerID, String deck) throws RemoteException;
 
-	public String getAdjacents(int playerID) throws RemoteException;
+	String getPlayer(int playerID, int gameID) throws RemoteException;
 
-	public boolean isEnded() throws RemoteException;
+	String getMap(int gameID) throws RemoteException;
 
-	public String drawCard(String deck) throws RemoteException;
+	String getPlayerCards(int playerID, int gameID) throws RemoteException;
+
+	boolean isStarted(int gameID) throws RemoteException;
+
+	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
+
+	void endTurn(int playerID, int gameID) throws RemoteException;
+
+	boolean canAttack(int gameID, int playerID) throws RemoteException;
+
+	boolean isDead(int playerID, int gameID) throws RemoteException;
+
+	String possibleActions(int playerID, int gameID) throws RemoteException;
+
+	String declareNoise(int gameID, int playerID, String sector) throws RemoteException;
+
+	String getItemCard(int playerID, int gameID) throws RemoteException;
+
+	String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException;
+
+	String getJournal(int playerID, int gameID) throws RemoteException;
+
+	String escape(int playerID, int gameID) throws RemoteException;
+
 }

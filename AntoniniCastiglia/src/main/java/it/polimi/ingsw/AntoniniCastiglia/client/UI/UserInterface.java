@@ -1,78 +1,128 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
-import java.util.List;
-
 /**
  * This interface provides a list of methods, useful for the factory method pattern implementation
  * of <code>UserInterface</code>.
- * 
+ *
  * @author Paolo Antonini
  *
  */
 public interface UserInterface {
 
 	/**
-	 * Prints a simple message.
+	 * Prints a simple message containing playerID and gameID.
+	 *
+	 * @param gameID
+	 * @param playerID
 	 */
-	public void connected();
+	void connected(int gameID, int playerID);
 
 	/**
-	 * Lets the player know which are his name and nature (Human/Alien)
-	 * 
+	 * Lets the player know which are his name, role and nature (Human/Alien)
+	 *
 	 * @param name
 	 */
-	public void whoYouAreComplete(String[] player);
+	void whoYouAreComplete(String[] player);
 
 	/**
 	 * Shows the map, received as a string.
-	 * 
+	 *
 	 * @param map
 	 */
-	public void printMap(String map);
+	void printMap(String map);
 
 	/**
-	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array.
-	 * @param canUseCards TODO
+	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array).
+	 *
+	 * @param canUseCards
 	 * @param card
 	 */
-	public void printCards(boolean canUseCards, String... card);
+	void printItemCards(boolean canUseCards, String... card);
 
 	/**
-	 * Shows all possible actions to the player.
+	 * Lets the player choose which card he wants to use.
+	 *
+	 * @param cards
+	 * @return the index of the chosen card
+	 */
+	int selectItemCard(String[] cards);
+
+	/**
+	 * Presents the Dangerous Sector card, drawn by the player.
+	 *
+	 * @param drawnCard
+	 */
+	void drawDangerousSectorCard(String drawnCard);
+
+	/**
+	 * Lets the player move to a new sector
+	 *
+	 * @param playerID
+	 * @param adjacentSectors
+	 * @return the sector where to move
+	 */
+	String move(int playerID, String adjacentSectors);
+
+	/**
+	 * Prints the the sector where the player is currently.
+	 *
+	 * @param currentSector
+	 * @param sectorType
+	 */
+	void whereYouAre(String currentSector, String sectorType);
+
+	/**
+	 * Prints the possible actions.
+	 *
 	 * @param possibleActions
-	 * @deprecated (not used)
+	 * @return the chosen action
 	 */
-	public void chooseAction(List<Character> possibleActions);
+	String chooseAction(String possibleActions);
 
 	/**
-	 * Prints a simple message, asking the player to choose which card(s) he wants to use.
+	 * Shows the result of the attack.
+	 *
+	 * @param attackResult
 	 */
-	public void chooseCards();
+	void attackResult(String attackResult);
 
 	/**
-	 * Prints a simple message, asking the player to choose where to move.
+	 * Lets the player decide where he wants to declare a noise (if it's possible).
+	 *
+	 * @param noise
+	 * @param yourSector
+	 * @param currentSector
+	 * @return the sector of player's choice
 	 */
-	public void askMove(String adjacents);
+	String declareNoise(boolean noise, boolean yourSector, String currentSector);
 
 	/**
-	 * Prints a simple message, to let the player know that an error occurred.
+	 * Lets the player cope with the situation when he has too many Item cards.
+	 *
+	 * @param itemCard
+	 * @param cards
+	 * @return the index of the card he wants to discard
 	 */
-	void genericError();
+	int handleItemCard(String itemCard, String... cards);
 
 	/**
-	 * Asks the player to wait for a game to begin.
+	 * Prints the journal.
+	 *
+	 * @param journal
 	 */
-	public void pleaseWait();
-	
+	void printJournal(String journal);
+
 	/**
-	 * Prints a simple message, informing the player that it's his turn.
+	 * Prints the result of the use of the Item card.
+	 *
+	 * @param useResult
 	 */
-	public void yourTurn();
+	void useResult(String useResult);
 
-	public void youCanAttack(String nature);
-	
-	public void drawDangerousSectorCard(String drawnCard);
-	
-	public void moveResult(String result);
-
+	/**
+	 * Prints the result of the escape.
+	 *
+	 * @param escapeResult
+	 */
+	void escapeResult(String escapeResult);
 }

@@ -1,13 +1,13 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Server {
+public class Server implements TimerInterface {
 
 	private static final int port = 1099;
 
@@ -19,9 +19,13 @@ public class Server {
 
 	private boolean outOfTime;
 	private boolean firstConnected;
-	private int numPlayer;
-	private boolean started = false;
+	private int numPlayers;
+	private boolean started;
+	private boolean suspended ;
+	private GameHandler gameHandler;
+	private int gameID = 0;
 
+	
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.start();
@@ -39,60 +43,67 @@ public class Server {
 		} catch (RemoteException | AlreadyBoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Registry bound");
+		System.out.println("Welcome to EFTAIOS server.");
 
-		waitConn();
+		while (true) {
+			numPlayers = 0;
+			waitConn();
+			gameID++;
+		}
+
 	}
 
 	private void waitConn() {
+
 		firstConnection();
-		System.out.println("\n" + "Waiting for other connections..." + "\n");
-		while (!outOfTime && (getNumPlayer() < Constants.MAXPLAYERS)) {
-			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-			}
+
+		while (!outOfTime && (numPlayers < ServerConstants.MAXPLAYERS)) {
+			CommonMethods.doMagic(500);
 		}
-		System.out.println("Out of the loop");
 		timer.cancel(); // in case the timer is out AND the number of players is right
-		if (outOfTime && numPlayer < Constants.MINPLAYERS) {
-			System.out.println("Sorry.The game won't start.");
-		} else {
-			startGame();
+
+		if (outOfTime && numPlayers < ServerConstants.MINPLAYERS) {
+			synchronized (gameHandler) {
+				suspendGame();
+				gameHandler.notify();
+			}
+			return;
 		}
+		startGame();
+
 	}
 
 	private void firstConnection() {
 		firstConnected = false;
-		numPlayer = 0;
-		System.out.println("Waiting for first connection");
+		System.out.println("Waiting for the first connection to start a new game.");
+	
+		gameHandler = new GameHandler();
+		ExecutorService newGame = Executors.newSingleThreadExecutor();
+		newGame.submit(gameHandler);
+		((GameEngineImpl) game).addGame(gameID, gameHandler);
 		while (!isFirstConn()) {
-			// TODO Some magic happens here (without the SLEEP instruction, nothing works).
-			try {
-				TimeUnit.MILLISECONDS.sleep(500);
-			} catch (InterruptedException e) {
-			}
+			CommonMethods.doMagic(500);
 		}
+		
 		startTimer();
-		outOfTime = false;
 	}
 
-	private void startGame() {
-		// Game game = new Game //Creation of the class Game, extending thread, maybe?
-		((GameEngineImpl) game).createMap();
-		((GameEngineImpl) game).createPlayers(numPlayer);
-		((GameEngineImpl) game).createDecks();
-		started = true;
-	}
-
+	
+	
+	
 	private void startTimer() {
 		timer = new Timer();
+		outOfTime = false;
 		timer.schedule(new MyTimer(this), 5 * 60 * 1000);
 	}
 
-	protected boolean isStarted() {
-		return started;
+	private void startGame() {
+		synchronized (gameHandler) {
+			gameHandler.setNumPlayer(numPlayers);
+			gameHandler.gameTools();
+			gameHandler.setStarted();
+			gameHandler.notify(); 
+		}
 	}
 
 	protected void firstConn() {
@@ -103,16 +114,27 @@ public class Server {
 		return firstConnected;
 	}
 
+	@Override
 	public synchronized void timeout() {
 		outOfTime = true;
 	}
 
 	protected void incrementNumPlayer() {
-		numPlayer++;
+		numPlayers++;
 	}
 
-	protected int getNumPlayer() {
-		return numPlayer; // numPlayer=playerID
+	public void suspendGame() {
+		synchronized (gameHandler) {
+			gameHandler.setSuspended();
+			gameHandler.notify();
+		}
 	}
 
+	public int getNumPlayer() {
+		return numPlayers;
+	}
+
+	public int getGameID() {
+		return gameID;
+	}
 }

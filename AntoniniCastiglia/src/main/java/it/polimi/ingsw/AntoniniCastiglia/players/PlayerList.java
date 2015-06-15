@@ -4,20 +4,19 @@ import java.util.ArrayList;
 
 /**
  * This class provides a well formed ArrayList of players.
- * 
+ *
  * @author Paolo Antonini
  *
  */
 public class PlayerList {
 
-	// private static PlayerList instance;
-
 	ArrayList<Player> players;
 
 	/**
-	 * Constructor for the class. It provides an ArrayList of length n, without
-	 * repetitions, and with a proper number of Aliens and Humans, to comply
-	 * with EFTAIOS rules.
+	 * Constructor for the class. It provides an ArrayList of length <code>n</code>, without
+	 * repetitions, and with a proper number of Aliens and Humans, to comply with EFTAIOS rules.
+	 *
+	 * @param n the number of players
 	 */
 	public PlayerList(int n) {
 
@@ -33,75 +32,56 @@ public class PlayerList {
 
 		for (int i = 0; i < n; i++) {
 
-			Player p;
+			Player p = null;
 			int j;
+			boolean assigned;
 
-			// Generate a random, not used yet, integer 0<=j<=7.
 			do {
-				j = (int) (Math.random() * 8); // Cast to int truncates it
-			} while (used[j]);
 
-			used[j] = true;
+				// Generate a random, not used yet, integer 0<=j<7.
+				do {
+					j = (int) (Math.random() * 8); // it's +8 since cast to (int) truncates it
+				} while (used[j]);
 
-			Character c = Character.values()[j]; // Gets from Character enum
+				used[j] = true;
 
-			if (c.nature == 'H') {
-				if (humanNumber > 0) {
-					p = new Human(c.name, c.role, i);
-					humanNumber--;
+				Character c = Character.values()[j]; // Gets from Character enumeration
+				assigned = false;
+				if (c.nature == 'H') {
+					if (humanNumber > 0) {
+						p = new Human(c.name, c.role);
+						humanNumber--;
+						assigned = true;
+					}
 				} else {
-					p = new Alien(c.name, c.role, i);
-					alienNumber--;
+					if (alienNumber > 0) {
+						p = new Alien(c.name, c.role);
+						alienNumber--;
+						assigned = true;
+					}
 				}
-			} else {
-				if (alienNumber > 0) {
-					p = new Alien(c.name, c.role, i);
-					alienNumber--;
-				} else {
-					p = new Human(c.name, c.role, i);
-					humanNumber--;
-				}
-			}
-
+			} while (!assigned);
 			players.add(p);
 
 		}
-
-		// TODO write test: aliens 0, humans 0
 	}
 
-	@Override
-	public String toString() {
-		String playerList = "";
-		for (int i = 0; i < players.size(); i++) {
-			playerList = playerList + players.get(i) + "\n";
-		}
-		return playerList;
-	}
-
+	/**
+	 * Returns the size of the list of players.
+	 *
+	 * @return the size of the list of players
+	 */
 	public int size() {
 		return players.size();
 	}
 
+	/**
+	 * Returns the <code>i</code>-th player of the list.
+	 *
+	 * @param i index of the desired player
+	 * @return the desired player
+	 */
 	public Player get(int i) {
 		return players.get(i);
 	}
-
-	public void add(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * Implementation of SINGLETON pattern. Receives the number of players (
-	 * <code>n</code>), returns a single instance of <code>PlayerList</code>.
-	 * 
-	 * @param n
-	 *            number of players
-	 * @return a <code>PlayerList</code> instance
-	 */
-	/*
-	 * public static PlayerList getPlayerList(int n) { if (instance == null) {
-	 * instance = new PlayerList(n); } return instance; }
-	 */
 }

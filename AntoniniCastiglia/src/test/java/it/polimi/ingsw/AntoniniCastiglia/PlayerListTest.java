@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
-import it.polimi.ingsw.AntoniniCastiglia.misc.PlayerActions;
 import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
 
 import org.junit.*;
@@ -21,15 +20,15 @@ public class PlayerListTest {
 	public void setUp() {
 		p = new PlayerList(8);
 	}
-
+	
 	@Test
-	public void testPlayerList() { //null since singleton
-		assertNotNull(p);
+	public void testSize() {
+		assertEquals(p.size(),8);
 	}
 	
 	@Test
-	public void testSize() { //null since singleton
-		assertEquals(p.size(),8);
+	public void testGet() { 
+		assertNotNull(p.get(0));
 	}
 	
 
