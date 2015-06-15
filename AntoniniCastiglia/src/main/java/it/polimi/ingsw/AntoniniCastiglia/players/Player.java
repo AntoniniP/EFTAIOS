@@ -23,7 +23,7 @@ public abstract class Player {
 	protected Sector myBase;
 	protected Sector currentSector;
 
-	String journal = "";
+	private String journal = "";
 
 	private List<Sector> path = new ArrayList<Sector>();
 	private ItemCard[] items = new ItemCard[3];
@@ -33,31 +33,85 @@ public abstract class Player {
 	protected boolean canAttack;
 
 	/**
+	 * Constructor for the class. It sets some parameters, such as the name, role and nature of the
+	 * player. It will always be called by the constructors of concrete classes Alien and Human.
+	 *
+	 * @param name the name in the game
+	 * @param role the role in the crew, as stated in the game rules
+	 * @param nature player's nature (alien/human)
+	 */
+	protected Player(String name, String role, String nature) {
+		this.name = name;
+		this.role = role;
+		this.nature = nature;
+	}
+
+	/**
+	 * Standard getter for <code>currentSector</code> variable.
+	 *
+	 * @return the current sector a player is in
+	 */
+	public Sector getCurrentSector() {
+		return currentSector;
+	}
+
+	/**
+	 * Setter for <code>currentSector</code> variable.
+	 * 
 	 * @param currentSector the currentSector to set
 	 */
 	public void setCurrentSector(Sector currentSector) {
 		this.currentSector = currentSector;
 	}
 
+	/**
+	 * Getter for the journal.
+	 * 
+	 * @return the journal
+	 */
 	public String getJournal() {
 		return journal;
 	}
 
+	/**
+	 * Updates the journal with a new string.
+	 * 
+	 * @param s the string to add
+	 */
 	public void updateJournal(String s) {
 		journal = journal.concat(s + "\n");
 	}
 
+	/**
+	 * Resets the journal to an empty one.
+	 */
 	public void resetJournal() {
 		journal = "";
 	}
 
 	/**
-	 * @param canAttack the canAttack to set
+	 * Returns whether the player can attack.
+	 * 
+	 * @return whether the player can attack
+	 */
+	public boolean getCanAttack() {
+		return canAttack;
+	}
+
+	/**
+	 * Setter for canAttack variable
+	 * 
+	 * @param canAttack
 	 */
 	public void setCanAttack(boolean canAttack) {
 		this.canAttack = canAttack;
 	}
 
+	/**
+	 * Checks whether the player can use cards.
+	 * 
+	 * @return the result of the check
+	 */
 	public boolean canUseCards() {
 		for (ItemCard card : items) {
 			if (card != null) {
@@ -67,6 +121,11 @@ public abstract class Player {
 		return false;
 	}
 
+	/**
+	 * Returns how many cards a player has.
+	 * 
+	 * @return the result of the count
+	 */
 	public int howManyCards() {
 		int toReturn = 0;
 		for (ItemCard card : items) {
@@ -78,41 +137,12 @@ public abstract class Player {
 	}
 
 	/**
-	 * Constructor for the class. It sets some parameters, such as the name, role, nature and ID of
-	 * the player. It will always be called by the constructors of concrete classes Alien and Human.
-	 *
-	 * @param name the name in the game
-	 * @param role the role in the crew, as stated in the game rules
-	 * @param nature player's nature (alien/human)
-	 * @param id integer value to identify the player
-	 */
-	protected Player(String name, String role, String nature) {
-		this.name = name;
-		this.role = role;
-		this.nature = nature;
-	}
-
-	@Override
-	public String toString() {
-		return name + "_" + role + "_" + nature + "_" + maxMoves + "_" + currentSector + "_"
-				+ canAttack;
-	}
-
-	/**
 	 * Standard getter for <code>maxMoves</code>.
 	 *
 	 * @return maxMoves the maximum number of sectors a player can reach
 	 */
 	public int getMoves() {
 		return maxMoves;
-	}
-
-	public boolean isDead() {
-		return dead;
-	}
-
-	public void setDead(boolean dead) {
-		this.dead = dead;
 	}
 
 	/**
@@ -125,21 +155,64 @@ public abstract class Player {
 	}
 
 	/**
+	 * Getter for dead variable.
+	 * 
+	 * @return whether the player is dead
+	 */
+	public boolean isDead() {
+		return dead;
+	}
+
+	/**
+	 * Setter for dead variable.
+	 * 
+	 * @param dead
+	 */
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
+
+	/**
+	 * Getter for suspended variable.
+	 * 
+	 * @return whether the player is suspended
+	 */
+	public boolean isSuspended() {
+		return suspended;
+	}
+
+	/**
+	 * Suspends the player, by setting it's suspended variable to true.
+	 */
+	public void suspend() {
+		suspended = true;
+	}
+
+	/**
+	 * Getter for active variable.
+	 * 
+	 * @return whether the player is active or not
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * Setter for active variable.
+	 * 
+	 * @param active
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
 	 * Standard getter for <code>myBase</code>.
 	 *
 	 * @return the base of the player
 	 */
 	public Sector getMyBase() {
 		return myBase;
-	}
-
-	/**
-	 * Standard getter for <code>currentSector</code> variable.
-	 *
-	 * @return the current sector a player is in
-	 */
-	public Sector getCurrentSector() {
-		return currentSector;
 	}
 
 	/**
@@ -160,12 +233,26 @@ public abstract class Player {
 		return toReturn;
 	}
 
+	/**
+	 * Removes a card from the player's carnet.
+	 * 
+	 * @param cardIndex index of the card to remove
+	 * @return the card
+	 */
 	public ItemCard removeCard(int cardIndex) {
 		ItemCard c = items[cardIndex];
 		items[cardIndex] = null;
 		return c;
 	}
 
+	/**
+	 * Switches the card received as a parameter with the one at index cardIndex. If cardIndex is 0,
+	 * then the discarded card is the one received as a parameter.
+	 * 
+	 * @param card
+	 * @param cardIndex
+	 * @return the discarded card
+	 */
 	public ItemCard switchCard(ItemCard card, int cardIndex) {
 		if (cardIndex == 0) {
 			return card;
@@ -176,8 +263,13 @@ public abstract class Player {
 		}
 	}
 
-	public boolean addItemCard(ItemCard c) { // adding item card to the player's deck; if there
-		// isn't any space left, return false to server
+	/**
+	 * Adds item card to the player's deck; if there isn't any space left, returns false to server.
+	 * 
+	 * @param c card to add
+	 * @return the result of the operation
+	 */
+	public boolean addItemCard(ItemCard c) {
 		for (int i = 0; i < items.length; i++) {
 			if (items[i] == null) {
 				items[i] = c;
@@ -187,22 +279,22 @@ public abstract class Player {
 		return false;
 	}
 
-	public void suspend() {
-		suspended = true;
+	/**
+	 * Getter for the path variable.
+	 * 
+	 * @return the path
+	 */
+	public List<Sector> getPath() {
+		return path;
 	}
 
-	public boolean isSuspended() {
-		return suspended;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
+	/**
+	 * Moves a player to a new sector, if it's valid. Returns "KO" otherwise.
+	 * 
+	 * @param t the table we are working on
+	 * @param newCurrentSector
+	 * @return the result of the operation
+	 */
 	public String move(Table t, Sector newCurrentSector) {
 		if ((t.adjacent(currentSector, maxMoves)).contains(newCurrentSector)) {
 			currentSector = newCurrentSector;
@@ -212,8 +304,14 @@ public abstract class Player {
 		return "KO";
 	}
 
+	/**
+	 * Lets the player attack the sector where he is now. If he can't attack, returns "KO".
+	 * Otherwise returns the result of the operation.
+	 * 
+	 * @param playerList
+	 * @return
+	 */
 	public String attack(PlayerList playerList) {
-
 		if (canAttack) {
 			int humanKilled = 0;
 			int alienKilled = 0;
@@ -242,15 +340,10 @@ public abstract class Player {
 		return "KO";
 	}
 
-	public boolean getCanAttack() {
-		return canAttack;
-	}
-
-	/**
-	 * @return the path
-	 */
-	public List<Sector> getPath() {
-		return path;
+	@Override
+	public String toString() {
+		return name + "_" + role + "_" + nature + "_" + maxMoves + "_" + currentSector + "_"
+				+ canAttack;
 	}
 
 }

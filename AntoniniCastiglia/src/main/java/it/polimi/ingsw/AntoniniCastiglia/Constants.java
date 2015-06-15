@@ -1,8 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
 /**
- * Public class to contain useful constants.
- * 
+ * Public class to contain some, but not all, useful constants.
+ *
  * @author Paolo Antonini
  * @author Laura Castiglia
  *
@@ -29,7 +29,7 @@ public final class Constants {
 	public static final String ANSI_CYAN_BRIGHT = "\u001b[96m";
 	public static final String ANSI_GRAY = "\u001b[37m";
 	public static final String ANSI_WHITE = "\u001b[97m";
-	
+
 	// Actions
 	public static final String MOVE = "M";
 	public static final String ATTACK = "A";

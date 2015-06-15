@@ -10,8 +10,8 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
  */
 public class Human extends Player {
 
-	private boolean shield;
-	private boolean escaped;
+	private boolean shield = false;
+	private boolean escaped = false;
 
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are given to the
@@ -29,20 +29,40 @@ public class Human extends Player {
 		canAttack = false;
 	}
 
+	/**
+	 * Getter for shield variable.
+	 * 
+	 * @return whether the player has a Defense card
+	 */
 	public boolean hasShield() {
 		return shield;
 	}
 
+	/**
+	 * Setter for shield variable.
+	 * 
+	 * @param newShield
+	 */
 	public void setShield(boolean newShield) {
 		shield = newShield;
 	}
 
-	public void setEscaped(boolean escaped) {
-		this.escaped = escaped;
-	}
-
+	/**
+	 * Getter for escaped variable.
+	 * 
+	 * @return whether the player escaped from the ship
+	 */
 	public boolean isEscaped() {
 		return escaped;
+	}
+
+	/**
+	 * Setter for escaped variable.
+	 * 
+	 * @param escaped
+	 */
+	public void setEscaped(boolean escaped) {
+		this.escaped = escaped;
 	}
 
 }

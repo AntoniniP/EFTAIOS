@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This class contains some methods that may be useful in the whole <code>client</code> package.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -21,10 +21,8 @@ public class CommonMethods {
 	}
 
 	/**
-	 * Checks whether a <code>sector</code>, chosen by the player, is a valid destination (i.e. it
-	 * is contained in the <code>adjacentSectors</code> list).
-	 * 
-	 * @param adjacentSectors string containing all the adjacent sectors
+	 * Checks whether <code>chosenSector</code> is a valid sector (i.e. a letter and two numbers).
+	 *
 	 * @param chosenSector sector chosen by the player
 	 * @return true/false
 	 */
@@ -47,7 +45,7 @@ public class CommonMethods {
 
 	/**
 	 * Simplifies the acquisition of a string.
-	 * 
+	 *
 	 * @return the acquired string
 	 */
 	public static String readLine() {
@@ -62,7 +60,13 @@ public class CommonMethods {
 		return read;
 	}
 
-	public static void doMagic(int time) {
+	/**
+	 * Magical method which allows some things to work flawlessly. Simply, it makes the thread sleep
+	 * for a while.
+	 *
+	 * @param time milliseconds to sleep
+	 */
+	public static void sleep(int time) {
 		try {
 			TimeUnit.MILLISECONDS.sleep(time);
 		} catch (InterruptedException e) {

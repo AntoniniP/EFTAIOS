@@ -1,7 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 /**
- * Abstract class for Dangerous Sector cards. A method <code>action</code> is provided.
+ * Abstract class for Dangerous Sector cards. <code>toString</code> method is overridden. Some
+ * useful getters are provided too.
  *
  * @author Laura Castiglia
  *
@@ -23,10 +24,20 @@ public abstract class DangerousSectorCard extends Card {
 		return super.toString() + "_" + yourSector + "_" + withObject;
 	}
 
+	/**
+	 * Returns whether the noise must be in the sector of the player who draws the card.
+	 * 
+	 * @return <code>yourSector</code> variable
+	 */
 	public boolean getYourSector() {
 		return yourSector;
 	}
 
+	/**
+	 * Returns whether the player must draw an Item card or not.
+	 * 
+	 * @return <code>withObject</code> variable
+	 */
 	public boolean getWithObject() {
 		return withObject;
 	}

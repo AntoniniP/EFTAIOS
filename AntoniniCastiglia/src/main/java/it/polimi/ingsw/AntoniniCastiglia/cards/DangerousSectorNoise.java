@@ -14,8 +14,8 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 	 * other sector (<code>yourSector</code> parameter), and also whether you have to draw an Item
 	 * card or not (<code>withObject</code> parameter).
 	 *
-	 * @param yourSector
-	 * @param withObject
+	 * @param yourSector states whether the noise is in your sector
+	 * @param withObject asks the player to draw an Item card
 	 */
 	public DangerousSectorNoise(boolean yourSector, boolean withObject) {
 		super();

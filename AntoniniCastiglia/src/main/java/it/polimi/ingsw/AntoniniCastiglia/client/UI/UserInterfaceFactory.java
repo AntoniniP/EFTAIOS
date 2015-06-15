@@ -10,7 +10,7 @@ package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 public class UserInterfaceFactory {
 
 	/**
-	 * Private contructor for the class.
+	 * Private constructor for the class.
 	 */
 	private UserInterfaceFactory() {
 	}
@@ -27,7 +27,8 @@ public class UserInterfaceFactory {
 		} else {
 			System.out
 					.println("Funnily enough, I'm sure I told you that the Graphical User Interface (GUI)"
-							+ " has NOT been implemented yet." + "\n"
+							+ " has NOT been implemented yet."
+							+ "\n"
 							+ " Since I love you, I'll let you play with CLI interface, instead.");
 			return new CLI();
 		}

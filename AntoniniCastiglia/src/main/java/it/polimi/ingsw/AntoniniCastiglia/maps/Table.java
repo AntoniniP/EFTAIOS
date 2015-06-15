@@ -24,7 +24,6 @@ public class Table {
 	private static final char SECURESECTOR = '4';
 	private static final char ESCAPEHATCH = '5';
 
-	// keeps a list of each type of sector, for convenience
 	private static Sector alienBase;
 	private static Sector humanBase;
 
@@ -200,7 +199,7 @@ public class Table {
 	}
 
 	/**
-	 * Adds a sector to the table (it's a method to support <code>adjacent</code> method.
+	 * Adds a sector to the table (it's a method to support <code>adjacent</code> method).
 	 *
 	 * @param y row
 	 * @param x column

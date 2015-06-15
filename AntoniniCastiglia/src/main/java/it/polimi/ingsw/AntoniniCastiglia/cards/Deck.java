@@ -78,13 +78,4 @@ public class Deck {
 		return discardedDeck.size();
 	}
 
-	@Override
-	@Deprecated
-	public String toString() {
-		String toReturn = new String("");
-		for (int i = 0; i < deck.size(); i++) {
-			toReturn = toReturn + deck.get(i) + "\n";
-		}
-		return toReturn;
-	}
 }

@@ -59,11 +59,6 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void yourTurn() {
-		System.out.println("Now it's your turn!");
-	}
-
-	@Override
 	public int selectItemCard(String[] cards) {
 		System.out.println("You can take advantage of the card(s) you own, which are:");
 		this.printItemCards(true, cards);
@@ -107,7 +102,7 @@ public class CLI implements UserInterface {
 			} else {
 				System.out.print("in a sector of your choice. ");
 			}
-			System.out.println("Soon you will be prompted to declare it. ");
+			System.out.println("\n" + "Soon you will be prompted to declare it. ");
 			if (withObject) {
 				System.out.println("You are lucky, though! You can draw an Item Card.");
 			}
@@ -207,19 +202,17 @@ public class CLI implements UserInterface {
 	}
 
 	@Override
-	public void clearScreen() {
-		for (int i = 0; i < 50; i++) {
-			System.out.println();
-		}
-	}
-
-	@Override
 	public void useResult(String useResult) {
 		try {
 			System.out.println("Here is the result:" + "\n" + useResult.split("_")[1]);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// do nothing
 		}
+	}
+
+	@Override
+	public void escapeResult(String escapeResult) {
+		System.out.println(escapeResult.split("_")[1]);
 	}
 
 }

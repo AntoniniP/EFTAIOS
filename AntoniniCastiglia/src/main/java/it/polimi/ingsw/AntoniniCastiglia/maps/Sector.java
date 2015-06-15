@@ -45,66 +45,6 @@ public abstract class Sector {
 	}
 
 	/**
-	 * @return the mustDrawDSCard
-	 */
-	public boolean getMustDrawDSCard() {
-		return mustDrawDSCard;
-	}
-
-	/**
-	 * @return the mustDrawEHCard
-	 */
-	public boolean getMustDrawEHCard() {
-		return mustDrawEHCard;
-	}
-
-	/**
-	 * @param mustDrawDSCard the mustDrawDSCard to set
-	 */
-	void setMustDrawDSCard(boolean mustDrawDSCard) {
-		this.mustDrawDSCard = mustDrawDSCard;
-	}
-
-	/**
-	 * @param mustDrawEHCard the mustDrawEHCard to set
-	 */
-	void setMustDrawEHCard(boolean mustDrawEHCard) {
-		this.mustDrawEHCard = mustDrawEHCard;
-	}
-
-	/**
-	 * Standard getter for variable x.
-	 *
-	 * @return variable x (column reference).
-	 */
-	public int getX() {
-		return x;
-	}
-
-	/**
-	 * Standard getter for variable y.
-	 *
-	 * @return variable y (row reference).
-	 */
-	public int getY() {
-		return y;
-	}
-
-	/**
-	 * @return the reachable
-	 */
-	public boolean isReachable() {
-		return reachable;
-	}
-
-	/**
-	 * @param reachable the reachable to set
-	 */
-	public void setReachable(boolean reachable) {
-		this.reachable = reachable;
-	}
-
-	/**
 	 * The method gives a proper value to letter and number strings, given the numeric coordinates
 	 * values (stored in x and y integers).
 	 */
@@ -137,6 +77,45 @@ public abstract class Sector {
 	}
 
 	/**
+	 * Getter for mustDrawDSCard.
+	 *
+	 * @return whether a player must draw a Dangerous Sector card
+	 */
+	public boolean getMustDrawDSCard() {
+		return mustDrawDSCard;
+	}
+
+	/**
+	 * Setter for mustDrawDSCard.
+	 *
+	 * @param mustDrawDSCard sets whether a player must draw a Dangerous Sector card
+	 */
+	void setMustDrawDSCard(boolean mustDrawDSCard) {
+		this.mustDrawDSCard = mustDrawDSCard;
+	}
+
+	/**
+	 * Getter for mustDrawEHCard.
+	 *
+	 * @return whether a player must draw an Escape Hatch card
+	 */
+	public boolean getMustDrawEHCard() {
+		return mustDrawEHCard;
+	}
+
+	/**
+	 * Setter for mustDrawEHCard.
+	 *
+	 * @param mustDrawEHCard sets whether a player must draw an Escape Hatch card
+	 */
+	void setMustDrawEHCard(boolean mustDrawEHCard) {
+		this.mustDrawEHCard = mustDrawEHCard;
+	}
+
+	/**
+	 *
+	 * Getter for type variable.
+	 *
 	 * @return the type
 	 */
 	public String getType() {
@@ -144,10 +123,48 @@ public abstract class Sector {
 	}
 
 	/**
+	 * Setter for type variable.
+	 *
 	 * @param type the type to set
 	 */
 	void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * Getter for reachable boolean.
+	 *
+	 * @return the reachable
+	 */
+	public boolean isReachable() {
+		return reachable;
+	}
+
+	/**
+	 * Setter for reachable boolean.
+	 *
+	 * @param reachable the reachable to set
+	 */
+	public void setReachable(boolean reachable) {
+		this.reachable = reachable;
+	}
+
+	/**
+	 * Standard getter for variable x.
+	 *
+	 * @return variable x (column reference).
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Standard getter for variable y.
+	 *
+	 * @return variable y (row reference).
+	 */
+	public int getY() {
+		return y;
 	}
 
 	@Override

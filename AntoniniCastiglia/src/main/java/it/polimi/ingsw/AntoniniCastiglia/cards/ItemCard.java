@@ -18,6 +18,12 @@ public abstract class ItemCard extends Card {
 		type = CardsConstants.ITEM_CARD;
 	}
 
+	/**
+	 * Performs the action of the card.
+	 * 
+	 * @param gh a reference to the Game Handler, where the proper methods are written and executed
+	 * @return the result of the action
+	 */
 	public abstract String action(GameHandler gh);
 
 }

@@ -11,27 +11,7 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
  */
 public class EscapeHatch extends Sector {
 
-	private boolean useable = true;
-
-	
-	/**
-	 * @return the useable
-	 */
-	public boolean isUseable() {
-		return useable;
-	}
-
-
-
-	
-	/**
-	 * @param useable the useable to set
-	 */
-	public void setUseable(boolean useable) {
-		this.useable = useable;
-	}
-
-
+	private boolean usable = true;
 
 	/**
 	 * Standard constructor.
@@ -49,8 +29,6 @@ public class EscapeHatch extends Sector {
 
 	}
 
-	
-	
 	/**
 	 * Alternative constructor.
 	 *
@@ -64,6 +42,24 @@ public class EscapeHatch extends Sector {
 		this.setMustDrawEHCard(true);
 		this.setType(MapConstants.ESCAPEHATCH);
 
+	}
+
+	/**
+	 * Getter for the usable variable.
+	 *
+	 * @return whether the escape hatch is usable
+	 */
+	public boolean isUsable() {
+		return usable;
+	}
+
+	/**
+	 * Setter for the usable variable.
+	 *
+	 * @param usable sets wether the escape hatch is usable or not
+	 */
+	public void setUsable(boolean usable) {
+		this.usable = usable;
 	}
 
 	@Override

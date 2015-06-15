@@ -482,21 +482,21 @@ public class GameHandler implements Runnable, TimerInterface {
 		if (s instanceof EscapeHatch && this.mustDrawEHCard) {
 			ehc = (EscapeHatchCard) escapeHatchDeck.drawCard();
 			if (!ehc.isUseable()) {
-				((EscapeHatch) s).setUseable(false);
+				((EscapeHatch) s).setUsable(false);
 			}
 			String useable = "";
-			if (!((EscapeHatch) s).isUseable()){
+			if (!((EscapeHatch) s).isUsable()){
 				useable = "NOT ";
 			}
 			this.updateAllJournals("Player " + playerID + " reaches escape hatch in "
 					+ p.getCurrentSector() + ". It's " + useable + "useable!");
 			
-			if (((EscapeHatch) s).isUseable()) {
+			if (((EscapeHatch) s).isUsable()) {
 				((Human) p).setEscaped(true);
-				((EscapeHatch) s).setUseable(false);
+				((EscapeHatch) s).setUsable(false);
 				return "OK" + "_" + "You escaped! You win!";
 			} else {
-				((EscapeHatch) s).setUseable(false);
+				((EscapeHatch) s).setUsable(false);
 				return "KO" + "_" + "The escape hatch is not useable! You must find another one.";
 			}
 		}

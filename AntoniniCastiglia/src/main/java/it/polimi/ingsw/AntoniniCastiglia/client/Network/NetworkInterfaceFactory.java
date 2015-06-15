@@ -9,7 +9,7 @@ package it.polimi.ingsw.AntoniniCastiglia.client.Network;
 public class NetworkInterfaceFactory {
 
 	/**
-	 * Private contructor for the class.
+	 * Private constructor for the class.
 	 */
 	private NetworkInterfaceFactory() {
 
