@@ -60,12 +60,12 @@ public class RMIInterface implements NetworkInterface {
 
 	@Override
 	public String getCards(int playerID, int gameID) throws RemoteException {
-		return remoteEFTAIOS.getCards(playerID, gameID);
+		return remoteEFTAIOS.getPlayerCards(playerID, gameID);
 	}
 
 	@Override
-	public void useCard(int playerID, int gameID, int posCard) throws RemoteException {
-		remoteEFTAIOS.useCard(playerID, gameID, posCard);
+	public String useCard(int playerID, int gameID, int posCard) throws RemoteException {
+		return remoteEFTAIOS.useCard(playerID, gameID, posCard);
 	}
 
 	@Override
@@ -119,12 +119,6 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String possibleActions(int playerID, int gameID) throws RemoteException {
 		return remoteEFTAIOS.possibleActions(playerID, gameID);
 	}
@@ -143,10 +137,15 @@ public class RMIInterface implements NetworkInterface {
 	public String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException {
 		return remoteEFTAIOS.handleItemCard(playerID, gameID, cardIndex);
 	}
-	
+
 	@Override
-	public String getJournal (int playerID, int gameID) throws RemoteException {
+	public String getJournal(int playerID, int gameID) throws RemoteException {
 		return remoteEFTAIOS.getJournal(playerID, gameID);
+	}
+
+	@Override
+	public String escape(int playerID, int gameID) throws RemoteException {
+		return remoteEFTAIOS.escape(playerID, gameID);
 	}
 
 }

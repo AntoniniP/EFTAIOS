@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class provides a well formed ArrayList of players.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -15,7 +15,7 @@ public class PlayerList {
 	/**
 	 * Constructor for the class. It provides an ArrayList of length <code>n</code>, without
 	 * repetitions, and with a proper number of Aliens and Humans, to comply with EFTAIOS rules.
-	 * 
+	 *
 	 * @param n the number of players
 	 */
 	public PlayerList(int n) {
@@ -68,7 +68,7 @@ public class PlayerList {
 
 	/**
 	 * Returns the size of the list of players.
-	 * 
+	 *
 	 * @return the size of the list of players
 	 */
 	public int size() {
@@ -77,39 +77,11 @@ public class PlayerList {
 
 	/**
 	 * Returns the <code>i</code>-th player of the list.
-	 * 
+	 *
 	 * @param i index of the desired player
 	 * @return the desired player
 	 */
 	public Player get(int i) {
 		return players.get(i);
-	}
-	
-	
-	
-	
-	//Main to test
-	@Deprecated
-	public static void main (String[] args){
-		for (int i =0; i<10000000; i++){
-			int dim = (int) (Math.random() * 8);
-			PlayerList pl = new PlayerList(dim);
-			int numHum=0;
-			int numAl=0;
-			for (int j=0; j<pl.size(); j++){
-				if (pl.get(j) instanceof Human){
-					numHum++;
-				} else if (pl.get(j) instanceof Alien){
-					numAl++;
-				}
-			}
-			if (!((numHum==numAl) || (numHum+1==numAl) || (numHum+numAl==dim))){
-				System.out.println("ERROR! " + numHum +" "+ numAl+ " "+dim);
-			}
-			
-			
-		}
-		System.out.println("Done!");
-
 	}
 }

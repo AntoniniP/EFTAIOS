@@ -5,7 +5,7 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
 /**
  * HUMAN SECTOR: This is the starting Sector for all Human players. After the game begins, no player
  * can move through or end his move in this Sector.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -13,7 +13,7 @@ public class HumanBase extends Sector {
 
 	/**
 	 * Standard constructor.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @see Sector#Sector(String coord)
@@ -29,7 +29,7 @@ public class HumanBase extends Sector {
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * @param name
 	 * @see Sector#Sector(String coord)
 	 */
@@ -44,7 +44,8 @@ public class HumanBase extends Sector {
 
 	@Override
 	public String toString() {
-		return "[" +Constants.ANSI_BOLD + Constants.ANSI_RED_BRIGHT + " H " + Constants.ANSI_RESET+"]";
+		return "[" + Constants.ANSI_BOLD + Constants.ANSI_RED_BRIGHT + " H " + Constants.ANSI_RESET
+				+ "]";
 	}
 
 }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 
 /**
  * Every instance of this class is a Human player, with all parameters set.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -12,11 +12,11 @@ public class Human extends Player {
 
 	private boolean shield;
 	private boolean escaped;
-	
+
 	/**
 	 * Constructor for Human player. Sets all fundamental parameters. Some are given to the
 	 * constructor of the superclass, some are set here.
-	 * 
+	 *
 	 * @param name the name in the game
 	 * @param role the role in the crew, as stated in the game rules
 	 * @param c character to identify the player's nature (alien/human)
@@ -26,21 +26,23 @@ public class Human extends Player {
 		maxMoves = 1;
 		myBase = Table.getHumanBase();
 		currentSector = myBase;
-		canAttack=false;
+		canAttack = false;
 	}
-	
-	public boolean hasShield(){
+
+	public boolean hasShield() {
 		return shield;
 	}
-	
-	public void setShield(boolean newShield){
-		this.shield=newShield;
+
+	public void setShield(boolean newShield) {
+		shield = newShield;
 	}
-	public void setEscaped(boolean escaped){
+
+	public void setEscaped(boolean escaped) {
 		this.escaped = escaped;
 	}
-	public boolean isEscaped(){
+
+	public boolean isEscaped() {
 		return escaped;
 	}
-		
+
 }

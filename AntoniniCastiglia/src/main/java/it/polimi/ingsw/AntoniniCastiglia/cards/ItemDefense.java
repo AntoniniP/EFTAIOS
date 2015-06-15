@@ -1,12 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * DEFENSE: Play this card immediately when an Alien attacks you. You are not affected by the
  * attack.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -22,8 +21,8 @@ public class ItemDefense extends ItemCard {
 	}
 
 	@Override
-	public void action(GameHandler gh) {
-		gh.itemDefenseAction();
+	public String action(GameHandler gh) {
+		return gh.itemDefenseAction();
 	}
 
 }

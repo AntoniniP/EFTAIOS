@@ -1,11 +1,9 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
-import java.rmi.RemoteException;
-
 /**
  * This interface provides a list of methods, useful for the factory method pattern implementation
  * of <code>UserInterface</code>.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -13,6 +11,7 @@ public interface UserInterface {
 
 	/**
 	 * Prints a simple message.
+	 *
 	 * @param gameID TODO
 	 * @param playerID TODO
 	 */
@@ -20,21 +19,21 @@ public interface UserInterface {
 
 	/**
 	 * Lets the player know which are his name and nature (Human/Alien)
-	 * 
+	 *
 	 * @param name
 	 */
 	void whoYouAreComplete(String[] player);
 
 	/**
 	 * Shows the map, received as a string.
-	 * 
+	 *
 	 * @param map
 	 */
 	void printMap(String map);
 
 	/**
 	 * Prints the cards passed as a parameter (they can be 0, 1, n, or in form of a string array.
-	 * 
+	 *
 	 * @param canUseCards TODO
 	 * @param card
 	 */
@@ -46,8 +45,6 @@ public interface UserInterface {
 	void yourTurn();
 
 	int selectItemCard(String[] cards);
-
-	//String wantToAttack(String nature);
 
 	void drawDangerousSectorCard(String drawnCard);
 
@@ -64,6 +61,8 @@ public interface UserInterface {
 	int handleItemCard(String itemCard, String... cards);
 
 	void clearScreen();
-	
-	void printJournal (String journal);
+
+	void printJournal(String journal);
+
+	void useResult(String useResult);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This class provides all necessary variables and methods to handle a generic deck. An instance of
  * the class has both a "main" deck, and also a deck where to store discarded cards, if any.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -29,13 +29,13 @@ public class Deck {
 	 */
 	private void reshuffleDeck() {
 		deck.addAll(discardedDeck);
-		shuffleDeck();
+		this.shuffleDeck();
 		discardedDeck = new ArrayList<Card>();
 	}
 
 	/**
 	 * Draws a card from the deck and returns it, after removing it from the deck itself.
-	 * 
+	 *
 	 * @return the drawn card
 	 */
 	public Card drawCard() {
@@ -43,7 +43,7 @@ public class Deck {
 			if (discardedDeck.isEmpty()) {
 				return null; // Client will need to deal with "null"
 			} else {
-				reshuffleDeck();
+				this.reshuffleDeck();
 			}
 		}
 		Card drawnCard = deck.get(deck.size() - 1);
@@ -53,7 +53,7 @@ public class Deck {
 
 	/**
 	 * Discards a card, received as a parameter, by adding it to the discarded cards deck.
-	 * 
+	 *
 	 * @param c the card to discard
 	 */
 	public void discardCard(Card c) {
@@ -62,7 +62,7 @@ public class Deck {
 
 	/**
 	 * Returns the size of the main deck.
-	 * 
+	 *
 	 * @return the size of the main deck
 	 */
 	public int deckSize() {
@@ -71,7 +71,7 @@ public class Deck {
 
 	/**
 	 * Returns the size of the discarded cards deck.
-	 * 
+	 *
 	 * @return the size of the discarded cards deck
 	 */
 	public int discardedDeckSize() {

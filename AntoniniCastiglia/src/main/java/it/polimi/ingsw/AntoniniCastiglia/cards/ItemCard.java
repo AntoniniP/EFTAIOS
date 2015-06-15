@@ -5,7 +5,7 @@ import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 /**
  * Abstract class to define an Item card. It provides a method to perform the actions expected from
  * the card.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -18,6 +18,6 @@ public abstract class ItemCard extends Card {
 		type = CardsConstants.ITEM_CARD;
 	}
 
-	public abstract void action(GameHandler gh);
+	public abstract String action(GameHandler gh);
 
 }

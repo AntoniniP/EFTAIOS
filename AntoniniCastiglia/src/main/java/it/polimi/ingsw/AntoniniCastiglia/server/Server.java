@@ -81,21 +81,6 @@ public class Server implements TimerInterface {
 		ExecutorService newGame = Executors.newSingleThreadExecutor();
 		newGame.submit(gameHandler);
 		((GameEngineImpl) game).addGame(gameID, gameHandler);
-		
-		
-		
-		
-		/*TODO***************************ANDREA GUARDA QUI******************************TODO*/
-		/* devo aggiungere il gameHandler alla lista molto presto, per evitare NullPointerException.
-		 * facendo così, quando sincronizzo in  startGame(), sto sincronizzando sul
-		 * gameHandler corretto, già aggiunto alla lista. 
-		 * ma non sono per niente sicuro che vada bene.
-		 */
-		//gameHandler=GameEngineImpl.getGameHandler(gameID);
-		/************************************************************************************/
-
-
-		
 		while (!isFirstConn()) {
 			CommonMethods.doMagic(500);
 		}

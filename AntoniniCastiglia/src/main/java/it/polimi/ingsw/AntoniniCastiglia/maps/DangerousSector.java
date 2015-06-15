@@ -5,7 +5,7 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
 /**
  * DANGEROUS SECTOR: If you end your move in a Dangerous Sector, you must draw a Dangerous Sector
  * Card and follow its instructions. Then your turn is over.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -13,7 +13,7 @@ public class DangerousSector extends Sector {
 
 	/**
 	 * Standard constructor.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @see Sector#Sector(String coord)
@@ -29,7 +29,7 @@ public class DangerousSector extends Sector {
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * @param name
 	 * @see Sector#Sector(String coord)
 	 */
@@ -41,10 +41,10 @@ public class DangerousSector extends Sector {
 		this.setType(MapConstants.DANGEROUS);
 
 	}
-	
+
 	@Override
-	public String toString(){
-		return "["+Constants.ANSI_DARK_GREY+ super.toString() + Constants.ANSI_RESET+"]";
+	public String toString() {
+		return "[" + Constants.ANSI_DARK_GREY + super.toString() + Constants.ANSI_RESET + "]";
 	}
 
 }

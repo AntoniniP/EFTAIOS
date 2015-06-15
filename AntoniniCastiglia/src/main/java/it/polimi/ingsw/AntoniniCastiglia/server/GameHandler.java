@@ -14,6 +14,7 @@ import it.polimi.ingsw.AntoniniCastiglia.cards.EscapeHatchDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCardDeck;
 import it.polimi.ingsw.AntoniniCastiglia.cards.ItemSpotlight;
+import it.polimi.ingsw.AntoniniCastiglia.maps.EscapeHatch;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
@@ -63,14 +64,16 @@ public class GameHandler implements Runnable, TimerInterface {
 	@Override
 	public void run() {
 		while (!started && !suspended) {
+			/*
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			*/
+			CommonMethods.doMagic(50);
 		}
 		if (started) {
-			// playerTurn=(int)(Math.random()*(numPlayers+1));
 			playerTurn = 0;
 			rounds = 0;
 			turn();
@@ -82,7 +85,7 @@ public class GameHandler implements Runnable, TimerInterface {
 		endGame();
 	}
 
-	public void gameTools() { // receives all the data about players, cards, map, etc!
+	 void gameTools() { // receives all the data about players, cards, map, etc!
 		createMap(); // THE MAP MUST BE CREATED *BEFORE* THE PLAYERS!
 		createPlayers(numPlayers);
 		createDecks();
@@ -90,15 +93,19 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	}
 
-	public void turn() {
+	private void turn() {
 		while (rounds <= ServerConstants.ROUNDS && !ended) {
 			timer.schedule(new MyTimer(this), 2 * 60 * 1000);
 			while (playerList.get(playerTurn).isActive()) {
+				/*
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				*/
+				CommonMethods.doMagic(50);
+
 			}
 
 			win();// check if someone has won
@@ -107,19 +114,24 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	}
 
-	public String getPlayerCards(int playerID) {
+	 String getPlayerCards(int playerID) {
 		this.playerID = playerID;
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		return p.getPlayerCards();
 
 	}
 
-	public boolean isMyTurn(int playerID) {
+	boolean isMyTurn(int playerID) {
 		this.playerID = playerID;
-		return playerID == playerTurn;
+		Player p = CommonMethods.toPlayer(playerID, playerList);
+		boolean flag = true;
+		if (p instanceof Human) {
+			flag = !((Human) p).isEscaped();
+		}
+		return playerID == playerTurn && !p.isDead() && !p.isSuspended() && flag ;
 	}
 
-	public String endGame() { // client will receive the output according to the ending way
+	private String endGame() { // client will receive the output according to the ending way
 		String s;
 		win();
 		if (aliensWin)
@@ -133,35 +145,57 @@ public class GameHandler implements Runnable, TimerInterface {
 		return s;
 	}
 
-	public void win() { // method to check if someone has won the game
+	private void win() { // method to check if someone has won the game
 		Player p = CommonMethods.toPlayer(playerTurn, playerList);
-
+		checkActivePlayers();
 		if (!oneHuman || (rounds == ServerConstants.ROUNDS - 1 && oneHuman)) {
 			aliensWin = true; // case 1:Aliens win
 			ended = true;
+			
+			
+			System.out.println("Ended since no humans are left");
+
+			
+			
+			
 		}
 
 		if (p instanceof Human) { // case 2: every human escaped is a winner!
 			if (((Human) p).isEscaped()) {
 				humanWins = true;
 				p.suspend(); // the player end its game
-				escapedNotify();
 				if (rounds == ServerConstants.ROUNDS - 1) {
 					// if a Human escapes, he's a winner, but the game is still on
 					ended = true;
+					
+					
+					
+					System.out.println("Ended since boh 1");
+
+					
+					
+					
+					
 				}
 			}
 		}
 		if (rounds == ServerConstants.ROUNDS - 1) {
 			ended = true;
+			
+			
+			
+			
+			System.out.println("Ended since boh 2");
+
+			
+			
+			
+			
+			
 		}
 	}
 
-	public void escapedNotify() { // live notification of winning by escape
-		String s = "player" + playerList.get(playerTurn) + "has escaped: he wins!";
-		winningH.add(s);
-		System.out.println(s);
-	}
+	
 
 	private void resetTurn() {
 		mustMove = true;
@@ -177,8 +211,7 @@ public class GameHandler implements Runnable, TimerInterface {
 		dsc = null;
 		ic = null;
 		ehc = null;
-		resetItemAdrenaline();
-		resetItemAttack();
+		
 	}
 
 	public synchronized void switchTurn() {
@@ -188,11 +221,26 @@ public class GameHandler implements Runnable, TimerInterface {
 		
 
 		if (!checkActivePlayers()) {
+			
+			
+			
+			
+			
+			System.out.println("Ended since no active players are left");
+			
+			
+			
+			
+			
+			
+			
 			ended = true;
 			return;
 		}
-		playerList.get(playerTurn).setActive(false);
+		resetItemAdrenaline();
+		resetItemAttack();
 		CommonMethods.toPlayer(playerTurn, playerList).resetJournal();
+		playerList.get(playerTurn).setActive(false);
 		playerTurn++;
 		if (playerTurn > numPlayers - 1) {
 			playerTurn = 0;
@@ -207,24 +255,17 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	// check if the game is still valid, according to the number of players still in
 	private boolean checkActivePlayers() {
+		oneAlien=false;
+		oneHuman=false;
 		for (int i = 0; i < playerList.size(); i++) {
 			if (!playerList.get(i).isSuspended()) {
 				if (playerList.get(i) instanceof Alien)
 					oneAlien = true;
 				else
-					oneHuman = humanLeft();
+					oneHuman = true;
 			}
 		}
 		return oneAlien && oneHuman;
-	}
-
-	private boolean humanLeft() { // checks if there are human left
-		for (int i = 0; i < playerList.size() && !oneHuman; i++) {
-			if (!playerList.get(i).isSuspended())
-				if (playerList.get(i) instanceof Human)
-					oneHuman = true;
-		}
-		return oneHuman;
 	}
 
 	public PlayerList getPlayerList() {
@@ -357,9 +398,6 @@ public class GameHandler implements Runnable, TimerInterface {
 		if (playerList.get(playerID).canUseCards()) {
 			toReturn = toReturn.concat(Constants.USE_CARDS + "_");
 		}
-
-		/************************************************************************/
-
 		if (mustDrawEHCard) {
 			toReturn = toReturn.concat(Constants.DRAW_EH_CARD + "_");
 		}
@@ -405,7 +443,7 @@ public class GameHandler implements Runnable, TimerInterface {
 			if (p.howManyCards() < 3) {
 				p.addItemCard(ic);
 				hasHandledICard = true;
-				this.updateAllJournals("Player "+playerID+ " draws an item card.");
+				this.updateAllJournals("Player "+playerID+ " draws an Item card.");
 
 				return "OK" + "_" + ic.toString();
 			} else {
@@ -434,13 +472,40 @@ public class GameHandler implements Runnable, TimerInterface {
 		return "KO";
 	}
 
-	public String getEscapeHatchCard(int playerID) {
+	
+	
+	
+	public String escape(int playerID) {
 		this.playerID = playerID;
-		this.updateAllJournals("Player "+playerID+ " draws: Escape Hatch card.");
+		Player p = CommonMethods.toPlayer(playerID, playerList);
+		Sector s =  p.getCurrentSector();
+		if (s instanceof EscapeHatch && this.mustDrawEHCard) {
+			ehc = (EscapeHatchCard) escapeHatchDeck.drawCard();
+			if (!ehc.isUseable()) {
+				((EscapeHatch) s).setUseable(false);
+			}
+			String useable = "";
+			if (!((EscapeHatch) s).isUseable()){
+				useable = "NOT ";
+			}
+			this.updateAllJournals("Player " + playerID + " reaches escape hatch in "
+					+ p.getCurrentSector() + ". It's " + useable + "useable!");
+			
+			if (((EscapeHatch) s).isUseable()) {
+				((Human) p).setEscaped(true);
+				((EscapeHatch) s).setUseable(false);
+				return "OK" + "_" + "You escaped! You win!";
+			} else {
+				((EscapeHatch) s).setUseable(false);
+				return "KO" + "_" + "The escape hatch is not useable! You must find another one.";
+			}
+		}
+		return "KO";
 
-		// TODO Auto-generated method stub
-		return null;
 	}
+	
+	
+	
 
 	public String declareNoise(int playerID, String sector) {
 		this.playerID = playerID;
@@ -456,10 +521,10 @@ public class GameHandler implements Runnable, TimerInterface {
 					} else {
 						return "KO";
 					}
-					this.updateAllJournals("Player "+playerID+ " declares: \"Noise in sector "+s+"\".");
 				} else {
 					toReturn = "OK"; // Noise in any sector
 				}
+				this.updateAllJournals("Player "+playerID+ " declares: \"Noise in sector "+s+"\".");
 			} else {
 				toReturn = "OK"; // Silence in any sector
 				this.updateAllJournals("Player "+playerID+ " declares: \"Silence in all sectors\".");
@@ -492,12 +557,14 @@ public class GameHandler implements Runnable, TimerInterface {
 
 	}
 
-	public void itemAdrenalineAction() {
+	public String itemAdrenalineAction() {
 		this.updateAllJournals("Player "+playerID+ " uses: Adrenaline card.");
 
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		p.setMoves(2);
 		this.usedAdrenalineCard = true;
+		
+		return "OK";
 	}
 
 	private void resetItemAdrenaline() {
@@ -507,11 +574,12 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 	}
 
-	public void itemAttackAction() {
+	public String itemAttackAction() {
 		this.updateAllJournals("Player "+playerID+ " uses: Attack card.");
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		p.setCanAttack(true);
 		this.usedAttackCard = true;
+		return "OK";
 	}
 
 	private void resetItemAttack() {
@@ -521,36 +589,45 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 	}
 
-	public void itemDefenseAction() {
+	public String itemDefenseAction() {
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		((Human) p).setShield(true);
+		return "OK";
+
 	}
 
-	public void itemSedativesAction() {
+	public String itemSedativesAction() {
 		this.updateAllJournals("Player "+playerID+ " uses: Sedatives card.");
 		this.hasDrawnDSCard = true;
+		return "OK";
+
 	}
 
-	public void itemSpotlightAction() {
+	public String itemSpotlightAction() {
 		this.updateAllJournals("Player "+playerID+ " uses: Spotlight card.");
 
 		// TODO not so easy!
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		List<Sector> adjacentSector = table.adjacent(p.getCurrentSector(), 1);
+		String toReturn="";
 		for (int i = 0; i < playerList.size(); i++) {
 			Player p1 = playerList.get(i);
 			Sector s1 = p1.getCurrentSector();
 			if ((s1).equals(p.getCurrentSector()) || adjacentSector.contains(s1)) {
-				this.updateAllJournals("Player "+playerID+ " declares: \"I'm in sector "+s1+"\".");
+				String s = "Player "+playerID+ " declares: \"I'm in sector "+s1+"\".";
+				this.updateAllJournals(s);
+				toReturn=toReturn.concat(s);
 			}
 		}
+		return "OK" + "_" + toReturn;
+
 	}
 
-	public void itemTeleportAction() {
+	public String itemTeleportAction() {
 		this.updateAllJournals("Player "+playerID+ " uses: Teleport card.");
 		Player p = CommonMethods.toPlayer(playerID, playerList);
 		p.setCurrentSector(p.getMyBase());
-
+		return "OK";
 	}
 
 	public String useCard(int playerID, int posCard) {
@@ -559,8 +636,7 @@ public class GameHandler implements Runnable, TimerInterface {
 		ItemCard c = p.removeCard(posCard-1);
 		
 		itemCardDeck.discardCard(c);
-		c.action(this);
-		return null;
+		return c.action(this);
 
 	}
 
@@ -568,4 +644,11 @@ public class GameHandler implements Runnable, TimerInterface {
 		this.playerID=playerID;
 		return  CommonMethods.toPlayer(playerID, playerList).getJournal();
 	}
+	
+	
+	
+	
+	
+	
+	
 }

@@ -52,9 +52,9 @@ public class CLI implements UserInterface {
 			System.out.println("You don't have any Item card right now. I feel it.");
 		}
 	}
-	
+
 	@Override
-	public void printJournal(String journal){
+	public void printJournal(String journal) {
 		System.out.println(journal);
 	}
 
@@ -125,7 +125,7 @@ public class CLI implements UserInterface {
 		String chosenAction = null;
 		do {
 
-			System.out.println("Now choose your next action: " + possibleActions);
+			System.out.println("Now choose your next action: ");
 
 			if (possibleActions.contains(Constants.MOVE)) {
 				System.out.println(Constants.MOVE + " - Move to a new sector");
@@ -138,6 +138,9 @@ public class CLI implements UserInterface {
 			}
 			if (possibleActions.contains(Constants.DRAW_DS_CARD)) {
 				System.out.println(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
+			}
+			if (possibleActions.contains(Constants.DRAW_EH_CARD)) {
+				System.out.println(Constants.DRAW_EH_CARD + " - Escape from this wrecked ship");
 			}
 			if (possibleActions.contains(Constants.QUIT)) {
 				System.out.println(Constants.QUIT + " - End your turn");
@@ -154,13 +157,13 @@ public class CLI implements UserInterface {
 			System.out.println("It appears that you can't attack "
 					+ "(and you can certainly call for a bug if you see this message).");
 		} else {
-			
+
 			String[] args = attackResult.split("_");
 			int humanKilled = Integer.parseInt(args[1]);
 			int alienKilled = Integer.parseInt(args[2]);
 			System.out.println("You attacked your sector and you killed " + humanKilled
-					+ " humans and " + alienKilled + "aliens. Good for you!");
-			
+					+ " humans and " + alienKilled + " aliens. Good for you!");
+
 		}
 	}
 
@@ -168,9 +171,8 @@ public class CLI implements UserInterface {
 	public String declareNoise(boolean noise, boolean yourSector, String currentSector) {
 		if (noise) {
 			if (yourSector) {
-				System.out
-						.println("You must declare a noise in your sector. Hit RETURN to confirm: "
-								+ currentSector);
+				System.out.println("You must declare a noise in your sector. "
+						+ "Hit RETURN to confirm: " + currentSector);
 				CommonMethods.readLine();
 				return currentSector;
 			}
@@ -190,24 +192,33 @@ public class CLI implements UserInterface {
 
 	@Override
 	public int handleItemCard(String itemCard, String... cards) {
-		System.out.println("You're too lucky, bro! You can have only three Item cards. " + "\n" +
-				"Please, choose which one you want to discard.");
+		System.out.println("You're too lucky, bro! You can have only three Item cards. " + "\n"
+				+ "Please, choose which one you want to discard.");
 		this.printItemCards(true, cards);
 		int cardIndex;
-		
-			String choice = CommonMethods.readLine();
-			try {
-				cardIndex = Integer.parseInt(choice);
-			} catch (NumberFormatException e) {
-				cardIndex = -1;
-			}
+
+		String choice = CommonMethods.readLine();
+		try {
+			cardIndex = Integer.parseInt(choice);
+		} catch (NumberFormatException e) {
+			cardIndex = -1;
+		}
 		return cardIndex;
 	}
 
 	@Override
 	public void clearScreen() {
-		for (int i =0; i<50; i++){
+		for (int i = 0; i < 50; i++) {
 			System.out.println();
+		}
+	}
+
+	@Override
+	public void useResult(String useResult) {
+		try {
+			System.out.println("Here is the result:" + "\n" + useResult.split("_")[1]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// do nothing
 		}
 	}
 

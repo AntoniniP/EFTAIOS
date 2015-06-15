@@ -3,7 +3,7 @@ package it.polimi.ingsw.AntoniniCastiglia.players;
 /**
  * This enumeration contains all characters of the game. Every character has a name, a role and a
  * nature (human/alien).
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -23,7 +23,7 @@ public enum Character {
 
 	/**
 	 * Basic constructor for the enumeration.
-	 * 
+	 *
 	 * @param name the name in the game
 	 * @param role the role in the crew, as stated in the game rules
 	 * @param c character to identify the player's nature (alien/human)
@@ -31,7 +31,7 @@ public enum Character {
 	Character(String name, String role, char c) {
 		this.name = name;
 		this.role = role;
-		this.nature = c;
+		nature = c;
 	}
 
 }

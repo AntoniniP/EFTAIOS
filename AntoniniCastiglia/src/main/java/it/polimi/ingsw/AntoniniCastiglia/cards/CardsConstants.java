@@ -11,13 +11,13 @@ public final class CardsConstants {
 	// Dangerous Sector cards
 	public static final String DANGEROUS_SECTOR_CARD = "Dangerous Sector";
 	public static final String NOISE = "Noise";
-	static final int NUM_NOISE_YOURSECTOR_WITHOBJECT = 4;
+	static final int NUM_NOISE_YOURSECTOR_WITHOBJECT = 50; //4;
 	static final int NUM_NOISE_YOURSECTOR_WITHOUTOBJECT = 6;
-	static final int NUM_NOISE_ANYSECTOR_WITHOBJECT = 4;
+	static final int NUM_NOISE_ANYSECTOR_WITHOBJECT = 50; //4;
 	static final int NUM_NOISE_ANYSECTOR_WITHOUTOBJECT = 6;
 	public static final String SILENCE = "Silence";
 	static final int NUM_SILENCE = 5;
-	
+
 	// Item cards
 	public static final String ITEM_CARD = "Item";
 	public static final String ATTACK = "Attack";

@@ -120,6 +120,7 @@ public class Client {
 			} else {
 				if (ni.isDead(playerID, gameID)) {
 					System.out.println("You are now dead!");
+					ni.endTurn(playerID, gameID);
 				} else {
 					System.out.println("The game is ended!");
 				}
@@ -155,6 +156,11 @@ public class Client {
 				
 				case Constants.USE_CARDS: { // ITEM CARDS
 					this.clientUseCards();
+					break;
+				}
+				
+				case Constants.DRAW_EH_CARD: {
+					this.escape();
 					break;
 				}
 				
@@ -227,13 +233,18 @@ public class Client {
 	
 	
 	
-	@Deprecated
 	private void clientUseCards() throws RemoteException {
 		cards = ni.getCards(playerID, gameID).split(";");
 		int cardToUse = ui.selectItemCard(cards);
-		if (!("noCard".equals(cardToUse))) {
-			// ni.useCard(cardToUse, playerID);
-		}
+		String useResult="";
+		do{
+			if (cardToUse!=0) {
+				useResult = ni.useCard( playerID,  gameID,  cardToUse);
+			}
+		} while ("KO".equals(useResult));
+		
+		ui.useResult(useResult);
+		
 	}
 	
 	
@@ -243,8 +254,18 @@ public class Client {
 	
 	
 	
-	
-	
+	@Deprecated
+	private void escape() throws RemoteException{
+		
+		
+		
+		
+		String escapeResult = ni.escape(playerID, gameID);
+		
+		
+		
+		
+	}
 	
 	
 	

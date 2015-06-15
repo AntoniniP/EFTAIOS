@@ -4,7 +4,7 @@ import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * ADRENALINE: This card allows you to move two Sectors this turn.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -20,8 +20,8 @@ public class ItemAdrenaline extends ItemCard {
 	}
 
 	@Override
-	public void action(GameHandler gh) {
-		gh.itemAdrenalineAction();
+	public String action(GameHandler gh) {
+		return gh.itemAdrenalineAction();
 	}
 
 }

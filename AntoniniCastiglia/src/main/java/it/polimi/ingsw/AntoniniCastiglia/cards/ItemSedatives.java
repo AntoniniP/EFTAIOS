@@ -1,12 +1,11 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
 import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * SEDATIVES: If you play this card you do not draw a Dangerous Sector Card this turn, even if you
  * move into a Dangerous Sector.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -22,8 +21,8 @@ public class ItemSedatives extends ItemCard {
 	}
 
 	@Override
-	public void action(GameHandler gh) {
-		gh.itemSedativesAction();
+	public String action(GameHandler gh) {
+		return gh.itemSedativesAction();
 	}
 
 }

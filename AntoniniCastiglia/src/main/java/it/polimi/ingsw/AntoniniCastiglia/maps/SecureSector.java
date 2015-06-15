@@ -4,7 +4,7 @@ import it.polimi.ingsw.AntoniniCastiglia.Constants;
 
 /**
  * SECURE SECTOR: If you end your move in a Secure Sector, your turn is over.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -12,7 +12,7 @@ public class SecureSector extends Sector {
 
 	/**
 	 * Standard constructor.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @see Sector#Sector(String coord)
@@ -28,7 +28,7 @@ public class SecureSector extends Sector {
 
 	/**
 	 * Alternative constructor.
-	 * 
+	 *
 	 * @param name
 	 * @see Sector#Sector(String coord)
 	 */
@@ -40,10 +40,10 @@ public class SecureSector extends Sector {
 		this.setType(MapConstants.SECURE);
 
 	}
-	
+
 	@Override
-	public String toString(){
-		return "[" + Constants.ANSI_GRAY+ super.toString() + Constants.ANSI_RESET+ "]" ;
+	public String toString() {
+		return "[" + Constants.ANSI_GRAY + super.toString() + Constants.ANSI_RESET + "]";
 	}
 
 }

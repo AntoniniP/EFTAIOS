@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class GameEngineImpl implements GameEngine {
 
-	private  Map<Integer, GameHandler> gameHandlerList;
+	private Map<Integer, GameHandler> gameHandlerList;
 
 	public GameEngineImpl() { // Constructor
 		gameHandlerList = new HashMap<Integer, GameHandler>();
@@ -55,12 +55,12 @@ public class GameEngineImpl implements GameEngine {
 	public String getItemCard(int playerID, int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).getItemCard(playerID);
 	}
-	
+
 	@Override
 	public String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException {
 		return gameHandlerList.get(gameID).handleItemCard(playerID, cardIndex);
 	}
-	
+
 	@Override
 	public String useCard(int playerID, int gameID, int posCard) throws RemoteException {
 		return gameHandlerList.get(gameID).useCard(playerID, posCard);
@@ -72,7 +72,7 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public String getCards(int playerID, int gameID) throws RemoteException { // ITEM CARDS
+	public String getPlayerCards(int playerID, int gameID) throws RemoteException { // ITEM CARDS
 		return gameHandlerList.get(gameID).getPlayerCards(playerID);
 	}
 
@@ -80,7 +80,6 @@ public class GameEngineImpl implements GameEngine {
 	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).getAdjacentSectors(playerID);
 	}
-
 
 	@Override
 	public boolean isEnded(int gameID) throws RemoteException {
@@ -91,10 +90,10 @@ public class GameEngineImpl implements GameEngine {
 	public String drawCard(int gameID, int playerID, String deck) throws RemoteException {
 		if ("DS".equals(deck)) {
 			return gameHandlerList.get(gameID).getDangerousSectorCard(playerID);
+		} else {
+			System.exit(-1);
 		}
-		if ("EH".equals(deck)) {
-			return gameHandlerList.get(gameID).getEscapeHatchCard(playerID);
-		}
+
 		return null;
 	}
 
@@ -109,19 +108,10 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public void notifyWin(int gameID, int playerID) throws RemoteException {
-		if (!gameHandlerList.get(gameID).isMyTurn(playerID)) {
-			gameHandlerList.get(gameID).escapedNotify();
-			// TODO problem: the other players are in waiting!!!!
-		}
-	}
-
-	@Override
-	public String getJournal (int playerID, int gameID) throws RemoteException{
+	public String getJournal(int playerID, int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).getJournal(playerID);
 	}
 
-	
 	@Override
 	public boolean canAttack(int gameID, int playerID) throws RemoteException {
 		return gameHandlerList.get(gameID).getPlayerList().get(playerID).getCanAttack();
@@ -133,14 +123,19 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	public boolean isDead(int playerID, int gameID) throws RemoteException{
+	public boolean isDead(int playerID, int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).getPlayerList().get(playerID).isDead();
 	}
 
 	@Override
-	public String declareNoise(int gameID, int playerID, String sector) throws RemoteException{
+	public String declareNoise(int gameID, int playerID, String sector) throws RemoteException {
 		return gameHandlerList.get(gameID).declareNoise(playerID, sector);
-		
+
 	}
-	
+
+	@Override
+	public String escape(int playerID, int gameID) throws RemoteException {
+		return gameHandlerList.get(gameID).escape(playerID);
+	}
+
 }

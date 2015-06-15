@@ -21,7 +21,7 @@ public interface GameEngine extends Remote {
 
 	String getMap(int gameID) throws RemoteException;
 
-	String getCards(int playerID, int gameID) throws RemoteException;
+	String getPlayerCards(int playerID, int gameID) throws RemoteException;
 
 	boolean isStarted(int gameID) throws RemoteException;
 
@@ -29,14 +29,11 @@ public interface GameEngine extends Remote {
 
 	void endTurn(int playerID, int gameID) throws RemoteException;
 
-	void notifyWin(int gameID, int playerID) throws RemoteException;
-
 	boolean canAttack(int gameID, int playerID) throws RemoteException;
 
-	boolean isDead(int playerID, int gameID)throws RemoteException;
-	
-	 
-	 String possibleActions(int playerID, int gameID) throws RemoteException;
+	boolean isDead(int playerID, int gameID) throws RemoteException;
+
+	String possibleActions(int playerID, int gameID) throws RemoteException;
 
 	String declareNoise(int gameID, int playerID, String sector) throws RemoteException;
 
@@ -44,6 +41,8 @@ public interface GameEngine extends Remote {
 
 	String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException;
 
-	String getJournal (int playerID, int gameID) throws RemoteException;
+	String getJournal(int playerID, int gameID) throws RemoteException;
+
+	String escape(int playerID, int gameID) throws RemoteException;
 
 }

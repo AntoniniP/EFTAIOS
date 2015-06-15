@@ -1,14 +1,15 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-import java.io.*;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class provides the map for the game (it's called Table in order to avoid override problems
  * with Java predefined classes).
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -30,7 +31,7 @@ public class Table {
 	/**
 	 * Constructor for Table class. Reads a text file containing a map (every sector is denoted by a
 	 * number, to denote its type), and the matrix of Sector called table.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public Table() {
@@ -38,41 +39,44 @@ public class Table {
 		try {
 			f = new FileInputStream("resources/table.txt");
 
-			for (int i = 0; i < MapConstants.HEIGHT; i++)
+			for (int i = 0; i < MapConstants.HEIGHT; i++) {
 				for (int j = 0; j < MapConstants.WIDTH; j++) {
 
-					switch (validChar(f)) {
+					switch (this.validChar(f)) {
 
-						case EMPTYSECTOR:
+						case EMPTYSECTOR: {
 							table[i][j] = new EmptySector(j, i);
 							break;
-
-						case DANGEROUSSECTOR:
+						}
+						case DANGEROUSSECTOR: {
 							table[i][j] = new DangerousSector(j, i);
 							break;
-
-						case HUMANBASE:
+						}
+						case HUMANBASE: {
 							table[i][j] = new HumanBase(j, i);
 							humanBase = table[i][j];
 							break;
-
-						case ALIENBASE:
+						}
+						case ALIENBASE: {
 							table[i][j] = new AlienBase(j, i);
 							alienBase = table[i][j];
 							break;
-
-						case SECURESECTOR:
+						}
+						case SECURESECTOR: {
 							table[i][j] = new SecureSector(j, i);
 							break;
-
-						case ESCAPEHATCH:
+						}
+						case ESCAPEHATCH: {
 							table[i][j] = new EscapeHatch(j, i);
 							break;
-
-						default:
+						}
+						default: {
+							break;
+						}
 					}
 
 				}
+			}
 			f.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -81,7 +85,7 @@ public class Table {
 
 	/**
 	 * Returns the reference to a sector of the map, given its coordinates.
-	 * 
+	 *
 	 * @param y row
 	 * @param x column
 	 * @return the corresponding sector
@@ -92,7 +96,7 @@ public class Table {
 
 	/**
 	 * Returns a String containing the whole map.
-	 * 
+	 *
 	 * @return the map
 	 */
 	public String drawMap() {
@@ -103,15 +107,15 @@ public class Table {
 				if (j % 2 == 1) {
 					string = string + "     ";
 				} else {
-					string = string  + table[i][j] ;
+					string = string + table[i][j];
 				}
 			}
 			string = string + "\n";
 			for (int j = 0; j < MapConstants.WIDTH; j++) {
-				if  (j % 2 == 0) {
+				if (j % 2 == 0) {
 					string = string + "     ";
 				} else {
-					string = string  + table[i][j] ;
+					string = string + table[i][j];
 				}
 
 			}
@@ -122,7 +126,7 @@ public class Table {
 
 	/**
 	 * Standard getter for Alien base sector.
-	 * 
+	 *
 	 * @return alien base sector
 	 */
 	public static Sector getAlienBase() {
@@ -131,7 +135,7 @@ public class Table {
 
 	/**
 	 * Standard getter for human base sector.
-	 * 
+	 *
 	 * @return human base sector
 	 */
 	public static Sector getHumanBase() {
@@ -141,7 +145,7 @@ public class Table {
 	/**
 	 * The method, after receiving a sector and the maximum distance, produces an ArrayList
 	 * containing all reachable sectors within the given distance. The calling sector is EXCLUDED.
-	 * 
+	 *
 	 * @param s the sector we are considering
 	 * @param hops the maximum reachable distance
 	 * @return ArrayList of sectors
@@ -162,22 +166,22 @@ public class Table {
 				int y1 = s1.getY();
 
 				for (int i = y1 - 1; i <= y1 + 1; i++) {
-					addSector(i, x1, tmp);
+					this.addSector(i, x1, tmp);
 				}
 
 				for (int j = x1 - 1; j <= x1 + 1; j++) {
-					addSector(y1, j, tmp);
+					this.addSector(y1, j, tmp);
 				}
 
 				if (x1 % 2 == 1) {
 					// Even columns
-					addSector(y1 + 1, x1 - 1, tmp);
-					addSector(y1 + 1, x1 + 1, tmp);
+					this.addSector(y1 + 1, x1 - 1, tmp);
+					this.addSector(y1 + 1, x1 + 1, tmp);
 
 				} else {
 					// Odd columns
-					addSector(y1 - 1, x1 - 1, tmp);
-					addSector(y1 - 1, x1 + 1, tmp);
+					this.addSector(y1 - 1, x1 - 1, tmp);
+					this.addSector(y1 - 1, x1 + 1, tmp);
 				}
 			}
 
@@ -197,7 +201,7 @@ public class Table {
 
 	/**
 	 * Adds a sector to the table (it's a method to support <code>adjacent</code> method.
-	 * 
+	 *
 	 * @param y row
 	 * @param x column
 	 * @param tmp the list to which the sector must be added
@@ -212,7 +216,7 @@ public class Table {
 	/**
 	 * Receives the reference to the map file, and returns only valid characters (that is, the chars
 	 * corresponding to the various types of sectors).
-	 * 
+	 *
 	 * @param f reference to the map file
 	 * @return valid character
 	 * @throws IOException
@@ -231,21 +235,6 @@ public class Table {
 			System.out.println(e);
 		}
 		return c;
-	}
-
-	/**
-	 * Main to test some things.
-	 * 
-	 * @param args
-	 * @deprecated to delete before final commit!
-	 */
-	@Deprecated
-	public static void main(String[] args) {
-		Table t = new Table();
-		// Sector s = new DangerousSector(11, 8);
-		// System.out.println(s + " " + t.adjacent(s, 2));
-		System.out.println(t.drawMap().replace(';', '\n'));
-		
 	}
 
 }

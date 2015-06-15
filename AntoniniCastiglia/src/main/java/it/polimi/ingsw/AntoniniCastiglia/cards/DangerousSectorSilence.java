@@ -1,9 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-
 /**
  * Every instance of this class is a Silence card (type of Dangerous Sector card).
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -18,6 +17,4 @@ public class DangerousSectorSilence extends DangerousSectorCard {
 		name = CardsConstants.SILENCE;
 	}
 
-
-	
 }
