@@ -17,7 +17,7 @@ public abstract class Card {
 	 * 
 	 * @return
 	 */
-	public String getCard() {
+	public String toString() {
 		return type + "_" + name;
 	}
 

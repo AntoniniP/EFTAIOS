@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * DEFENSE: Play this card immediately when an Alien attacks you. You are not affected by the
@@ -21,8 +22,8 @@ public class ItemDefense extends ItemCard {
 	}
 
 	@Override
-	public void action(Player p) {
-		// TODO maybe a boolean in player?
+	public void action(GameHandler gh) {
+		gh.itemDefenseAction();
 	}
 
 }

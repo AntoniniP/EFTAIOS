@@ -42,7 +42,7 @@ public class CLI implements UserInterface {
 	@Override
 	public void printItemCards(boolean canUseCards, String... cards) {
 		if (canUseCards) {
-			System.out.println("0. Don't use any card");
+			// TODO System.out.println("0. Don't use any card");
 			for (int i = 0; i < cards.length; i++) {
 				if (!("null".equals(cards[i]))) {
 					System.out.println((i + 1) + ". " + (cards[i].split("_"))[1] + " card");
@@ -51,6 +51,11 @@ public class CLI implements UserInterface {
 		} else {
 			System.out.println("You don't have any Item card right now. I feel it.");
 		}
+	}
+	
+	@Override
+	public void printJournal(String journal){
+		System.out.println(journal);
 	}
 
 	@Override
@@ -134,12 +139,6 @@ public class CLI implements UserInterface {
 			if (possibleActions.contains(Constants.DRAW_DS_CARD)) {
 				System.out.println(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
 			}
-			if (possibleActions.contains(Constants.DRAW_I_CARD)) {
-				System.out.println(Constants.DRAW_I_CARD + " - Draw an Item card");
-			}
-			if (possibleActions.contains(Constants.DECLARE_NOISE)) {
-				System.out.println(Constants.DECLARE_NOISE + " - Declare noise or silence");
-			}
 			if (possibleActions.contains(Constants.QUIT)) {
 				System.out.println(Constants.QUIT + " - End your turn");
 			}
@@ -187,6 +186,29 @@ public class CLI implements UserInterface {
 			return currentSector;
 		}
 
+	}
+
+	@Override
+	public int handleItemCard(String itemCard, String... cards) {
+		System.out.println("You're too lucky, bro! You can have only three Item cards. " + "\n" +
+				"Please, choose which one you want to discard.");
+		this.printItemCards(true, cards);
+		int cardIndex;
+		
+			String choice = CommonMethods.readLine();
+			try {
+				cardIndex = Integer.parseInt(choice);
+			} catch (NumberFormatException e) {
+				cardIndex = -1;
+			}
+		return cardIndex;
+	}
+
+	@Override
+	public void clearScreen() {
+		for (int i =0; i<50; i++){
+			System.out.println();
+		}
 	}
 
 }

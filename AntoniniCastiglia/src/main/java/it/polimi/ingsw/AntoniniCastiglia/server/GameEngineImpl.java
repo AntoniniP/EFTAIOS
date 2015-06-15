@@ -26,11 +26,7 @@ public class GameEngineImpl implements GameEngine {
 	public GameEngineImpl() { // Constructor
 		gameHandlerList = new HashMap<Integer, GameHandler>();
 	}
-/*
-	public static GameHandler getGameHandler(int gameID) {
-		return gameHandlerList.get(gameID);
-	}
-*/
+
 	public void addGame(int gameID, GameHandler game) {
 		gameHandlerList.put(gameID, game);
 	}
@@ -55,72 +51,21 @@ public class GameEngineImpl implements GameEngine {
 		return gameHandlerList.get(gameID).attack(playerID);
 	}
 
+	@Override
+	public String getItemCard(int playerID, int gameID) throws RemoteException {
+		return gameHandlerList.get(gameID).getItemCard(playerID);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException {
+		return gameHandlerList.get(gameID).handleItemCard(playerID, cardIndex);
+	}
 	
 	@Override
 	public String useCard(int playerID, int gameID, int posCard) throws RemoteException {
-		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
-		ItemCard c = p.removeCard(posCard);
-		if (c instanceof ItemSpotlight){
-			List<Sector> adjacentSector = gameHandlerList.get(gameID).getTable()
-					.adjacent(p.getCurrentSector(), p.getMoves()); //get adjacent Sectors
-			for (int i=0; i<gameHandlerList.get(gameID).getPlayerList().size(); i++){ //taking all the players in the game
-				Player p1 = gameHandlerList.get(gameID).getPlayerList().get(i);
-				if ((p.getCurrentSector()).equals(p1.getCurrentSector()) || adjacentSector.contains(p1.getCurrentSector())){
-					String s = "player" + gameHandlerList.get(gameID).getPlayerList().get(i) + "is in sector" + p1.getCurrentSector();
-					return s;
-				}
-					
-			}
-			
-		}
-		return null;
+		return gameHandlerList.get(gameID).useCard(playerID, posCard);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public String possibleActions(int playerID, int gameID) throws RemoteException {
 		return gameHandlerList.get(gameID).chooseAction(playerID);
@@ -147,11 +92,9 @@ public class GameEngineImpl implements GameEngine {
 		if ("DS".equals(deck)) {
 			return gameHandlerList.get(gameID).getDangerousSectorCard(playerID);
 		}
-		
 		if ("EH".equals(deck)) {
 			return gameHandlerList.get(gameID).getEscapeHatchCard(playerID);
 		}
-		System.out.println("ERROR! REQUESTED ITEM CARD!!!!"); System.exit(666);
 		return null;
 	}
 
@@ -168,12 +111,17 @@ public class GameEngineImpl implements GameEngine {
 	@Override
 	public void notifyWin(int gameID, int playerID) throws RemoteException {
 		if (!gameHandlerList.get(gameID).isMyTurn(playerID)) {
-			gameHandlerList.get(gameID).escapedNotify(); // Problem: the other players are in
-			// waiting!!!!
+			gameHandlerList.get(gameID).escapedNotify();
+			// TODO problem: the other players are in waiting!!!!
 		}
-
 	}
 
+	@Override
+	public String getJournal (int playerID, int gameID) throws RemoteException{
+		return gameHandlerList.get(gameID).getJournal(playerID);
+	}
+
+	
 	@Override
 	public boolean canAttack(int gameID, int playerID) throws RemoteException {
 		return gameHandlerList.get(gameID).getPlayerList().get(playerID).getCanAttack();

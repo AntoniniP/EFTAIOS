@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 /**
  * Every instance of this class is a Noise card (type of Dangerous Sector card). It can be either in
@@ -28,31 +27,8 @@ public class DangerousSectorNoise extends DangerousSectorCard {
 		this.withObject = withObject;
 	}
 	
-	public boolean isWithObject() {
-		return withObject;
-	}
-
-	public boolean isYourSector() {
-		return yourSector;
-	}
-
-	/*
-	@Override
-	public String toString() {
-		String message;
-		if (yourSector)
-			message = "Noise in your sector!";
-		else
-			message = "Noise in any sector, please choose!";
-		if (withObject)
-			message = message + " Pick an Item Card!";
-		return message;
-	}
-*/
-	@Override
-	public String action(Sector s) {
-		return "Noise in "+ s + "sector.";
-	}
+	
+	
 
 	
 	

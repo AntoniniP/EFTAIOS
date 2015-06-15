@@ -134,4 +134,19 @@ public class RMIInterface implements NetworkInterface {
 		return remoteEFTAIOS.declareNoise(gameID, playerID, sector);
 	}
 
+	@Override
+	public String getItemCard(int playerID, int gameID) throws RemoteException {
+		return remoteEFTAIOS.getItemCard(playerID, gameID);
+	}
+
+	@Override
+	public String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException {
+		return remoteEFTAIOS.handleItemCard(playerID, gameID, cardIndex);
+	}
+	
+	@Override
+	public String getJournal (int playerID, int gameID) throws RemoteException {
+		return remoteEFTAIOS.getJournal(playerID, gameID);
+	}
+
 }

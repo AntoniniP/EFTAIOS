@@ -41,7 +41,7 @@ public class CommonMethods {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		return n < MapConstants.HEIGHT;
+		return n <= MapConstants.HEIGHT;
 
 	}
 

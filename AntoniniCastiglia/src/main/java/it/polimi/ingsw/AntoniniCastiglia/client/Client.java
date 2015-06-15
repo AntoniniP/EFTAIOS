@@ -84,6 +84,7 @@ public class Client {
 		playerMaxMoves = Integer.parseInt(player[3]);
 		currentSector = player[4];
 		sectorType = "Base";
+		ui.clearScreen();
 
 		ui.whoYouAreComplete(player);
 
@@ -98,6 +99,7 @@ public class Client {
 			}
 
 			if (!ni.isEnded(gameID) && !ni.isDead(playerID, gameID)) {
+				
 
 				// print map
 				ui.printMap(ni.getMap(playerID, gameID));
@@ -110,6 +112,7 @@ public class Client {
 				canUseCards = this.canUseCards();
 				ui.printItemCards(canUseCards, cards);
 
+				ui.printJournal(ni.getJournal(playerID, gameID));
 				ui.yourTurn();
 
 				this.play();
@@ -198,13 +201,17 @@ public class Client {
 	
 	
 	
-	private void handleICard(String args) {
-		
-		String[] iCard = (args.split(";")[1]).split("_");
-		System.out.println("I drew an Item card!");
-		//ni.handleICard();
-		// TODO Auto-generated method stub
-		return;
+	private void handleICard(String args) throws RemoteException {
+		String itemCard = args.split(";")[1];
+		String getResult = ni.getItemCard(playerID, gameID);
+		if (getResult.startsWith("KO")) {
+			String handleResult;
+			do {
+				int cardIndex = ui.handleItemCard(itemCard, cards);
+				handleResult = ni.handleItemCard(playerID, gameID, cardIndex);
+			} while (!(handleResult.startsWith("OK")));
+		}
+		ni.getCards(playerID, gameID);
 	}
 	
 	
@@ -221,7 +228,8 @@ public class Client {
 	
 	
 	@Deprecated
-	private void clientUseCards() {
+	private void clientUseCards() throws RemoteException {
+		cards = ni.getCards(playerID, gameID).split(";");
 		int cardToUse = ui.selectItemCard(cards);
 		if (!("noCard".equals(cardToUse))) {
 			// ni.useCard(cardToUse, playerID);

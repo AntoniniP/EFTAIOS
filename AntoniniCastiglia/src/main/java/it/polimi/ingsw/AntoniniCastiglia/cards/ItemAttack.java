@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * ATTACK: This card allows you to attack, using the same rules as the Aliens. Note: the Human
@@ -21,8 +22,8 @@ public class ItemAttack extends ItemCard {
 	}
 
 	@Override
-	public void action(Player p) {
-		// TODO set boolean canAttack in player p to true
+	public void action(GameHandler gh) {
+		gh.itemAttackAction();
 	}
 
 }

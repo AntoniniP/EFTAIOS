@@ -26,6 +26,11 @@ public abstract class Player {
 	protected int maxMoves;
 	protected Sector myBase;
 	protected Sector currentSector;
+	
+	String journal = "";
+	
+	
+
 	private List<Sector> path = new ArrayList<Sector>();
 	private ItemCard[] items = new ItemCard[3];
 	private boolean dead;
@@ -33,11 +38,33 @@ public abstract class Player {
 	private boolean active;
 	protected boolean canAttack;
 	
+	/**
+	 * @param currentSector the currentSector to set
+	 */
+	public void setCurrentSector(Sector currentSector) {
+		this.currentSector = currentSector;
+	}
 	
 	
+	public String getJournal(){
+		return journal;
+	}
 	
+	public void updateJournal(String s){
+		journal = journal.concat(s+"\n");
+	}
 	
+	public void resetJournal(){
+		journal="";
+	}
 	
+	/**
+	 * @param canAttack the canAttack to set
+	 */
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
+	}
+
 	public  boolean canUseCards(){
 		for (ItemCard card:items) {
 			if (card!=null){
@@ -45,6 +72,16 @@ public abstract class Player {
 			}
 		}
 		return false;
+	}
+	
+	public int howManyCards(){
+		int toReturn=0;
+		for (ItemCard card:items) {
+			if (card!=null){
+				toReturn++;
+			}
+		}
+		return toReturn;
 	}
 	
 	
@@ -124,23 +161,29 @@ public abstract class Player {
 	public String getPlayerCards() {
 		String toReturn = "";
 		for (int i = 0; i < items.length; i++) {
-			toReturn = toReturn + items[i] + ";";
+			try{
+			toReturn = toReturn.concat( items[i].toString() + ";");
+			} catch (NullPointerException e) {
+				toReturn = toReturn.concat("null" + ";");
+			}
 		}
 		return toReturn;
 	}
 
-	public ItemCard removeCard(int i) {
-		ItemCard c = items[i];
-		items[i] = null;
-		for (int j = i; j < items.length - 1 && items[j + 1] != null; j++)
-			items[j] = items[j + 1]; // re-ordering the not null-cards
+	public ItemCard removeCard(int cardIndex) {
+		ItemCard c = items[cardIndex];
+		items[cardIndex] = null;
 		return c;
 	}
 
-	public ItemCard switchCard(ItemCard c, int i) {
-		ItemCard toRemove = this.removeCard(i);
-		addItemCard(c);
-		return toRemove;
+	public ItemCard switchCard(ItemCard card, int cardIndex) {
+		if (cardIndex == 0) {
+			return card;
+		} else {
+			ItemCard toRemove = this.removeCard(cardIndex-1);
+			addItemCard(card);
+			return toRemove;
+		}
 	}
 
 	public boolean addItemCard(ItemCard c) { // adding item card to the player's deck; if there

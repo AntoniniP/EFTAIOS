@@ -1,5 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.players;
 
+import it.polimi.ingsw.AntoniniCastiglia.cards.ItemCard;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 
 /**
@@ -31,4 +32,5 @@ public class Alien extends Player {
 		return false;
 	}
 
+	
 }

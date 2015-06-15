@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * SPOTLIGHT: When you play this card, name any Sector. Any players (including you) that are in the
@@ -22,9 +23,8 @@ public class ItemSpotlight extends ItemCard {
 	}
 
 	@Override
-	public void action(Player p) {
-		// TODO Auto-generated method stub
-
+	public void action(GameHandler gh) {
+		gh.itemSpotlightAction();
 	}
 
 }

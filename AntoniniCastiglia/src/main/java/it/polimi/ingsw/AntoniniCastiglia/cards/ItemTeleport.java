@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
 import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * TELEPORT: This card allows you to move directly to the Human Sector from any part of the ship.
@@ -21,8 +22,8 @@ public class ItemTeleport extends ItemCard {
 	}
 
 	@Override
-	public void action(Player p) {
-		//p.setCurrentSector(p.getMyBase()); TODO
+	public void action(GameHandler gh) {
+		gh.itemTeleportAction();
 	}
 
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * Abstract class to define an Item card. It provides a method to perform the actions expected from
@@ -18,7 +18,6 @@ public abstract class ItemCard extends Card {
 		type = CardsConstants.ITEM_CARD;
 	}
 
-	// TODO write JavaDoc, or delete it!
-	public abstract void action(Player p);
+	public abstract void action(GameHandler gh);
 
 }

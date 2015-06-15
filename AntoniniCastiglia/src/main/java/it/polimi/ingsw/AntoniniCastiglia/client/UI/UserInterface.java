@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 
+import java.rmi.RemoteException;
+
 /**
  * This interface provides a list of methods, useful for the factory method pattern implementation
  * of <code>UserInterface</code>.
@@ -58,4 +60,10 @@ public interface UserInterface {
 	void attackResult(String attackResult);
 
 	String declareNoise(boolean noise, boolean yourSector, String currentSector);
+
+	int handleItemCard(String itemCard, String... cards);
+
+	void clearScreen();
+	
+	void printJournal (String journal);
 }

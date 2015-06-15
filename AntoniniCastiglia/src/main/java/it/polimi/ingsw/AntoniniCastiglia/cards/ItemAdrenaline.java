@@ -1,7 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.players.Human;
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.server.GameHandler;
 
 /**
  * ADRENALINE: This card allows you to move two Sectors this turn.
@@ -21,11 +20,8 @@ public class ItemAdrenaline extends ItemCard {
 	}
 
 	@Override
-	public void action(Player p) {
-		// TODO needs a reset after use!
-		if (p instanceof Human) {
-			p.setMoves(2);
-		}
+	public void action(GameHandler gh) {
+		gh.itemAdrenalineAction();
 	}
 
 }

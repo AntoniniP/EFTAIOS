@@ -1,6 +1,5 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 
 /**
  * Every instance of this class is a Silence card (type of Dangerous Sector card).
@@ -20,9 +19,5 @@ public class DangerousSectorSilence extends DangerousSectorCard {
 	}
 
 
-	@Override
-	public String action(Sector s) {
-		return "Silence in all sectors.";
-	}
 	
 }

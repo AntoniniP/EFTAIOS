@@ -12,7 +12,7 @@ final class ServerConstants {
 	
 	// Players
 		 static final int MINPLAYERS = 2;
-		 static final int MAXPLAYERS = 2;
+		 static final int MAXPLAYERS = 3; //8;
 	
 	 static final int ROUNDS = 39;
 	
