@@ -2,8 +2,8 @@ package it.polimi.ingsw.AntoniniCastiglia.maps;
 
 public final class MapConstants {
 
-	static final int HEIGHT = 14;
-	static final int WIDTH = 23;
+	public static final int HEIGHT = 14;
+	public static final int WIDTH = 23;
 	
 	public static final String ALIENBASE = "Alien Base";
 	public static final String DANGEROUS = "Dangerous";

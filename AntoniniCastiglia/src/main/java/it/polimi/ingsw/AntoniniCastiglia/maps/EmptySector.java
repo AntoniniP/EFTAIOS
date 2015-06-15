@@ -33,7 +33,7 @@ public class EmptySector extends Sector {
 
 	@Override
 	public String toString() {
-		return "";
+		return "     ";
 	}
 
 }

@@ -57,5 +57,5 @@ public interface UserInterface {
 
 	void attackResult(String attackResult);
 
-	String declareNoise(boolean yourSector);
+	String declareNoise(boolean noise, boolean yourSector, String currentSector);
 }

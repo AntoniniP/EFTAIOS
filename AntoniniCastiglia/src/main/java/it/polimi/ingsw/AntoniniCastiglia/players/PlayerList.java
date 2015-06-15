@@ -18,7 +18,6 @@ public class PlayerList {
 	 * 
 	 * @param n the number of players
 	 */
-	@SuppressWarnings("unused")
 	public PlayerList(int n) {
 
 		int alienNumber = n / 2 + (n % 2);
@@ -33,51 +32,40 @@ public class PlayerList {
 
 		for (int i = 0; i < n; i++) {
 
-			Player p;
+			Player p = null;
 			int j;
+			boolean assigned;
 
-			// Generate a random, not used yet, integer 0<=j<=7.
 			do {
-				j = (int) (Math.random() * 8); // it's +8 since cast to (int) truncates it
-			} while (used[j]);
 
-			used[j] = true;
+				// Generate a random, not used yet, integer 0<=j<7.
+				do {
+					j = (int) (Math.random() * 8); // it's +8 since cast to (int) truncates it
+				} while (used[j]);
 
-			Character c = Character.values()[j]; // Gets from Character enumeration
+				used[j] = true;
 
-			if (c.nature == 'H') {
-				if (humanNumber > 0) {
-					p = new Human(c.name, c.role);
-					humanNumber--;
+				Character c = Character.values()[j]; // Gets from Character enumeration
+				assigned = false;
+				if (c.nature == 'H') {
+					if (humanNumber > 0) {
+						p = new Human(c.name, c.role);
+						humanNumber--;
+						assigned = true;
+					}
 				} else {
-					p = new Alien(c.name, c.role);
-					alienNumber--;
+					if (alienNumber > 0) {
+						p = new Alien(c.name, c.role);
+						alienNumber--;
+						assigned = true;
+					}
 				}
-			} else {
-				if (alienNumber > 0) {
-					p = new Alien(c.name, c.role);
-					alienNumber--;
-				} else {
-					p = new Human(c.name, c.role);
-					humanNumber--;
-				}
-			}
-
+			} while (!assigned);
 			players.add(p);
 
 		}
 	}
-/************************ REMOVE *********************************/
-	@Override
-	@Deprecated
-	public String toString() {
-		String playerList = "";
-		for (int i = 0; i < players.size(); i++) {
-			playerList = playerList + players.get(i) + "\n";
-		}
-		return playerList;
-	}
-/*****************************************************************/
+
 	/**
 	 * Returns the size of the list of players.
 	 * 
@@ -95,5 +83,33 @@ public class PlayerList {
 	 */
 	public Player get(int i) {
 		return players.get(i);
+	}
+	
+	
+	
+	
+	//Main to test
+	@Deprecated
+	public static void main (String[] args){
+		for (int i =0; i<10000000; i++){
+			int dim = (int) (Math.random() * 8);
+			PlayerList pl = new PlayerList(dim);
+			int numHum=0;
+			int numAl=0;
+			for (int j=0; j<pl.size(); j++){
+				if (pl.get(j) instanceof Human){
+					numHum++;
+				} else if (pl.get(j) instanceof Alien){
+					numAl++;
+				}
+			}
+			if (!((numHum==numAl) || (numHum+1==numAl) || (numHum+numAl==dim))){
+				System.out.println("ERROR! " + numHum +" "+ numAl+ " "+dim);
+			}
+			
+			
+		}
+		System.out.println("Done!");
+
 	}
 }

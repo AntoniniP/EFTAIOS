@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 /**
  * DANGEROUS SECTOR: If you end your move in a Dangerous Sector, you must draw a Dangerous Sector
  * Card and follow its instructions. Then your turn is over.
@@ -38,6 +40,11 @@ public class DangerousSector extends Sector {
 		this.setMustDrawEHCard(false);
 		this.setType(MapConstants.DANGEROUS);
 
+	}
+	
+	@Override
+	public String toString(){
+		return "["+Constants.ANSI_DARK_GREY+ super.toString() + Constants.ANSI_RESET+"]";
 	}
 
 }

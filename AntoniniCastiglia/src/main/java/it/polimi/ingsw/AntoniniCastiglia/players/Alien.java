@@ -25,5 +25,10 @@ public class Alien extends Player {
 		currentSector = myBase;
 		canAttack=true;
 	}
+	
+	@Override
+	public boolean canUseCards(){
+		return false;
+	}
 
 }

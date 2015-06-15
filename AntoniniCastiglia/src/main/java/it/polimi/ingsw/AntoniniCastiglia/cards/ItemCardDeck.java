@@ -1,10 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 /**
  * Deck for Dangerous Sector cards.
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -33,7 +31,7 @@ public class ItemCardDeck extends Deck {
 		for (int i = 0; i < CardsConstants.NUM_TELEPORT; i++) {
 			deck.add(new ItemTeleport());
 		}
-		shuffleDeck();
+		this.shuffleDeck();
 	}
 
 }

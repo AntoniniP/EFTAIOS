@@ -3,11 +3,10 @@ package it.polimi.ingsw.AntoniniCastiglia.client.UI;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.cards.CardsConstants;
 import it.polimi.ingsw.AntoniniCastiglia.client.CommonMethods;
-import it.polimi.ingsw.AntoniniCastiglia.client.ClientConstants;
 
 /**
  * CLI implementation of <code>UserInterface</code>.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -71,7 +70,7 @@ public class CLI implements UserInterface {
 			} catch (NumberFormatException e) {
 				cardIndex = -1;
 			}
-		} while (!(cardIndex >= 0 && cardIndex <= cards.length) );
+		} while (!(cardIndex >= 0 && cardIndex <= cards.length));
 
 		return cardIndex;
 	}
@@ -88,40 +87,23 @@ public class CLI implements UserInterface {
 
 		return chosenSector;
 	}
-/*
-	@Override
-	@Deprecated
-	public String wantToAttack(String nature) {
-		System.out.println("It seems that you can attack the sector you are in!");
-		if ("H".equals(nature)) {
-			System.out.println("(Note that you are a Human. As such, you can perform "
-					+ "an attack thanks to your Attack item card.)");
-		}
-		System.out.println("Now choose carefully:" + "\n" + "A - Attack" + "\n"
-				+ "B - Be a good guy");
-		String chosenAction = null;
-		do {
-			chosenAction = (CommonMethods.readLine()).toUpperCase();
-		} while (!("A".equals(chosenAction) || "B".equals(chosenAction)));
-		return chosenAction;
-	}
-*/
+
 	@Override
 	public void drawDangerousSectorCard(String drawnCard) {
 		String[] card = drawnCard.split("_");
-		String name = card[1];	
+		String name = card[1];
 		boolean yourSector = Boolean.parseBoolean(card[2]);
 		boolean withObject = Boolean.parseBoolean(card[3]);
-		
+
 		System.out.print("Well, here is your Dangerous Sector card: " + name + " ");
-		if (name.equals(CardsConstants.NOISE)){
-			if (yourSector){
+		if (name.equals(CardsConstants.NOISE)) {
+			if (yourSector) {
 				System.out.print("in your sector. ");
 			} else {
 				System.out.print("in a sector of your choice. ");
 			}
 			System.out.println("Soon you will be prompted to declare it. ");
-			if (withObject){
+			if (withObject) {
 				System.out.println("You are lucky, though! You can draw an Item Card.");
 			}
 		}
@@ -138,36 +120,29 @@ public class CLI implements UserInterface {
 		String chosenAction = null;
 		do {
 
-			System.out.println("Now choose your next action:");
+			System.out.println("Now choose your next action: " + possibleActions);
 
 			if (possibleActions.contains(Constants.MOVE)) {
 				System.out.println(Constants.MOVE + " - Move to a new sector");
 			}
 			if (possibleActions.contains(Constants.ATTACK)) {
-				System.out.print(Constants.ATTACK + " - Attack the sector you are in now");
-				if (true /*TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/) {
-					System.out.println(" (please note that you won't be able"
-							+ " to draw a Dangerous Sector card during this turn)");
-				} else {
-					System.out.println();
-				}
+				System.out.println(Constants.ATTACK + " - Attack the sector you are in now");
 			}
 			if (possibleActions.contains(Constants.USE_CARDS)) {
 				System.out.println(Constants.USE_CARDS + " - Use your cards");
 			}
 			if (possibleActions.contains(Constants.DRAW_DS_CARD)) {
-				System.out.print(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
-				if (true /*TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/) {
-					System.out.println(" (please note that you won't be able"
-							+ " to attack during this turn)");
-				} else {
-					System.out.println();
-				}
+				System.out.println(Constants.DRAW_DS_CARD + " - Draw a Dangerous Sector card");
 			}
-			if (possibleActions.contains(Constants.QUIT)){
+			if (possibleActions.contains(Constants.DRAW_I_CARD)) {
+				System.out.println(Constants.DRAW_I_CARD + " - Draw an Item card");
+			}
+			if (possibleActions.contains(Constants.DECLARE_NOISE)) {
+				System.out.println(Constants.DECLARE_NOISE + " - Declare noise or silence");
+			}
+			if (possibleActions.contains(Constants.QUIT)) {
 				System.out.println(Constants.QUIT + " - End your turn");
 			}
-			// TODO other constants!!!!!
 			chosenAction = (CommonMethods.readLine()).toUpperCase();
 
 		} while (!(possibleActions.contains(chosenAction)));
@@ -177,34 +152,41 @@ public class CLI implements UserInterface {
 	@Override
 	public void attackResult(String attackResult) {
 		if (attackResult.startsWith("KO")) {
-			System.out.println("It appears that you can't attack.");
+			System.out.println("It appears that you can't attack "
+					+ "(and you can certainly call for a bug if you see this message).");
 		} else {
-			String[] args=attackResult.split("_");
+			
+			String[] args = attackResult.split("_");
 			int humanKilled = Integer.parseInt(args[1]);
 			int alienKilled = Integer.parseInt(args[2]);
-			System.out.println("You attacked your sector and you killed " + humanKilled+
-					" humans and " + alienKilled + "aliens. Good for you!");
+			System.out.println("You attacked your sector and you killed " + humanKilled
+					+ " humans and " + alienKilled + "aliens. Good for you!");
+			
 		}
 	}
 
 	@Override
-	public String declareNoise(boolean yourSector) {
-		if (yourSector) {
-			System.out
-					.println("You must declare a noise in your sector. "
-							+ "Please, confirm to let the other players know (you have no choice, actually!).");
-			CommonMethods.readLine();
-			return "OK";
-		} else {
-			System.out.print("You must declare a noise in a sector of your choice. "
-					+ "Please, declare your chosen sector: ");
+	public String declareNoise(boolean noise, boolean yourSector, String currentSector) {
+		if (noise) {
+			if (yourSector) {
+				System.out
+						.println("You must declare a noise in your sector. Hit RETURN to confirm: "
+								+ currentSector);
+				CommonMethods.readLine();
+				return currentSector;
+			}
+			System.out.println("You must declare a noise in a sector of your choice. ");
 			String chosenSector = null;
 			do {
-				chosenSector = CommonMethods.readLine();
-			} while (CommonMethods.validSector(chosenSector));
+				System.out.print("Please, choose a valid sector: ");
+				chosenSector = (CommonMethods.readLine()).toUpperCase();
+			} while (!CommonMethods.validSector(chosenSector));
 			return chosenSector;
+		} else {
+			System.out.println("Silence in all sectors");
+			return currentSector;
 		}
-		
+
 	}
 
 }

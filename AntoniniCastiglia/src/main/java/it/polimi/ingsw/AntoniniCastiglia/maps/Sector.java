@@ -1,12 +1,10 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 /**
  * This abstract class provides sector instances, and methods to convert coordinates formats
  * (number/number for table's sake, single string as probable input by users, letter/number like in
  * the map).
- * 
+ *
  * @author Laura Castiglia
  *
  */
@@ -21,30 +19,28 @@ public abstract class Sector {
 	private boolean mustDrawDSCard; // Dangerous Sector
 	private boolean mustDrawEHCard; // Escape Hatch
 	private String type;
-	
 
-	
 	/**
 	 * Standard constructor: receives the coordinates in numeric (integer) format only, and calls
 	 * method convert() to give a proper value to variables letter and number.
-	 * 
+	 *
 	 * @param x column: literal part of coordinates, counter j
 	 * @param y row: numeric part of coordinates, counter i
 	 */
 	public Sector(int x, int y) {
 		this.x = x;
 		this.y = y;
-		convert();
+		this.convert();
 	}
 
 	/**
 	 * Alternative constructor (overloading): receives a string containing the coordinates and calls
 	 * inverseConversion() method to give a proper value to variables x, y, letter, number.
-	 * 
+	 *
 	 * @param name three-character string containing the alphanumeric coordinates of a sector
 	 */
 	public Sector(String coord) {
-		inverseConvertion(coord);
+		this.inverseConvertion(coord);
 
 	}
 
@@ -55,10 +51,6 @@ public abstract class Sector {
 		return mustDrawDSCard;
 	}
 
-
-
-
-
 	/**
 	 * @return the mustDrawEHCard
 	 */
@@ -66,11 +58,6 @@ public abstract class Sector {
 		return mustDrawEHCard;
 	}
 
-
-
-
-
-	
 	/**
 	 * @param mustDrawDSCard the mustDrawDSCard to set
 	 */
@@ -78,7 +65,6 @@ public abstract class Sector {
 		this.mustDrawDSCard = mustDrawDSCard;
 	}
 
-	
 	/**
 	 * @param mustDrawEHCard the mustDrawEHCard to set
 	 */
@@ -88,7 +74,7 @@ public abstract class Sector {
 
 	/**
 	 * Standard getter for variable x.
-	 * 
+	 *
 	 * @return variable x (column reference).
 	 */
 	public int getX() {
@@ -97,7 +83,7 @@ public abstract class Sector {
 
 	/**
 	 * Standard getter for variable y.
-	 * 
+	 *
 	 * @return variable y (row reference).
 	 */
 	public int getY() {
@@ -133,12 +119,12 @@ public abstract class Sector {
 	/**
 	 * The method receives the coordinates as a single alphanumeric string and gives proper values
 	 * to x, y, letter and number variables.
-	 * 
+	 *
 	 * @param s coordinates in alphanumeric format
 	 */
 	private void inverseConvertion(String coord) {
-		this.letter = coord.substring(0, 1);
-		this.number = coord.substring(1, 3);
+		letter = coord.substring(0, 1);
+		number = coord.substring(1, 3);
 
 		char c = letter.charAt(0); // converting letter to char
 		for (int i = 0; i < ALPHABET.length; i++) {
@@ -150,7 +136,6 @@ public abstract class Sector {
 		y = Integer.parseInt(number) - 1; // converting string number to integer
 	}
 
-	
 	/**
 	 * @return the type
 	 */
@@ -158,7 +143,6 @@ public abstract class Sector {
 		return type;
 	}
 
-	
 	/**
 	 * @param type the type to set
 	 */
@@ -176,10 +160,11 @@ public abstract class Sector {
 		if (!(obj instanceof Sector)) {
 			return false;
 		}
-		if (obj == this)
+		if (obj == this) {
 			return true;
+		}
 		Sector s = (Sector) obj;
-		return ((this.x == s.x) && (this.y == s.y));
+		return ((x == s.x) && (y == s.y));
 	}
 
 	/*
@@ -191,7 +176,7 @@ public abstract class Sector {
 	 */
 	@Override
 	public int hashCode() {
-		return ((this.y * MapConstants.WIDTH) + (this.x * MapConstants.HEIGHT));
+		return ((y * MapConstants.WIDTH) + (x * MapConstants.HEIGHT));
 	}
 
 }

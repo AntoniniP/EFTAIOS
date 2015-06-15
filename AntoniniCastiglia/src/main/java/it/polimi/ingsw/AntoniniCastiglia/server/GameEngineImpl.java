@@ -21,16 +21,16 @@ import java.util.Map;
  */
 public class GameEngineImpl implements GameEngine {
 
-	private static Map<Integer, GameHandler> gameHandlerList;
+	private  Map<Integer, GameHandler> gameHandlerList;
 
 	public GameEngineImpl() { // Constructor
 		gameHandlerList = new HashMap<Integer, GameHandler>();
 	}
-
+/*
 	public static GameHandler getGameHandler(int gameID) {
 		return gameHandlerList.get(gameID);
 	}
-
+*/
 	public void addGame(int gameID, GameHandler game) {
 		gameHandlerList.put(gameID, game);
 	}
@@ -55,6 +55,26 @@ public class GameEngineImpl implements GameEngine {
 		return gameHandlerList.get(gameID).attack(playerID);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String useCard(int playerID, int gameID, int posCard) throws RemoteException {
 		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
@@ -76,29 +96,46 @@ public class GameEngineImpl implements GameEngine {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String possibleActions(int playerID, int gameID) throws RemoteException {
-		String s = gameHandlerList.get(gameID).getPlayerList().get(playerID).chooseAction();		
-		return s;
+		return gameHandlerList.get(gameID).chooseAction(playerID);
 	}
 
 	@Override
 	public String getCards(int playerID, int gameID) throws RemoteException { // ITEM CARDS
-		
 		return gameHandlerList.get(gameID).getPlayerCards(playerID);
 	}
 
 	@Override
 	public String getAdjacentSectors(int playerID, int gameID) throws RemoteException {
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		List<Sector> adjacentSectors = gameHandlerList.get(gameID).getTable()
-				.adjacent(p.getCurrentSector(), p.getMoves());
-		String toReturn = "";
-		for (Sector sector : adjacentSectors) {
-			toReturn = toReturn + sector.toString() + ";";
-		}
-		return toReturn;
+		return gameHandlerList.get(gameID).getAdjacentSectors(playerID);
 	}
+
 
 	@Override
 	public boolean isEnded(int gameID) throws RemoteException {
@@ -108,18 +145,13 @@ public class GameEngineImpl implements GameEngine {
 	@Override
 	public String drawCard(int gameID, int playerID, String deck) throws RemoteException {
 		if ("DS".equals(deck)) {
-			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDrawDSCard(false);
-			gameHandlerList.get(gameID).getPlayerList().get(playerID).setHasDrawnDSCard(true);
-			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDeclareNoise(true);
-			return ((DangerousSectorCard)gameHandlerList.get(gameID).getDangerousSectorDeck().drawCard()).getCard();
+			return gameHandlerList.get(gameID).getDangerousSectorCard(playerID);
 		}
-		if ("IC".equals(deck)) {
-			gameHandlerList.get(gameID).getPlayerList().get(playerID).setMustDrawICard(false);
-			return (gameHandlerList.get(gameID).getItemCardDeck().drawCard()).getCard();
-		}
+		
 		if ("EH".equals(deck)) {
-			return (gameHandlerList.get(gameID).getEscapeHatchDeck().drawCard()).getCard();
+			return gameHandlerList.get(gameID).getEscapeHatchCard(playerID);
 		}
+		System.out.println("ERROR! REQUESTED ITEM CARD!!!!"); System.exit(666);
 		return null;
 	}
 
@@ -144,8 +176,7 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public boolean canAttack(int gameID, int playerID) throws RemoteException {
-		Player p = CommonMethods.toPlayer(playerID, gameHandlerList.get(gameID).getPlayerList());
-		return p.getCanAttack();
+		return gameHandlerList.get(gameID).getPlayerList().get(playerID).getCanAttack();
 	}
 
 	@Override
@@ -159,32 +190,8 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	@Override
-	@Deprecated
-	public String useDangerousSectorCard(int playerID, int gameID) throws RemoteException {
-		Player p = gameHandlerList.get(gameID).getPlayerList().get(playerID);
-		String[] s= drawCard(gameID,playerID,"DS").split("_");
-		String type = s[2];
-		Boolean yourSector = Boolean.parseBoolean(s[3]);
-		Boolean withObject = Boolean.parseBoolean(s[4]);
-		if(withObject){
-			drawCard(gameID,playerID,"IC");
-			if(type.equals(CardsConstants.SILENCE))
-				return "Silence in al sectors";
-			if(type.equals(CardsConstants.NOISE)){
-				if(yourSector)
-					return "Noise in sector" + p.getCurrentSector();
-				else
-					return "Noise in sector"; //the player chooses the sector to make noise i	
-			
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public String declareNoise(String noise) throws RemoteException{
-		// TODO Auto-generated method stub
-		return "OK";
+	public String declareNoise(int gameID, int playerID, String sector) throws RemoteException{
+		return gameHandlerList.get(gameID).declareNoise(playerID, sector);
 		
 	}
 	

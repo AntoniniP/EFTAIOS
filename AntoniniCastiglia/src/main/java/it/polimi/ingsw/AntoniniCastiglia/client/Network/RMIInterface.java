@@ -8,7 +8,7 @@ import java.rmi.registry.Registry;
 
 /**
  * RMI implementation of <code>NetworkInterface</code>.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -114,7 +114,7 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public boolean isDead(int playerID, int gameID) throws RemoteException{
+	public boolean isDead(int playerID, int gameID) throws RemoteException {
 		return remoteEFTAIOS.isDead(playerID, gameID);
 	}
 
@@ -130,9 +130,8 @@ public class RMIInterface implements NetworkInterface {
 	}
 
 	@Override
-	public String  declareNoise(String noise) throws RemoteException{
-		return remoteEFTAIOS.declareNoise(noise);
+	public String declareNoise(int gameID, int playerID, String sector) throws RemoteException {
+		return remoteEFTAIOS.declareNoise(gameID, playerID, sector);
 	}
-
 
 }

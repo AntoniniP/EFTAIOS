@@ -1,6 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.Collection;
 import it.polimi.ingsw.AntoniniCastiglia.maps.*;
@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized.Parameters;
 public class PlayerTest {
 	Player human;
 	Player alien;
+	PlayerList playerList;
 	Table t;
 	
 	@Before 
@@ -23,6 +24,8 @@ public class PlayerTest {
 		
 		human=new Human("Dorian", "Astrophotographer");
 		alien = new Alien("Lucius","Sociologist");
+		
+		playerList = new PlayerList(8);
 		
 	}
 
@@ -49,5 +52,31 @@ public class PlayerTest {
 		result= alien.move(t, s2);
 		assertTrue(result.startsWith("OK_"));
 		assertTrue(alien.getPath().size()==1);
+	}
+	
+	@Test 
+	public void testCanUseCards1(){
+		assertFalse(human.canUseCards());
+	}
+	
+	@Test 
+	public void testCanUseCards2(){
+		assertFalse(alien.canUseCards());
+	}
+	
+	@Test 
+	public void testGetPlayerCards(){
+		assertEquals("null;null;null;", human.getPlayerCards());
+	}
+	
+	@Test 
+	public void testAttack1(){
+		assertEquals("KO", human.attack(playerList));
+	}
+	
+	@Test
+	public void testAttack2(){
+		assertEquals("OK_0_4",alien.attack(playerList));
+		assertEquals(2,alien.getMoves());
 	}
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 /**
  * ESCAPE HATCH SECTOR: Humans must reach one of these Sectors to win. Only Human players can end
  * their move on an Escape Hatch Sector.
@@ -45,7 +47,7 @@ public class EscapeHatch extends Sector {
 
 	@Override
 	public String toString() {
-		return " E ";
+		return "[" +Constants.ANSI_BOLD + Constants.ANSI_CYAN + " E " + Constants.ANSI_RESET+"]";
 	}
 
 	// Only Human players can end their move on an Escape Hatch Sector.

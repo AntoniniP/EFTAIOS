@@ -1,6 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
 import java.util.concurrent.TimeUnit;
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
 import it.polimi.ingsw.AntoniniCastiglia.players.*;
@@ -68,8 +69,15 @@ public class CommonMethods {
 	 * @return coordinate x and coordinate y's related sector in the table. 
 	 */
 	public static Sector toSector(String sector, Table table) {
-		int x = CommonMethods.getXcoord(sector);
-		int y = CommonMethods.getYcoord(sector);
+		String mySector= new String (sector);
+		if (sector.length()>3){
+			int index = sector.indexOf(Constants.ANSI_RESET);
+			mySector = sector.substring(index-3, index);
+		}
+		
+		
+		int x = CommonMethods.getXcoord(mySector);
+		int y = CommonMethods.getYcoord(mySector);
 		
 		return table.getSector(y, x);
 	}

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.AntoniniCastiglia.client;
 
+import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,15 +29,20 @@ public class CommonMethods {
 	 * @return true/false
 	 */
 	public static boolean validSector(String chosenSector) {
-		String number=chosenSector.substring(1, 3);
-		try{
-		Integer.parseInt(number);
-		}
-		catch (NumberFormatException e){
+		String number;
+		try {
+			number = chosenSector.substring(1, 3);
+		} catch (StringIndexOutOfBoundsException e) {
 			return false;
 		}
-		return true;
-				
+		int n;
+		try {
+			n = Integer.parseInt(number);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return n < MapConstants.HEIGHT;
+
 	}
 
 	/**
@@ -55,14 +61,14 @@ public class CommonMethods {
 		}
 		return read;
 	}
-	
-	public static void doMagic(int time){
+
+	public static void doMagic(int time) {
 		try {
 			TimeUnit.MILLISECONDS.sleep(time);
 		} catch (InterruptedException e) {
 			// nothing to do; the sleep is fundamental to let everything work
 		}
-		
+
 	}
 
 }

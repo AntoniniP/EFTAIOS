@@ -100,18 +100,18 @@ public class Table {
 
 		for (int i = 0; i < MapConstants.HEIGHT; i++) {
 			for (int j = 0; j < MapConstants.WIDTH; j++) {
-				if (table[i][j] instanceof EmptySector || (j % 2 == 1)) {
+				if (j % 2 == 1) {
 					string = string + "     ";
 				} else {
-					string = string + "[" + table[i][j] + "]";
+					string = string  + table[i][j] ;
 				}
 			}
 			string = string + "\n";
 			for (int j = 0; j < MapConstants.WIDTH; j++) {
-				if (table[i][j] instanceof EmptySector || (j % 2 == 0)) {
+				if  (j % 2 == 0) {
 					string = string + "     ";
 				} else {
-					string = string + "[" + table[i][j] + "]";
+					string = string  + table[i][j] ;
 				}
 
 			}
@@ -245,6 +245,7 @@ public class Table {
 		// Sector s = new DangerousSector(11, 8);
 		// System.out.println(s + " " + t.adjacent(s, 2));
 		System.out.println(t.drawMap().replace(';', '\n'));
+		
 	}
 
 }

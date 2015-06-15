@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 /**
  * SECURE SECTOR: If you end your move in a Secure Sector, your turn is over.
  * 
@@ -37,6 +39,11 @@ public class SecureSector extends Sector {
 		this.setMustDrawEHCard(false);
 		this.setType(MapConstants.SECURE);
 
+	}
+	
+	@Override
+	public String toString(){
+		return "[" + Constants.ANSI_GRAY+ super.toString() + Constants.ANSI_RESET+ "]" ;
 	}
 
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.AntoniniCastiglia.client.Network.NetworkInterfaceFactory;
 import it.polimi.ingsw.AntoniniCastiglia.cards.CardsConstants;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterface;
 import it.polimi.ingsw.AntoniniCastiglia.client.UI.UserInterfaceFactory;
-import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
@@ -30,11 +29,11 @@ public class Client {
 	private String playerNature;
 	private int playerMaxMoves;
 	private String currentSector;
-	private boolean canAttack;
 	private String sectorType;
+	
+	
 
 	private String[] cards; // item cards
-
 	
 	private boolean canUseCards; // item cards
 
@@ -134,8 +133,6 @@ public class Client {
 			possibleActions = ni.possibleActions(playerID, gameID);
 			chosenAction = ui.chooseAction(possibleActions);
 			
-			
-
 			switch (chosenAction) {
 
 				case Constants.MOVE: {
@@ -151,31 +148,19 @@ public class Client {
 				case Constants.DRAW_DS_CARD: { 
 					this.clientDrawDSCard();
 					break;
-				}
-				
-				case Constants.DECLARE_NOISE: {
-					this.clientDeclareNoise();
-					break;
-				}
-				
-				case Constants.DRAW_I_CARD:{
-					this.clientDrawICard();
-					break;
-				}
-				
-				
-				/********************************************************************/
-				
-				
-				
+				}							
 				
 				case Constants.USE_CARDS: { // ITEM CARDS
 					this.clientUseCards();
 					break;
 				}
 				
-				default: {
+				case Constants.QUIT: { 
 					ni.endTurn(playerID, gameID);				
+					break;
+				}
+				
+				default: {
 					break;
 				}
 			}
@@ -183,14 +168,89 @@ public class Client {
 	}
 
 	
-	private void clientDeclareNoise() throws RemoteException{
-		String noise = ui.declareNoise(true);
-		ni.declareNoise(noise);
+	
+	
+	
+	
+	
+
+	private void clientDrawDSCard() throws RemoteException   {
+		String args = ni.drawCard(gameID, playerID, "DS");
+		String[] dsCard = (args.split(";")[0]).split("_");
+		ui.drawDangerousSectorCard(args.split(";")[0]);
+		boolean noise = CardsConstants.NOISE.equals(dsCard[1]);
+		boolean yourSector = Boolean.parseBoolean(dsCard[2]);
+		boolean withObject = Boolean.parseBoolean(dsCard[3]);
+		declareNoise(noise, yourSector, currentSector);
+		if (withObject) {
+			handleICard(args);
+		}
 	}
 	
-	private void clientDrawICard() throws RemoteException{
-		
+	private void declareNoise(boolean noise, boolean yourSector, String currentSector) throws RemoteException{
+		String declareResult;
+		do{
+			String sector = ui.declareNoise(noise, yourSector, currentSector);
+			declareResult=ni.declareNoise(gameID, playerID, sector);
+		} while (declareResult.startsWith("KO"));
 	}
+	
+	
+	
+	
+	private void handleICard(String args) {
+		
+		String[] iCard = (args.split(";")[1]).split("_");
+		System.out.println("I drew an Item card!");
+		//ni.handleICard();
+		// TODO Auto-generated method stub
+		return;
+	}
+	
+	
+	
+	
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	@Deprecated
+	private void clientUseCards() {
+		int cardToUse = ui.selectItemCard(cards);
+		if (!("noCard".equals(cardToUse))) {
+			// ni.useCard(cardToUse, playerID);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * Calls the proper methods in UI and NI package to let the player move to a new sector.
@@ -198,53 +258,23 @@ public class Client {
 	 * @throws RemoteException
 	 */
 	private void clientMove() throws RemoteException {
-		String[] args;
+		String args;
 		do {
 			String adjacentSectors = ni.getAdjacentSectors(playerID, gameID);
 			String chosenSector = ui.move(playerID, adjacentSectors);
-			args = (ni.move(playerID, gameID, chosenSector)).split(";");
-		} while (args[0].startsWith("KO"));
+			args = ni.move(playerID, gameID, chosenSector);
+		} while (args.startsWith("KO"));
 		
-		String[] moveResult = args[0].split("_");
+		String[] moveResult = (args.split(";")[0]).split("_");
 		currentSector = moveResult[1];
 		sectorType = moveResult[2];
-		
-		
-		
-		
-		/*
-		
-		
-		if (MapConstants.DANGEROUS.equals(sectorType)){
-			String[] dsORehCard = args[1].split("_");
-			if (CardsConstants.NOISE.equals(dsORehCard[1])){
-				// askNoise
-				// makeNoise
-				String[] iCard = args[2].split("_");
-				// draw IHcard
-			} else {
-				// makeSilence
-			}
-			
-		}
-		
-		*/
 	
 		ui.whereYouAre(currentSector, sectorType);
-	
 		
-	
-	}
-
-	private void clientAttack() throws RemoteException {
-		String attackResult = null;
-		if (canAttack) {
-			attackResult = ni.attack(playerID, gameID);
-		}
 		
-		ui.attackResult(attackResult);
 	}
-
+	
+	
 	/**
 	 * The method checks whether the player can use cards, and returns a boolean.
 	 * 
@@ -258,19 +288,16 @@ public class Client {
 		}
 		return false;
 	}
-
-	private void clientDrawDSCard() throws RemoteException {
-		String dsCard = ni.drawCard(gameID, playerID, "DS");
-		ui.drawDangerousSectorCard(dsCard);
+	
+	
+	
+	private void clientAttack() throws RemoteException {
+		String attackResult = "";
+		attackResult = ni.attack(playerID, gameID);
+		ui.attackResult(attackResult);
 	}
 	
-	@Deprecated
-	private void clientUseCards() {
-		int cardToUse = ui.selectItemCard(cards);
-		if (!("noCard".equals(cardToUse))) {
-			// ni.useCard(cardToUse, playerID);
-		}
-	}
+	
 
 	/**
 	 * Asks the player to choose his preferred connection method.

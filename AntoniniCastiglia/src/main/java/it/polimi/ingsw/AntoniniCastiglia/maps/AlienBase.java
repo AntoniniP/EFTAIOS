@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import it.polimi.ingsw.AntoniniCastiglia.Constants;
+
 /**
  * ALIEN SECTOR: This is the starting Sector for all Alien players. After the game begins, no player
  * can move through or end his move in this Sector.
@@ -40,7 +42,7 @@ public class AlienBase extends Sector {
 
 	@Override
 	public String toString() {
-		return " A ";
+		return "[" + Constants.ANSI_BOLD + Constants.ANSI_RED+ " A " + Constants.ANSI_RESET+"]";
 	}
 
 }

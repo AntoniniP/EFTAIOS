@@ -1,10 +1,8 @@
 package it.polimi.ingsw.AntoniniCastiglia.cards;
 
-import it.polimi.ingsw.AntoniniCastiglia.Constants;
-
 /**
  * The class provides a proper Escape Hatch card deck.
- * 
+ *
  * @author Paolo Antonini
  *
  */
@@ -20,7 +18,7 @@ public class EscapeHatchDeck extends Deck {
 		for (int i = 0; i < CardsConstants.RED_ESCAPE_HATCH; i++) {
 			deck.add(new EscapeHatchCard(false));
 		}
-		shuffleDeck();
+		this.shuffleDeck();
 	}
 
 }

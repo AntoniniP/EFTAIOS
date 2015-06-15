@@ -63,7 +63,10 @@ public class Server implements TimerInterface {
 		timer.cancel(); // in case the timer is out AND the number of players is right
 
 		if (outOfTime && numPlayers < ServerConstants.MINPLAYERS) {
-			suspendGame();
+			synchronized (gameHandler) {
+				suspendGame();
+				gameHandler.notify();
+			}
 			return;
 		}
 		startGame();
@@ -88,7 +91,7 @@ public class Server implements TimerInterface {
 		 * gameHandler corretto, già aggiunto alla lista. 
 		 * ma non sono per niente sicuro che vada bene.
 		 */
-		gameHandler=GameEngineImpl.getGameHandler(gameID);
+		//gameHandler=GameEngineImpl.getGameHandler(gameID);
 		/************************************************************************************/
 
 
@@ -113,8 +116,8 @@ public class Server implements TimerInterface {
 		synchronized (gameHandler) {
 			gameHandler.setNumPlayer(numPlayers);
 			gameHandler.gameTools();
-			gameHandler.notify(); 
 			gameHandler.setStarted();
+			gameHandler.notify(); 
 		}
 	}
 
@@ -138,6 +141,7 @@ public class Server implements TimerInterface {
 	public void suspendGame() {
 		synchronized (gameHandler) {
 			gameHandler.setSuspended();
+			gameHandler.notify();
 		}
 	}
 

@@ -79,7 +79,7 @@ public interface NetworkInterface {
 
 	String possibleActions(int playerID, int gameID) throws RemoteException;
 
-	String declareNoise(String noise) throws RemoteException;
+	String declareNoise(int gameID, int playerID, String sector) throws RemoteException;
 
 
 
