@@ -12,6 +12,11 @@ public class RMIInterfaceImpl implements RMIInterface {
 
 	private Server server;
 
+	/**
+	 * Constructor of the class. Sets the server variable.
+	 *
+	 * @param server server to set
+	 */
 	public RMIInterfaceImpl(Server server) {
 		this.server = server;
 	}
@@ -27,7 +32,7 @@ public class RMIInterfaceImpl implements RMIInterface {
 		}
 
 		System.out.println("New player connected. " + "gameID: " + server.getGameID()
-				+ " playerID: " + (server.getNumPlayer()-1));
+				+ " playerID: " + (server.getNumPlayer() - 1));
 
 		return server.getGameID() + "_" + (server.getNumPlayer() - 1);
 	}

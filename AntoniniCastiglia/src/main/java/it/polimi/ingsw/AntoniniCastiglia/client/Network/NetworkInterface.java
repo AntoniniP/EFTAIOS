@@ -16,6 +16,7 @@ public interface NetworkInterface {
 	 * method.
 	 *
 	 * @return the gameID and the playerID, separated by an underscore (<code>_</code>)
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String connect() throws RemoteException;
 
@@ -25,16 +26,18 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the map, in form of a string
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getMap(int playerID, int gameID) throws RemoteException;
 
 	/**
 	 * Moves the player to the selected sector.
 	 *
+	 * @param playerID
+	 * @param gameID
 	 * @param sector
 	 * @return the result of the action
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String move(int playerID, int gameID, String sector) throws RemoteException;
 
@@ -43,7 +46,7 @@ public interface NetworkInterface {
 	 *
 	 * @param gameID
 	 * @return the result of the check
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	boolean isEnded(int gameID) throws RemoteException;
 
@@ -53,7 +56,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return a string containing the cards, separated by a semicolon (<code>;</code>)
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getCards(int playerID, int gameID) throws RemoteException;
 
@@ -63,7 +66,8 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @param posCard
-	 * @return the result of the use of the card
+	 * @return the used card
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String useCard(int playerID, int gameID, int posCard) throws RemoteException;
 
@@ -73,7 +77,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the list of adjacent sectors, in form of a string
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getAdjacentSectors(int playerID, int gameID) throws RemoteException;
 
@@ -82,7 +86,7 @@ public interface NetworkInterface {
 	 *
 	 * @param gameID
 	 * @return the result of the check
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	boolean isStarted(int gameID) throws RemoteException;
 
@@ -92,7 +96,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return some information about the player, separated by an underscore
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getPlayer(int playerID, int gameID) throws RemoteException;
 
@@ -102,7 +106,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the result of the attack, with the number of humans and aliens who were killed
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String attack(int playerID, int gameID) throws RemoteException;
 
@@ -113,7 +117,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param deck states from which deck the card must be drawn
 	 * @return the card
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String drawCard(int gameID, int playerID, String deck) throws RemoteException;
 
@@ -123,7 +127,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the result of the check
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	boolean isMyTurn(int playerID, int gameID) throws RemoteException;
 
@@ -132,7 +136,7 @@ public interface NetworkInterface {
 	 *
 	 * @param playerID
 	 * @param gameID
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	void endTurn(int playerID, int gameID) throws RemoteException;
 
@@ -142,7 +146,7 @@ public interface NetworkInterface {
 	 * @param gameID
 	 * @param playerID
 	 * @return the result of the check
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	boolean canAttack(int gameID, int playerID) throws RemoteException;
 
@@ -152,7 +156,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the result of the check
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	boolean isDead(int playerID, int gameID) throws RemoteException;
 
@@ -162,7 +166,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the list of possible actions, separated by an underscore
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String possibleActions(int playerID, int gameID) throws RemoteException;
 
@@ -173,7 +177,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param sector
 	 * @return the result of the declaration
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String declareNoise(int gameID, int playerID, String sector) throws RemoteException;
 
@@ -183,7 +187,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the requested card
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getItemCard(int playerID, int gameID) throws RemoteException;
 
@@ -194,7 +198,7 @@ public interface NetworkInterface {
 	 * @param gameID
 	 * @param cardIndex the index of the card he wants to discard
 	 * @return the result of the operation
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String handleItemCard(int playerID, int gameID, int cardIndex) throws RemoteException;
 
@@ -204,7 +208,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the journal
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String getJournal(int playerID, int gameID) throws RemoteException;
 
@@ -214,7 +218,7 @@ public interface NetworkInterface {
 	 * @param playerID
 	 * @param gameID
 	 * @return the result of the attempt
-	 * @throws RemoteException
+	 * @throws RemoteException throws RemoteException since its a remote method
 	 */
 	String escape(int playerID, int gameID) throws RemoteException;
 

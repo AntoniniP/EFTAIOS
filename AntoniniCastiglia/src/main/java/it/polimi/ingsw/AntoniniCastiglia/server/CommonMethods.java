@@ -1,39 +1,40 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import java.util.concurrent.TimeUnit;
 import it.polimi.ingsw.AntoniniCastiglia.Constants;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
 import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
-import it.polimi.ingsw.AntoniniCastiglia.players.*;
+import it.polimi.ingsw.AntoniniCastiglia.players.Player;
+import it.polimi.ingsw.AntoniniCastiglia.players.PlayerList;
+import java.util.concurrent.TimeUnit;
 
 /**
- * This class contains methods useful in the <code>server<code>'s package.
- * 
+ * This class contains methods useful in the <code>server<code> package.
+ *
  * @author Paolo Antonini
  *
  */
 public class CommonMethods {
 
 	/**
-	 * Constructor
+	 * Private constructor to hide the implicit one.
 	 */
 	private CommonMethods() {
 	}
-	
+
 	/**
 	 * This method returns the identifier of the player.
+	 * 
 	 * @param playerID
 	 * @param playerList
 	 * @return player's identifier, searching in the player's list
 	 */
-	public static Player toPlayer(int playerID,  PlayerList playerList) {
-
+	public static Player toPlayer(int playerID, PlayerList playerList) {
 		return playerList.get(playerID);
-
 	}
 
 	/**
-	 * Convertion of the x coordinate, from a letter (char) to a number (int).
+	 * Conversion of the x coordinate, from a letter (char) to a number (int).
+	 * 
 	 * @param sector
 	 * @return the x coordinate converted into Integer.
 	 */
@@ -53,8 +54,8 @@ public class CommonMethods {
 	}
 
 	/**
-	 * Convertion of the y coordinate, from a String to a number(int).
-	 * The string is split, as it is made of two consecutive numbers.
+	 * Conversion of the y coordinate, from a String to a number(int).
+	 * 
 	 * @param sector
 	 * @return the y coordinate converted into integer
 	 */
@@ -62,33 +63,37 @@ public class CommonMethods {
 		String number = sector.substring(1, 3);
 		return Integer.parseInt(number) - 1;
 	}
+
 	/**
 	 * Association of a sector to the table.
+	 * 
 	 * @param sector
 	 * @param table
-	 * @return coordinate x and coordinate y's related sector in the table. 
+	 * @return a reference to the table sectors of coordinates x,y
 	 */
 	public static Sector toSector(String sector, Table table) {
-		String mySector= new String (sector);
-		if (sector.length()>3){
+		String mySector = new String(sector);
+		if (sector.length() > 3) {
 			int index = sector.indexOf(Constants.ANSI_RESET);
-			mySector = sector.substring(index-3, index);
+			mySector = sector.substring(index - 3, index);
 		}
-		
-		
 		int x = CommonMethods.getXcoord(mySector);
 		int y = CommonMethods.getYcoord(mySector);
-		
 		return table.getSector(y, x);
 	}
-	
-	
-	public static void doMagic(int time){
+
+	/**
+	 * Magical method which allows some things to work flawlessly. Simply, it makes the thread sleep
+	 * for a while.
+	 *
+	 * @param time milliseconds to sleep
+	 */
+	public static void sleep(int time) {
 		try {
 			TimeUnit.MILLISECONDS.sleep(time);
 		} catch (InterruptedException e) {
 			// nothing to do; the sleep is fundamental to let everything work
 		}
-		
+
 	}
 }

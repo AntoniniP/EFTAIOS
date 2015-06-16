@@ -1,16 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.server;
 
-import it.polimi.ingsw.AntoniniCastiglia.maps.DangerousSector;
-import it.polimi.ingsw.AntoniniCastiglia.maps.Sector;
-import it.polimi.ingsw.AntoniniCastiglia.maps.MapConstants;
-import it.polimi.ingsw.AntoniniCastiglia.maps.Table;
-import it.polimi.ingsw.AntoniniCastiglia.players.Alien;
-import it.polimi.ingsw.AntoniniCastiglia.players.Human;
-import it.polimi.ingsw.AntoniniCastiglia.players.Player;
-import it.polimi.ingsw.AntoniniCastiglia.cards.*;
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,10 +14,19 @@ public class GameEngineImpl implements GameEngine {
 
 	private Map<Integer, GameHandler> gameHandlerList;
 
-	public GameEngineImpl() { // Constructor
+	/**
+	 * Constructor of the class.
+	 */
+	public GameEngineImpl() {
 		gameHandlerList = new HashMap<Integer, GameHandler>();
 	}
 
+	/**
+	 * Adds a game, of index gameID, to the HashMap gameHanlerList.
+	 * 
+	 * @param gameID
+	 * @param game
+	 */
 	public void addGame(int gameID, GameHandler game) {
 		gameHandlerList.put(gameID, game);
 	}
@@ -93,7 +93,6 @@ public class GameEngineImpl implements GameEngine {
 		} else {
 			System.exit(-1);
 		}
-
 		return null;
 	}
 
