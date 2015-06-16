@@ -67,17 +67,21 @@ public class GameHandler implements Runnable, TimerInterface {
 	@Override
 	public void run() {
 		while (!started && !suspended) {
-			/*
-			 * try { this.wait(); } catch (InterruptedException e) { e.printStackTrace(); }
-			 */
-			CommonMethods.sleep(50);
+
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
 		if (started) {
 			playerTurn = 0;
 			rounds = 0;
-			this.turn();
-		}
-		if (suspended) {
+			while (rounds <= ServerConstants.ROUNDS && !ended) {
+				this.turn();
+			}
+		} else if (suspended) {
 			this.endGame();
 			return;
 		}
@@ -99,16 +103,13 @@ public class GameHandler implements Runnable, TimerInterface {
 	 * Starts the timer for a turn.
 	 */
 	private void turn() {
-		while (rounds <= ServerConstants.ROUNDS && !ended) {
-			timer.schedule(new MyTimer(this), 2 * 60 * 1000);
-			while (playerList.get(playerTurn).isActive()) {
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		timer.schedule(new MyTimer(this), 2 * 60 * 1000);
+		while (playerList.get(playerTurn).isActive()) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-			this.win();
 		}
 	}
 
@@ -184,7 +185,6 @@ public class GameHandler implements Runnable, TimerInterface {
 		}
 		if (rounds == ServerConstants.ROUNDS - 1) {
 			ended = true;
-			System.out.println("Ended since boh 2");
 		}
 	}
 
@@ -213,15 +213,21 @@ public class GameHandler implements Runnable, TimerInterface {
 	 */
 	public synchronized void switchTurn() {
 		timer.cancel();
-		this.resetTurn();
 		if (!this.checkActivePlayers()) {
 			ended = true;
 			return;
 		}
+		
+		this.resetTurn();
 		this.resetItemAdrenaline();
 		this.resetItemAttack();
 		CommonMethods.toPlayer(playerTurn, playerList).resetJournal();
 		playerList.get(playerTurn).setActive(false);
+		this.win();
+		if (ended) {
+			return;
+		}
+		
 		playerTurn++;
 		if (playerTurn > numPlayers - 1) {
 			playerTurn = 0;
@@ -230,6 +236,8 @@ public class GameHandler implements Runnable, TimerInterface {
 		if (playerList.get(playerTurn).isSuspended()) {
 			this.switchTurn();
 		}
+		
+
 		playerList.get(playerTurn).setActive(true);
 		this.notify();
 	}
