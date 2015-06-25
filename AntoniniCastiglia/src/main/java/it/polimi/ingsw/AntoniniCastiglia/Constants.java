@@ -10,9 +10,9 @@ package it.polimi.ingsw.AntoniniCastiglia;
 public final class Constants {
 
 	// ANSI escapes for colours
-	public static final String ANSI_RESET = "\u001b[0m";
-	public static final String ANSI_CLS = "\u001b[2J";
-	public static final String ANSI_BOLD = "\u001b[1m";
+	public static final String ANSI_RESET = "\u001b[00m";
+	public static final String ANSI_CLS = "\u001b[02J";
+	public static final String ANSI_BOLD = "\u001b[01m";
 	public static final String ANSI_BLACK = "\u001b[30m";
 	public static final String ANSI_DARK_GREY = "\u001b[90m";
 	public static final String ANSI_RED = "\u001b[31m";
