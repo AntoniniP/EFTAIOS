@@ -1,5 +1,7 @@
 package it.polimi.ingsw.AntoniniCastiglia.maps;
 
+import java.awt.Graphics2D;
+
 /**
  * This abstract class provides sector instances, and methods to convert coordinates formats
  * (number/number for table's sake, single string as probable input by users, letter/number like in

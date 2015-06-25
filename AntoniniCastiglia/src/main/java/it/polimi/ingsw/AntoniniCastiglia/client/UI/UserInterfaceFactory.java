@@ -25,12 +25,13 @@ public class UserInterfaceFactory {
 		if (param == 1) {
 			return new CLI();
 		} else {
-			System.out
+			return new GUI();
+			/*System.out
 					.println("Funnily enough, I'm sure I told you that the Graphical User Interface (GUI)"
 							+ " has NOT been implemented yet."
 							+ "\n"
 							+ " Since I love you, I'll let you play with CLI interface, instead.");
-			return new CLI();
+			return new CLI();*/
 		}
 	}
 }

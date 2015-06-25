@@ -116,7 +116,7 @@ public class Server implements TimerInterface {
 	private void startTimer() {
 		timer = new Timer();
 		outOfTime = false;
-		timer.schedule(new MyTimer(this), 5 * 60 * 1000);
+		timer.schedule(new MyTimer(this), 1 * 60 * 1000); //TOREMEMBER change the timer back to 5 mins!
 	}
 
 	/**

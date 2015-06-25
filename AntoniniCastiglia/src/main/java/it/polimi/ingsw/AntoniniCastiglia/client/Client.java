@@ -76,6 +76,13 @@ public class Client {
 
 		ui.whoYouAreComplete(player);
 
+		// print map
+		ui.printMap(ni.getMap(playerID, gameID));
+
+		// print your current position
+		ui.whereYouAre(currentSector, sectorType);
+
+
 		boolean endGame = false;
 		while (!endGame) {
 
