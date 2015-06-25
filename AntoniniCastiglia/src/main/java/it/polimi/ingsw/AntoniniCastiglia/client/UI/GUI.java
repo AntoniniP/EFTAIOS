@@ -250,7 +250,6 @@ public class GUI implements UserInterface{
 			return currentSector;
 		}
 
-		return null;
 	}
 	@Override
 	public int handleItemCard(String itemCard, String... cards) {
